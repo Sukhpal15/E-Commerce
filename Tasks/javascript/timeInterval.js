@@ -1,4 +1,4 @@
-//First Question: Write a function printNumbers(from, to) that outputs a number every second, starting from from and ending with to.
+// First Question: Write a function printNumbers(from, to) that outputs a number every second, starting from from and ending with to.
 
 // First method by set time out
 // function printNumber(from, to) {
@@ -13,7 +13,7 @@
 // }
 // printNumber(10, 15);
 
-//Second Time out method
+// Second Time out method
 // function printNumberByInterval(from, to){
 //  let a = setInterval(() => {
 //   console.log(from++);
@@ -35,7 +35,7 @@
 // }
 // printNumberByInterval(0, 10);
 
-//Question 2 Write a function to create two button start or stop. When we click start it will start printing hii until we click on stop.
+// Question 2 Write a function to create two button start or stop. When we click start it will start printing hii until we click on stop.
 
 // let start = document.getElementById("srt");
 // let end = document.getElementById("stp");
@@ -51,7 +51,7 @@
 //   clearInterval(b);
 // });
 
-//Question 3 Let's do some practice with a simple exercice. You must modify the code below based on the following rules:
+// Question 3 Let's do some practice with a simple exercice. You must modify the code below based on the following rules:
 
 // The function job must return a promise object (you are in a NodeJS environment, you can use new Promise)
 // The promise must resolve itself 2 seconds after the call to job and must provide hello world in the data
@@ -66,7 +66,7 @@
 //   console.log(data);
 // });
 
-//Question 4 Let's do a harder exercise. In this code, your function receives a parameter data. You must modify the code below based on the following rules:
+// Question 4 Let's do a harder exercise. In this code, your function receives a parameter data. You must modify the code below based on the following rules:
 
 // Your function must always return a promise
 // If data is not a number, return a promise rejected instantly and give the data "error" (in a string)

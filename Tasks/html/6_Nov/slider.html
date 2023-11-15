@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Price Slider</title>
+    <link rel="stylesheet" href="/./dist/output.css" />
+  </head>
+  <body>
+    <div class="w-44 bg-gray-200 h-1 relative m-10" id="js_outer">
+      <div
+        class="w-6 bg-white shadow-lg border-2 border-gray-200 h-6 absolute -bottom-3 rounded-full"
+        id="js_inner"
+      ></div>
+      <span class="absolute top-8" id="js_span">0</span>
+    </div>
+  </body>
+  <script>
+    "use strict";
+    let slide = document.getElementById("js_outer");
+    const slideButton = document.getElementById("js_inner");
+    let numbers = document.getElementById("js_span");
+    slideButton.addEventListener("mousedown", (event) => {
+      let slideWidth = slide.clientWidth - slideButton.clientWidth;
+      let mouseMove = (e) => {
+        let movePosition =
+          e.clientX - slide.offsetLeft - slideButton.clientWidth / 2;
+        if (movePosition < 0) {
+          movePosition = 0;
+        }
+        if (movePosition >= slideWidth) {
+          movePosition = slideWidth;
+        }
+
+        slideButton.style.left = `${movePosition}px`;
+
+        let percentage = (movePosition / slideWidth) * 100;
+        numbers.innerHTML = Math.round(percentage);
+      };
+      document.addEventListener("mousemove", mouseMove);
+
+      document.addEventListener("mouseup", () => {
+        document.removeEventListener("mousemove", mouseMove);
+      });
+    });
+    slide.addEventListener("click", (e) => {
+      let slideWidth = slide.clientWidth - slideButton.clientWidth;
+      let movePosition =
+        e.clientX - slide.offsetLeft - slideButton.clientWidth / 2;
+
+      if (movePosition < 0) {
+        movePosition = 0;
+      }
+      if (movePosition >= slideWidth) {
+        movePosition = slideWidth;
+      }
+      slideButton.style.left = `${movePosition}px`;
+      let percentage = (movePosition / slideWidth) * 100;
+      numbers.innerHTML = Math.round(percentage);
+    });
+  </script>
+</html>

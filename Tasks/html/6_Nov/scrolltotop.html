@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scroll to top</title>
+    <link rel="stylesheet" href="/./dist/output.css" />
+  </head>
+  <body>
+    <img
+      src="https://wallpapers.com/images/featured/space-sjryfre8k8f6i3ge.jpg"
+    />
+    <img
+      class="w-full"
+      src="https://img.wallpapic.com/i6651-629-223/medium/outer-space-planet-universe-astronomy-wallpaper.jpg"
+      alt=""
+    />
+    <button type="button" class="none bottom-10 right-10" id="scrollButton">
+      <svg
+        class="w-14 h-14 bg-white rounded-full"
+        fill="blue"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 512 512"
+      >
+        <path
+          d="M8 256C8 119 119 8 256 8s248 111 248 248-111 248-248 248S8 393 8 256zm292 116V256h70.9c10.7 0 16.1-13 8.5-20.5L264.5 121.2c-4.7-4.7-12.2-4.7-16.9 0l-115 114.3c-7.6 7.6-2.2 20.5 8.5 20.5H212v116c0 6.6 5.4 12 12 12h64c6.6 0 12-5.4 12-12z"
+        ></path>
+      </svg>
+    </button>
+  </body>
+  <script>
+    let scroll = document.getElementById("scrollButton");
+    window.addEventListener("scroll", () => {
+      scroll.className = "fixed bottom-10 right-10";
+      if (window.pageYOffset == 0) {
+        scroll.className = "none bottom-10 right-10";
+      }
+    });
+    scroll.addEventListener("click", () => {
+      window.scrollTo(0, 0);
+    });
+  </script>
+</html>

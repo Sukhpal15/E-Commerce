@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drag and Drop</title>
+    <link rel="stylesheet" href="/./dist/output.css" />
+  </head>
+  <body class="bg-green-950">
+    <div id="js_container" class="flex justify-around items-center h-screen text-white">
+      <div
+        id="js_assigned"
+        class="border-2 rounded-lg shadow-md shadow-stone-500 border-dashed border-green-950 bg-stone-200 p-3 w-80 h-96 overflow-auto"
+      >
+        <h2
+          class="font-semibold text-lg text-green-950 p-2 border-b-2 border-b-green-950"
+        >
+          Assigned Tasks
+        </h2>
+        <ul class="pt-4 mt-2 space-y-5" id="assignedUl">
+          <li
+            class="taskLists p-2 rounded-md font-medium bg-green-950"
+            draggable="true"
+          >
+            Create Custom Alert Buttons
+          </li>
+          <li
+            class="taskLists p-2 rounded-md font-medium bg-green-950"
+            draggable="true"
+          >
+            Create Custom Slider
+          </li>
+          <li
+            class="taskLists p-2 rounded-md font-medium bg-green-950"
+            draggable="true"
+          >
+            Create Drag And Drop Using Javascript
+          </li>
+          <li
+            class="taskLists p-2 rounded-md font-medium bg-green-950"
+            draggable="true"
+          >
+            Create Quiz Using JavaScript
+          </li>
+          <li
+            class="taskLists p-2 rounded-md font-medium bg-green-950"
+            draggable="true"
+          >
+            Create Image Cropping App
+          </li>
+        </ul>
+      </div>
+      <div
+        id="js_pending"
+        class="border-2 rounded-lg shadow-md shadow-stone-500 border-dashed border-green-950 bg-stone-200 p-3 w-80 h-96 overflow-auto"
+      >
+        <h2
+          class="font-semibold text-lg text-green-950 p-2 border-b-2 border-b-green-950"
+        >
+          Pending Tasks
+        </h2>
+        <ul class="pt-4 mt-2 space-y-5" id="pendingUl"></ul>
+      </div>
+      <div
+        id="js_completed"
+        class="border-2 rounded-lg shadow-md shadow-stone-500 border-dashed border-green-950 bg-stone-200 p-3 w-80 h-96 overflow-auto"
+      >
+        <h2
+          class="font-semibold text-lg text-green-950 p-2 border-b-2 border-b-green-950"
+        >
+          Completed Tasks
+        </h2>
+        <ul class="pt-4 mt-2 space-y-5" id="completedUl"></ul>
+      </div>
+    </div>
+    <script>
+      let taskLi = document.getElementsByClassName("taskLists");
+      let assigned = document.getElementById("js_assigned");
+      let pending = document.getElementById("js_pending");
+      let completed = document.getElementById("js_completed");
+      let ulAssigned = document.getElementById("assignedUl");
+      let ulPending = document.getElementById("pendingUl");
+      let ulCompleted = document.getElementById("completedUl");
+
+
+      // Function to save data to localStorage
+      function saveToLocalStorage() {
+        localStorage.setItem("assignedTasks", ulAssigned.innerHTML);
+        localStorage.setItem("pendingTasks", ulPending.innerHTML);
+      }
+
+      // Function to retrieve data from localStorage
+      function loadFromLocalStorage() {
+        ulAssigned.innerHTML = localStorage.getItem("assignedTasks");
+        ulPending.innerHTML = localStorage.getItem("pendingTasks");
+      }
+
+      window.addEventListener("load", () => {
+        for (list of taskLi) {
+          list.addEventListener("dragstart", (e) => {
+            let selected = e.target;
+
+            document.addEventListener("drop", () => {
+              saveToLocalStorage();
+            });
+            document.addEventListener("dragover", (e) => {
+              e.preventDefault();
+            });
+            pending.addEventListener("drop", (e) => {
+              ulPending.appendChild(selected);
+              selected = null;
+            });
+            assigned.addEventListener("drop", (e) => {
+              ulAssigned.appendChild(selected);
+              selected = null;
+            });
+            completed.addEventListener("drop", (e) => {
+              ulCompleted.appendChild(selected);
+              selected = null;
+            });
+          });
+        }
+        saveToLocalStorage();
+      });
+      if (
+        localStorage.getItem("assignedTasks") ||
+        localStorage.getItem("pendingTasks")
+      ) {
+        loadFromLocalStorage();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/./dist/output.css" />
+  </head>
+  <body class="bg-slate-200">
+    <ul
+      class="p-2 divide-y-2 w-36 rounded-md space-y-3 bg-white hidden"
+      id="context"
+    >
+      <li><button type="button">Copy</button></li>
+      <li><button type="button">Paste</button></li>
+      <li><button type="button">Cut</button></li>
+      <li><button type="button">Delete</button></li>
+      <li><button type="button">Inspect</button></li>
+      <li><button type="button">New</button></li>
+    </ul>
+  </body>
+  <script>
+    const contentMenu = document.getElementById("context");
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+
+    window.addEventListener("click", (e) => {
+      e.preventDefault();
+      contentMenu.classList.remove(`fixed`);
+      contentMenu.classList.add(`hidden`);
+    });
+
+    window.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      contentMenu.classList.remove(`hidden`);
+      contentMenu.classList.add(`fixed`);
+     let x = e.clientX;
+     let y = e.clientY;
+     let innerWidth = window.innerWidth;
+     let innerHeight = window.innerHeight;
+
+     let cmWidth = contentMenu.offsetWidth;
+     let cmHeight = contentMenu.offsetHeight;
+
+      if (x > innerWidth - cmWidth) {
+        x = innerWidth - cmWidth;
+      }
+
+      if (y > innerHeight - cmHeight) {
+        y = innerHeight - cmHeight;
+      }
+      contentMenu.style.top = `${y}px`;
+      contentMenu.style.left = `${x}px`;
+    });
+  </script>
+</html>
