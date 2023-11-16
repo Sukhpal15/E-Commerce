@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form</title>
+    <link rel="stylesheet" href="/./dist/output.css" />
+</head>
+
+<body>
+    <form action="" class="flex justify-center items-center h-screen" name="validateForm" id="js_form">
+        <div class="flex flex-col gap-8 border p-10 shadow-xl">
+            <div class="relative">
+                <input type="text" placeholder="Enter Your Name" class="input_validations border-2 p-2 w-96" name="name"
+                    autocomplete="off" />
+                <p id="name_para" class="absolute text-sm text-red-700 font-medium"></p>
+            </div>
+            <div>
+                <input type="text" placeholder="Enter Your Email" class="input_validations border-2 p-2 w-96"
+                    name="mail" autocomplete="off" />
+                <p id="email_para" class="absolute text-sm text-red-700 font-medium"></p>
+            </div>
+            <div>
+                <input type="text" placeholder="Enter Your Number" class="input_validations border-2 p-2 w-96"
+                    name="mNumber" autocomplete="off" />
+                <p id="number_para" class="absolute text-sm text-red-700 font-medium"></p>
+            </div>
+            <div>
+                <select name="selectGender" id="" class="w-44 p-2 border-2">
+                    <option value="gender" selected>Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+                <p id="gender_para" class="absolute text-sm text-red-700 font-medium"></p>
+            </div>
+            <div>
+                <input type="password" placeholder="Enter Password" autocomplete="off"
+                    class="input_validations border-2 p-2 w-96" name="pass" autocomplete="off" />
+                <p id="password_para" class="absolute text-sm text-red-700 font-medium"></p>
+            </div>
+            <div>
+                <input type="password" placeholder="Confirm Password" autocomplete="off"
+                    class="input_validations border-2 p-2 w-96" name="confirmPass" autocomplete="off" />
+                <p id="confirmPass_para" class="absolute text-sm text-red-700 font-medium"></p>
+            </div>
+            <div>
+                <input type="submit" class="bg-blue-500 w-full p-2 text-white font-semibold" id="js_submit" />
+            </div>
+        </div>
+    </form>
+    <script>
+        let inputNames = document.getElementsByClassName("input_validations");
+        let form = document.getElementById("js_form");
+        let name = document.forms["validateForm"]["name"];
+        let email = document.forms["validateForm"]["mail"];
+        let number = document.forms["validateForm"]["mNumber"];
+        let password = document.forms["validateForm"]["pass"]
+        let confirmpass = document.forms["validateForm"]["confirmPass"]
+        let gender = document.forms['validateForm']['selectGender']
+        let namePara = document.getElementById("name_para");
+        let emailPara = document.getElementById("email_para");
+        let numberPara = document.getElementById("number_para");
+        let passPara = document.getElementById("password_para")
+        let confirmPara = document.getElementById("confirmPass_para");
+        let genderPara = document.getElementById("gender_para");
+
+        for (let input of inputNames) {
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                if (name.value.trim() === "") {
+                    namePara.innerText = "Name cannot be empty";
+                }
+                else if (
+                    !name.value
+                        .toLowerCase()
+                        .trim()
+                        .match(/^[A-Za-z]+$/)
+                ) {
+                    namePara.innerText = "Name must be an Alphabet";
+                }
+
+                if (email.value.trim() === "") {
+                    emailPara.innerText = "Email cannot be empty";
+                }
+                else if (
+                    !email.value
+                        .trim()
+                        .match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+                ) {
+                    emailPara.innerText = "Invalid Email";
+                }
+                if (number.value.trim() === "") {
+                    numberPara.innerText = "Number cannot be empty";
+                }
+                else if (
+                    !number.value.trim().match(/^[0-9]+$/) ||
+                    number.value.trim().length !== 10
+                ) {
+                    numberPara.innerText = "Invalid Number";
+                }
+                if (password.value.trim() === "") {
+                    passPara.innerText = "Password cannot be empty";
+                }
+                else if (password.value.trim().length < 8) {
+                    passPara.innerText = "Password is too short";
+                }
+                else if (!password.value.trim().match(/[A-Za-z]/) || !password.value.trim().match(/[0-9]/)) {
+                    passPara.innerText = "Password must be combination of alphabet and numbers";
+                }
+                if (confirmpass.value.trim() === "") {
+                    confirmPara.innerText = "Confirm password cannot be empty";
+                }
+                else if (confirmpass.value.trim() !== password.value.trim()) {
+                    confirmPara.innerText = "Confirm Password must be same as Password";
+                }
+                if (gender.value == "gender") {
+                    genderPara.innerText = "Select Gender"
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
