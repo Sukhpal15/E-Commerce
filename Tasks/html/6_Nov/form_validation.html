@@ -65,10 +65,12 @@
         let confirmPara = document.getElementById("confirmPass_para");
         let genderPara = document.getElementById("gender_para");
 
-        for (let input of inputNames) {
-            form.addEventListener("submit", (e) => {
-                e.preventDefault();
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            
 
+            for (let input of inputNames) {
+            
                 if (name.value.trim() === "") {
                     namePara.innerText = "Name cannot be empty";
                 }
@@ -118,8 +120,13 @@
                 if (gender.value == "gender") {
                     genderPara.innerText = "Select Gender"
                 }
+                
+            }
+            if(validateForm){
+            form.reset();
+            }
             });
-        }
+        
     </script>
 </body>
 
