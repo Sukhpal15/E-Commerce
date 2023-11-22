@@ -12,31 +12,35 @@
     <!-- Admin Panel Header -->
     <header class="bg-blue-500 p-4 text-white">
         <div class="container mx-auto">
-            <h1 class="text-2xl font-semibold">Admin Panel</h1>
+            <h1 class="text-2xl font-semibold">Admin Form</h1>
         </div>
     </header>
 
     <!-- Admin Panel Content -->
     <div class="container mx-auto mt-8">
-        <div class="flex justify-center gap-10 items-center">
-            <input type="text" class="border-2 w-64 p-2 rounded-lg shadow-lg" placeholder="Search name" id="js_search">
-            <button type="button" class="bg-blue-700 w-24 rounded-md font-semibold text-white h-10" id="js_addTask">Add</button>
+        <div class="flex justify-center gap-8 items-center">
+            <input type="search" class="border-2 w-80 p-2 h-11 rounded-lg shadow-md outline-none"
+                placeholder="Search name" id="js_search">
+            <button type="button" class="bg-blue-500 w-24 rounded-md font-semibold text-white h-11"
+                id="js_addTask">Add</button>
         </div>
 
         <div class="flex justify-center mt-8">
-            <div class="w-3/5 flex justify-center bg-white p-5 rounded-lg shadow-lg">
-                <table class="text-center w-full">
-                    <thead>
-                        <tr>
-                            <th class="py-2">Name</th>
-                            <th class="py-2">Email</th>
-                            <th class="py-2">Roles</th>
-                            <th class="py-2">View</th>
-                            <th class="py-2">Edit</th>
-                            <th class="py-2">Delete</th>
+            <div class="w-11/12 flex bg-white p-2 rounded-lg shadow-lg">
+                <table class=" text-center w-full divide-y-2 divide-gray-100">
+                    <thead class="h-16">
+                        <tr class="text-gray-700 font-normal">
+                            <th class="py-2 font-semibold">User Image</th>
+                            <th class="py-2 font-semibold">Name</th>
+                            <th class="py-2 font-semibold">Email</th>
+                            <th class="py-2 font-semibold">Blood Group</th>
+                            <th class="py-2 font-semibold">Roles</th>
+                            <th class="py-2 font-semibold">View</th>
+                            <th class="py-2 font-semibold">Edit</th>
+                            <th class="py-2 font-semibold">Delete</th>
                         </tr>
                     </thead>
-                    <tbody id="js_tbody"></tbody>
+                    <tbody id="js_tbody" class="divide-y-2 divide-gray-100"></tbody>
                 </table>
             </div>
         </div>
@@ -48,6 +52,18 @@
             <div id="viewDialogContent" class="mt-4"></div>
             <button id="closeViewDialog"
                 class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300">Close</button>
+        </div>
+    </dialog>
+
+    <dialog id="js_confirmationDialog" class="bg-white p-4 rounded-lg shadow-lg">
+        <div>
+            <p>Are you sure you want to delete this data?</p>
+            <div>
+                <button id="js_confirmDelete"
+                    class="my-4 mr-5 bg-red-500 text-white w-20 h-8 rounded hover:bg-red-700 focus:outline-none focus:border-red-300">Yes</button>
+                <button id="js_cancelDelete"
+                    class="bg-blue-500 text-white w-20 h-8 rounded hover:bg-blue-700 focus:outline-none focus:border-blue-300">No</button>
+            </div>
         </div>
     </dialog>
 
@@ -70,6 +86,15 @@
                 // Loop through the data and create rows
                 filteredData.forEach((data) => {
                     const row = document.createElement('tr');
+                    row.className = "mt-10"
+                    const imageCell = document.createElement('td');
+                    imageCell.className = "flex justify-center p-2";
+                    const createImageTag = document.createElement('img')
+                    createImageTag.src = data.image
+                    createImageTag.className = "h-20 rounded-full"
+
+                    imageCell.appendChild(createImageTag)
+                    row.appendChild(imageCell);
 
                     // Add data to each cell
                     const nameCell = document.createElement('td');
@@ -80,13 +105,18 @@
                     emailCell.textContent = data.email;
                     row.appendChild(emailCell);
 
+                    const bloodGroupCell = document.createElement('td');
+                    bloodGroupCell.textContent = data.blood_group;
+                    row.appendChild(bloodGroupCell);
+
                     const rolesCell = document.createElement('td');
                     rolesCell.textContent = data.roles;
                     row.appendChild(rolesCell);
 
                     const viewCell = document.createElement('td');
                     const viewLink = document.createElement('a');
-                    viewLink.href = `view.html?id=${data.id}`;
+                    viewLink.href = `#`;
+                    viewLink.className = "bg-blue-500 text-white px-4 py-1 rounded-full hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
                     viewLink.textContent = 'View';
                     viewCell.appendChild(viewLink);
                     row.appendChild(viewCell);
@@ -94,6 +124,7 @@
                     const editCell = document.createElement('td');
                     const editButton = document.createElement('button');
                     editButton.setAttribute('type', 'button')
+                    editButton.className = "bg-yellow-500 text-white px-4 py-1 rounded-full rounded hover:bg-yellow-700 focus:outline-none focus:ring focus:border-yellow-300"
                     editButton.textContent = 'Edit';
                     editCell.appendChild(editButton);
                     row.appendChild(editCell);
@@ -105,6 +136,7 @@
                     const deleteCell = document.createElement('td');
                     const deleteButton = document.createElement('button');
                     deleteButton.textContent = 'Delete';
+                    deleteButton.className = "bg-red-500 text-white px-4 py-1 rounded-full rounded hover:bg-red-700 focus:outline-none focus:ring focus:border-red-300;"
                     deleteButton.addEventListener('click', () => { this.deleteData(data.id) });
                     deleteCell.appendChild(deleteButton);
                     row.appendChild(deleteCell);
@@ -119,14 +151,27 @@
 
             deleteData: function (id) {
                 const indexToDelete = this.load.findIndex(item => item.id === id);
+                const confirmationDialog = document.getElementById('js_confirmationDialog');
+                const confirmDeleteButton = document.getElementById('js_confirmDelete');
+                const cancelDeleteButton = document.getElementById('js_cancelDelete');
+                confirmationDialog.showModal();
+                confirmDeleteButton.addEventListener('click', () => {
+                    const indexToDelete = this.load.findIndex(item => item.id === id);
 
-                if (indexToDelete !== -1) {
-                    this.load.splice(indexToDelete, 1);
+                    if (indexToDelete !== -1) {
+                        this.load.splice(indexToDelete, 1);
 
-                    localStorage.setItem('formDataArray', JSON.stringify(this.load));
+                        localStorage.setItem('formDataArray', JSON.stringify(this.load));
 
-                    this.insertData();
-                }
+                        this.insertData();
+                    }
+
+                    confirmationDialog.close();
+                });
+
+                cancelDeleteButton.addEventListener('click', () => {
+                    confirmationDialog.close();
+                });
             },
 
 
@@ -187,9 +232,9 @@
                 }, 500));
             },
 
-            addData : function (){
+            addData: function () {
                 const add = document.getElementById('js_addTask');
-                add.addEventListener('click',function(e){
+                add.addEventListener('click', function (e) {
                     e.preventDefault();
                     window.location.href = "formAdd.html"
                 })

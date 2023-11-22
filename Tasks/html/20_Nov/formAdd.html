@@ -167,7 +167,7 @@
                         // Store form data in local storage
                         localStorage.setItem('formDataArray', JSON.stringify(this.formDataArray))
 
-                        window.location.href = 'FormFetch.html';
+                        // window.location.href = 'FormFetch.html';
                         form.reset();
                         return false;
                     } else {
@@ -178,15 +178,15 @@
 
             ValidateForm: function (formData) {
                 // Validation for Empty Fields
-                // const requiredFields = ['first_name', 'last_name', 'age', 'gender', 'email', 'dob', 'blood_group', 'phone_number', 'roles', 'current_address', 'permanent_address'];
+                const requiredFields = ['first_name', 'last_name', 'age', 'gender', 'email', 'dob', 'blood_group', 'phone_number', 'roles', 'permanent_address'];
                 let isValid = true;
 
-                // for (const field of requiredFields) {
-                //     if (!formData.get(field)) {
-                //         alert(`Please fill all fields`);
-                //         return false;
-                //     }
-                // }
+                for (const field of requiredFields) {
+                    if (!formData.get(field)) {
+                        alert(`Please fill all fields`);
+                        return false;
+                    }
+                }
 
                 //Validation for first Name 
                 const firstName = formData.get('first_name')
@@ -296,11 +296,14 @@
                 const currentAddressTextarea = document.getElementById('js_currentAddress');
                 const permanentAddressTextarea = document.getElementById('js_permanentAddress');
 
-                sameAsPermanentCheckbox.addEventListener('change', () => {
+                sameAsPermanentCheckbox.addEventListener('change', (e) => {
+                    console.log("Permanent Address:", permanentAddressTextarea.value);
+                    console.log("Checkbox Checked:", sameAsPermanentCheckbox.checked);
                     if (sameAsPermanentCheckbox.checked) {
-                        permanentAddressTextarea.value = currentAddressTextarea.value;
+                        currentAddressTextarea.value = permanentAddressTextarea.value;
                     } else {
-                        permanentAddressTextarea.value = '';
+                        currentAddressTextarea.value = '';
+                        isValid = false;
                     }
                 });
 
