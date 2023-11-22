@@ -1,234 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quiz</title>
-    <link rel="stylesheet" href="/./dist/output.css" />
-  </head>
 
-  <body class="bg-blue-800">
-    <div
-      id="js_container"
-      class="flex flex-col items-center justify-center h-screen text-2xl text-white font-semibold"
-    >
-      <form
-        action="post"
-        class="bg-white p-5 w-96 flex flex-col gap-5 justify-center text-lg items-start rounded-lg text-black font-normal"
-      >
-        <h2
-          id="js_question"
-          class="mb-3 text-2xl font-bold border-b-2 w-full pb-2"
-        >
-          This is first Question
-        </h2>
-        <div class="flex gap-10 items-center">
-          <input
-            type="radio"
-            id="js_opt1"
-            name="option"
-            class="h-4 w-4"
-            value="a"
-          />
-          <label for="js_opt1" class="js_options">Option 1</label>
-        </div>
-        <div class="flex gap-10 items-center">
-          <input
-            type="radio"
-            id="js_opt2"
-            name="option"
-            class="h-4 w-4"
-            value="b"
-          />
-          <label for="js_opt2" class="js_options">Option 2</label>
-        </div>
-        <div class="flex gap-10 items-center">
-          <input
-            type="radio"
-            id="js_opt3"
-            name="option"
-            class="h-4 w-4"
-            value="c"
-          />
-          <label for="js_opt3" class="js_options">Option 3</label>
-        </div>
-        <div class="flex gap-10 items-center">
-          <input
-            type="radio"
-            id="js_opt4"
-            name="option"
-            class="h-4 w-4"
-            value="d"
-          />
-          <label for="js_opt4" class="js_options">Option 4</label>
-        </div>
-        <div
-          id="js_button"
-          class="bg-blue-800 w-full text-center p-2 text-white font-semibold"
-        >
-          <input
-            type="submit"
-            value="Next"
-            id="js_submit"
-            class="w-full h-full"
-          />
-        </div>
-      </form>
-    </div>
-    <script>
-      let appendQuestion = document.getElementById("js_question");
-      let nextButton = document.getElementById("js_submit");
-      let options = document.getElementsByClassName("js_options");
-      let container = document.getElementById("js_container");
-      let inputs = document.getElementsByName("option");
-      let optionsIndex = 0;
-      let score = 0;
-      let questions = [
-        {
-          question:
-            "Which of these is the correct way in which we can call the JavaScript code?",
-          a: "Triggering Event",
-          b: "Preprocessor",
-          c: "Function/Method",
-          d: "RMI",
-          answer: "c",
-        },
-        {
-          question:
-            "In JavaScript, what do we use for calling the expression for function definition?",
-          a: "Function literal",
-          b: "Function prototype",
-          c: "Function declaration",
-          d: "Function calling",
-          answer: "a",
-        },
-        {
-          question: "The ” var” and “function” are known as _____________.",
-          a: "Data types",
-          b: "Keywords",
-          c: "Prototypes",
-          d: "Declaration statements",
-          answer: "d",
-        },
-        {
-          question:
-            "Which of these operators are used for checking if a specific property exists?",
-          a: "in",
-          b: "within",
-          c: "exist",
-          d: "exists",
-          answer: "a",
-        },
-        {
-          question:
-            "Which of these is known as the Equality operator used for checking whether both the values are equal?",
-          a: "=",
-          b: "==",
-          c: "===",
-          d: "&&",
-          answer: "b",
-        },
-        {
-          question: "Which of these is not a keyword?",
-          a: "debugger",
-          b: "use strict",
-          c: "with",
-          d: "if",
-          answer: "b",
-        },
-        {
-          question:
-            "Which of these symbols is used to create comments in JavaScript?",
-          a: "//",
-          b: "\\",
-          c: "\* */",
-          d: "/**\/",
-          answer: "a",
-        },
-        {
-          question:
-            " Which of these methods or operators are used for identifying an array?",
-          a: "isarrayType()",
-          b: "===",
-          c: "==",
-          d: "TypeOf",
-          answer: "a",
-        },
-        {
-          question:
-            "Which of these keywords is used to define various functions in JavaScript?",
-          a: "function",
-          b: "main",
-          c: "init",
-          d: "Void",
-          answer: "a",
-        },
-        {
-          question:
-            "Which of the following keywords is used to define a variable in Javascript?",
-          a: "var",
-          b: "let",
-          c: "const",
-          d: "All",
-          answer: "d",
-        },
-      ];
-      let index = 0;
-      let end = () => {
-        let message;
-        if (score > 5) {
-          message = "You Are Pass";
-        } else {
-          message = "You Are Fail";
-        }
-        container.innerHTML = `<h1>Thanks for Playing the Quiz!</h1><h2>Your Score is ${score}/${index}</h2><p>${message}</p>`;
-      };
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz</title>
+  <link rel="stylesheet" href="/./dist/output.css" />
+</head>
 
-      let getQuestion = () => {
-        let quesData = questions[index];
-        if (quesData) {
-          let finalQuestion = quesData.question;
-          appendQuestion.innerText = `${index + 1}. ${finalQuestion}`;
+<body class="bg-blue-800">
+  <div id="js_container" class="flex flex-col items-center justify-center h-screen text-2xl text-white font-semibold">
+    <form action="post"
+      class="bg-white p-5 w-96 flex flex-col gap-5 justify-center text-lg items-start rounded-lg text-black font-normal">
+      <h2 id="js_question" class="mb-3 text-2xl font-bold border-b-2 w-full pb-2">
+        This is first Question
+      </h2>
+      <div class="flex gap-10 items-center">
+        <input type="radio" id="js_opt1" name="option" class="h-4 w-4" value="a" />
+        <label for="js_opt1" class="js_options">Option 1</label>
+      </div>
+      <div class="flex gap-10 items-center">
+        <input type="radio" id="js_opt2" name="option" class="h-4 w-4" value="b" />
+        <label for="js_opt2" class="js_options">Option 2</label>
+      </div>
+      <div class="flex gap-10 items-center">
+        <input type="radio" id="js_opt3" name="option" class="h-4 w-4" value="c" />
+        <label for="js_opt3" class="js_options">Option 3</label>
+      </div>
+      <div class="flex gap-10 items-center">
+        <input type="radio" id="js_opt4" name="option" class="h-4 w-4" value="d" />
+        <label for="js_opt4" class="js_options">Option 4</label>
+      </div>
+      <div id="js_button" class="bg-blue-800 w-full text-center p-2 text-white font-semibold">
+        <input type="submit" value="Next" id="js_submit" class="w-full h-full" />
+      </div>
+    </form>
+    <div id="js_empty"></div>
+  </div>
+  <script>
+    let appendQuestion = document.getElementById("js_question");
+    let nextButton = document.getElementById("js_submit");
+    let options = document.getElementsByClassName("js_options");
+    let container = document.getElementById("js_container");
+    let inputs = document.getElementsByName("option");
+    let optionsIndex = 0;
+    let score = 0;
+    let questions = [
+      {
+        question:
+          "Which of these is the correct way in which we can call the JavaScript code?",
+        a: "Triggering Event",
+        b: "Preprocessor",
+        c: "Function/Method",
+        d: "RMI",
+        answer: "c",
+      },
+      {
+        question:
+          "In JavaScript, what do we use for calling the expression for function definition?",
+        a: "Function literal",
+        b: "Function prototype",
+        c: "Function declaration",
+        d: "Function calling",
+        answer: "a",
+      },
+      {
+        question: "The ” var” and “function” are known as _____________.",
+        a: "Data types",
+        b: "Keywords",
+        c: "Prototypes",
+        d: "Declaration statements",
+        answer: "d",
+      },
+      {
+        question:
+          "Which of these operators are used for checking if a specific property exists?",
+        a: "in",
+        b: "within",
+        c: "exist",
+        d: "exists",
+        answer: "a",
+      },
+      {
+        question:
+          "Which of these is known as the Equality operator used for checking whether both the values are equal?",
+        a: "=",
+        b: "==",
+        c: "===",
+        d: "&&",
+        answer: "b",
+      },
+      {
+        question: "Which of these is not a keyword?",
+        a: "debugger",
+        b: "use strict",
+        c: "with",
+        d: "if",
+        answer: "b",
+      },
+      {
+        question:
+          "Which of these symbols is used to create comments in JavaScript?",
+        a: "//",
+        b: "\\",
+        c: "\* */",
+        d: "/**\/",
+        answer: "a",
+      },
+      {
+        question:
+          " Which of these methods or operators are used for identifying an array?",
+        a: "isarrayType()",
+        b: "===",
+        c: "==",
+        d: "TypeOf",
+        answer: "a",
+      },
+      {
+        question:
+          "Which of these keywords is used to define various functions in JavaScript?",
+        a: "function",
+        b: "main",
+        c: "init",
+        d: "Void",
+        answer: "a",
+      },
+      {
+        question:
+          "Which of the following keywords is used to define a variable in Javascript?",
+        a: "var",
+        b: "let",
+        c: "const",
+        d: "All",
+        answer: "d",
+      },
+    ];
+    let index = 0;
+    let end = () => {
+      let message;
+      if (score > 5) {
+        message = "You Are Pass";
+      } else {
+        message = "You Are Fail";
+      }
+      container.innerHTML = `<h1>Thanks for Playing the Quiz!</h1><h2>Your Score is ${score}/${index}</h2><p>${message}</p>`;
+    };
+    let emptyContainer = document.getElementById('js_empty')
 
-          options[0].innerText = quesData.a;
-          options[1].innerText = quesData.b;
-          options[2].innerText = quesData.c;
-          options[3].innerText = quesData.d;
-        } else {
-          end();
-        }
-      };
-      nextButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        corrAnswer();
-        let nextObj = questions[index];
-        let selectCorrect = corrAnswer();
-        if (selectCorrect === nextObj.answer) {
-          score++;
-          console.log(score);
-        }
-        index++;
-        notSelect();
-        getQuestion();
-      });
-      let corrAnswer = () => {
-        let correct;
-        inputs.forEach((input) => {
-          if (input.checked) {
-            correct = input.value;
-          }
-        });
-        return correct;
-      };
-      let notSelect = () => {
-        inputs.forEach((input) => {
-          if (input.checked) {
-            input.checked = false;
-          }
-        });
-      };
+    // for(let i = 0; i < questions.length; i++){
+    //   emptyContainer.innerHTML += questions[i].question + "<br>"
 
+    // }
+    console.log(questions[0].a)
+
+    let getQuestion = () => {
+      let quesData = questions[index];
+      if (quesData) {
+        let finalQuestion = quesData.question;
+        appendQuestion.innerText = `${index + 1}. ${finalQuestion}`;
+
+        options[0].innerText = quesData.a;
+        options[1].innerText = quesData.b;
+        options[2].innerText = quesData.c;
+        options[3].innerText = quesData.d;
+      } else {
+        end();
+      }
+    };
+    nextButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      corrAnswer();
+      let nextObj = questions[index];
+      let selectCorrect = corrAnswer();
+      if (selectCorrect === nextObj.answer) {
+        score++;
+        console.log(score);
+      }
+      index++;
+      notSelect();
       getQuestion();
-    </script>
-  </body>
+    });
+    let corrAnswer = () => {
+      let correct;
+      inputs.forEach((input) => {
+        if (input.checked) {
+          correct = input.value;
+        }
+      });
+      return correct;
+    };
+    let notSelect = () => {
+      inputs.forEach((input) => {
+        if (input.checked) {
+          input.checked = false;
+        }
+      });
+    };
+
+    getQuestion();
+  </script>
+</body>
+
 </html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/dist/output.css">
+</head>
+
+<body class="bg-gray-100 font-sans">
+    <!-- Admin Panel Header -->
+    <header class="bg-blue-500 p-4 text-white">
+        <div class="container mx-auto">
+            <h1 class="text-2xl font-semibold">Admin Panel</h1>
+        </div>
+    </header>
+
+    <!-- Admin Panel Content -->
+    <div class="container mx-auto mt-8">
+        <div class="flex justify-center gap-10 items-center">
+            <input type="text" class="border-2 w-64 p-2 rounded-lg shadow-lg" placeholder="Search name" id="js_search">
+            <button type="button" class="bg-blue-700 w-24 rounded-md font-semibold text-white h-10" id="js_addTask">Add</button>
+        </div>
+
+        <div class="flex justify-center mt-8">
+            <div class="w-3/5 flex justify-center bg-white p-5 rounded-lg shadow-lg">
+                <table class="text-center w-full">
+                    <thead>
+                        <tr>
+                            <th class="py-2">Name</th>
+                            <th class="py-2">Email</th>
+                            <th class="py-2">Roles</th>
+                            <th class="py-2">View</th>
+                            <th class="py-2">Edit</th>
+                            <th class="py-2">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody id="js_tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <dialog id="viewDialog" class="bg-white p-4 rounded-lg shadow-lg">
+        <div>
+            <h2 class="text-lg font-semibold">View Details</h2>
+            <div id="viewDialogContent" class="mt-4"></div>
+            <button id="closeViewDialog"
+                class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300">Close</button>
+        </div>
+    </dialog>
+
+    <script>
+        const fetchData = {
+            load: JSON.parse(localStorage.getItem('formDataArray')) || [],
+
+            insertData: function () {
+                const tbody = document.getElementById('js_tbody');
+                const searchInput = document.getElementById('js_search')
+
+                // Clear existing rows
+                tbody.innerHTML = '';
+
+                // Filter data based on search input
+                const filteredData = this.load.filter(data =>
+                    data.first_name.toLowerCase().startsWith(searchInput.value.toLowerCase())
+                );
+
+                // Loop through the data and create rows
+                filteredData.forEach((data) => {
+                    const row = document.createElement('tr');
+
+                    // Add data to each cell
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = `${data.first_name} ${data.last_name}`;
+                    row.appendChild(nameCell);
+
+                    const emailCell = document.createElement('td');
+                    emailCell.textContent = data.email;
+                    row.appendChild(emailCell);
+
+                    const rolesCell = document.createElement('td');
+                    rolesCell.textContent = data.roles;
+                    row.appendChild(rolesCell);
+
+                    const viewCell = document.createElement('td');
+                    const viewLink = document.createElement('a');
+                    viewLink.href = `view.html?id=${data.id}`;
+                    viewLink.textContent = 'View';
+                    viewCell.appendChild(viewLink);
+                    row.appendChild(viewCell);
+
+                    const editCell = document.createElement('td');
+                    const editButton = document.createElement('button');
+                    editButton.setAttribute('type', 'button')
+                    editButton.textContent = 'Edit';
+                    editCell.appendChild(editButton);
+                    row.appendChild(editCell);
+                    editButton.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.editData(data.id);
+                    });
+
+                    const deleteCell = document.createElement('td');
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.addEventListener('click', () => { this.deleteData(data.id) });
+                    deleteCell.appendChild(deleteButton);
+                    row.appendChild(deleteCell);
+
+                    tbody.appendChild(row);
+                    viewLink.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.viewData(data);
+                    });
+                });
+            },
+
+            deleteData: function (id) {
+                const indexToDelete = this.load.findIndex(item => item.id === id);
+
+                if (indexToDelete !== -1) {
+                    this.load.splice(indexToDelete, 1);
+
+                    localStorage.setItem('formDataArray', JSON.stringify(this.load));
+
+                    this.insertData();
+                }
+            },
+
+
+            editData: function (id) {
+                console.log(`Edit data with ID: ${id}`);
+                window.location.href = `formEdit.html?id=${id}`;
+            },
+
+            viewData: function (data) {
+                const viewDialogContent = document.getElementById('viewDialogContent');
+                viewDialogContent.innerHTML = '';
+
+                const keys = Object.keys(data);
+                keys.forEach((key) => {
+                    const row = document.createElement('div');
+                    if (key == 'image') {
+                        const imageElement = document.createElement('img');
+                        imageElement.classList.add('w-16')
+                        imageElement.src = data[key];
+                        imageElement.alt = 'User Image';
+                        row.appendChild(imageElement);
+                    }
+                    else {
+                        row.innerHTML = `<strong>${key}:</strong> ${data[key]}`;
+                    }
+                    viewDialogContent.appendChild(row);
+                });
+
+                // Show the dialog
+                const viewDialog = document.getElementById('viewDialog');
+                viewDialog.showModal();
+
+                // Add event listener to close the dialog
+                const closeViewDialog = document.getElementById('closeViewDialog');
+                closeViewDialog.addEventListener('click', () => {
+                    viewDialog.close();
+                });
+            },
+
+            debounce: function (func, delay) {
+                let timer;
+                return function () {
+                    const context = this;
+                    const args = arguments;
+                    clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        func.apply(context, args);
+                    }, delay);
+                };
+            },
+
+            search: function () {
+
+                const searchInput = document.getElementById('js_search')
+
+                searchInput.addEventListener('input', this.debounce((e) => {
+                    this.insertData();
+                }, 500));
+            },
+
+            addData : function (){
+                const add = document.getElementById('js_addTask');
+                add.addEventListener('click',function(e){
+                    e.preventDefault();
+                    window.location.href = "formAdd.html"
+                })
+            }
+
+        }
+        fetchData.insertData()
+        fetchData.search()
+        fetchData.addData()
+    </script>
+</body>
+
+</html>

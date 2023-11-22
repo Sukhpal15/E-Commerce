@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Registration Form</title>
+</head>
+
+<body class="bg-gray-100">
+
+    <div class="max-w-xl mx-auto bg-white p-5 shadow-md mt-4 rounded-lg">
+
+        <!-- Heading -->
+        <h2 class="text-2xl font-semibold mb-6">Registration Form</h2>
+
+        <!-- form -->
+        <form action="#" class="grid grid-cols-2 gap-7">
+
+            <!-- First Name -->
+            <div class="relative">
+                <label for="first_name" class="block text-sm font-medium text-gray-600">First Name</label>
+                <input type="text" id="js_firstName" name="first_name" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_fName_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Last Name -->
+            <div>
+                <label for="last_name" class="block text-sm font-medium text-gray-600">Last Name</label>
+                <input type="text" id="js_lastName" name="last_name" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_lName_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Age -->
+            <div>
+                <label for="age" class="block text-sm font-medium text-gray-600">Age</label>
+                <input type="number" id="js_age" name="age" class="mt-1 p-2 w-full border rounded-md">
+                <p id="js_age_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Gender -->
+            <div>
+                <label class="block text-sm font-medium text-gray-600">Gender</label>
+                <div class="mt-1">
+                    <label class="inline-flex items-center">
+                        <input type="radio" class="form-radio" name="gender" value="male">
+                        <span class="ml-2">Male</span>
+                    </label>
+                    <label class="inline-flex items-center ml-6">
+                        <input type="radio" class="form-radio" name="gender" value="female">
+                        <span class="ml-2">Female</span>
+                    </label>
+                </div>
+                <p id="js_gender_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-600">Email</label>
+                <input type="text" id="js_email" name="email" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_email_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Date Of Birth -->
+            <div>
+                <label for="dob" class="block text-sm font-medium text-gray-600">Date Of Birth</label>
+                <input type="date" id="js_dob" name="dob" class="mt-1 p-2 w-full border rounded-md">
+                <p id="js_dob_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Blood Group -->
+            <div>
+                <label for="blood_group" class="block text-sm font-medium text-gray-600">Blood Group <span
+                        class="text-xs">(Ex: A+)</span></label>
+                <input type="text" id="js_bloodGroup" name="blood_group" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_bloodGroup_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Add Image -->
+            <div>
+                <label for="image" class="block text-sm font-medium text-gray-600">Add Image</label>
+                <input type="file" id="js_image" name="image" class="mt-1">
+                <p id="js_image_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Phone Number -->
+            <div>
+                <label for="phone_number" class="block text-sm font-medium text-gray-600">Phone Number</label>
+                <input type="tel" id="js_phoneNumber" name="phone_number" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_number_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Roles -->
+            <div>
+                <label class="block text-sm font-medium text-gray-600">Roles</label>
+                <select name="roles" id="js_roles" class="mt-1 p-2 w-full border rounded-md">
+                    <option value="Select Role" selected>Select Role</option>
+                    <option value="manager">Manager</option>
+                    <option value="hr">HR</option>
+                    <option value="trainee">Trainee</option>
+                </select>
+                <p id="js_roles_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Permanent Address -->
+            <div class="col-span-2">
+                <label for="permanent_address" class="block text-sm font-medium text-gray-600">Permanent Address</label>
+                <textarea id="js_permanentAddress" name="permanent_address"
+                    class="mt-1 p-2 w-full border rounded-md"></textarea>
+                <p id="js_permanentAddress_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Current Address -->
+            <div class="col-span-2">
+                <label for="current_address" class="block text-sm font-medium text-gray-600">Current Address</label>
+                <textarea id="js_currentAddress" name="current_address"
+                    class="mt-1 p-2 w-full border rounded-md"></textarea>
+                <p id="js_currentAdress_para" class="text-sm text-red-700 font-semibold absolute"></p>
+
+            </div>
+
+            <!-- Same as Permanent Address Checkbox -->
+            <div class="col-span-2 flex items-center mb-5">
+                <input type="checkbox" id="js_sameAsPermanent" class="form-checkbox mr-2">
+                <label for="js_sameAsPermanent" class="text-sm font-medium text-gray-600">Same as Permanent
+                    Address</label>
+            </div>
+
+
+            <!-- Submit Button -->
+            <div class="col-span-2 ">
+                <button type="submit"
+                    class="bg-blue-500 w-full text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const addData = {
+            formDataArray: [],
+            formData: function () {
+                const form = document.querySelector('form');
+                const existingData = JSON.parse(localStorage.getItem('formDataArray')) || [];
+
+                // Load existing data
+                this.formDataArray = existingData;
+
+                form.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    const formData = new FormData(form);
+
+                    if (this.ValidateForm(formData)) {
+                        const formDataObject = await this.convertFormDataToObject(formData);
+                        const uniqueId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+
+                        formDataObject.id = uniqueId;
+                        this.formDataArray.push(formDataObject);
+
+                        // Store form data in local storage
+                        localStorage.setItem('formDataArray', JSON.stringify(this.formDataArray))
+
+                        window.location.href = 'FormFetch.html';
+                        form.reset();
+                        return false;
+                    } else {
+                        console.log('Form validation failed.');
+                    }
+                });
+            },
+
+            ValidateForm: function (formData) {
+                // Validation for Empty Fields
+                // const requiredFields = ['first_name', 'last_name', 'age', 'gender', 'email', 'dob', 'blood_group', 'phone_number', 'roles', 'current_address', 'permanent_address'];
+                let isValid = true;
+
+                // for (const field of requiredFields) {
+                //     if (!formData.get(field)) {
+                //         alert(`Please fill all fields`);
+                //         return false;
+                //     }
+                // }
+
+                //Validation for first Name 
+                const firstName = formData.get('first_name')
+                const firstNamePara = document.getElementById('js_fName_para');
+
+                if (!firstName.toLowerCase().trim().match(/^[A-Za-z]+$/)) {
+                    firstNamePara.innerText = "Name must be an Alphabet";
+                    isValid = false;
+                }
+                else {
+                    firstNamePara.innerText = "";
+                }
+
+                //Validation for last Name
+                const lastName = formData.get('last_name');
+                const lastNamePara = document.getElementById('js_lName_para');
+                if (!lastName.toLowerCase().trim().match(/^[A-Za-z]+$/)) {
+                    lastNamePara.innerText = "Name must be an Alphabet";
+                    isValid = false;
+                }
+                else {
+                    lastNamePara.innerText = "";
+                }
+
+                //Validation for age
+                const age = formData.get('age');
+                const dob = formData.get('dob');
+                const dobDate = new Date(dob);
+                const today = new Date();
+                const calculatedAge = today.getFullYear() - dobDate.getFullYear();
+                const agePara = document.getElementById('js_age_para');
+
+                if (!age.trim().match(/^[1-9]\d*$/)) {
+                    agePara.innerText = "Age is not valid";
+                    isValid = false;
+                }
+                else if (parseInt(age) !== calculatedAge) {
+                    agePara.innerText = "Age does not match the date of birth.";
+                    isValid = false;
+                }
+                else {
+                    agePara.innerText = "";
+                }
+
+                //Validation for email
+                const email = formData.get('email')
+                const emailPara = document.getElementById('js_email_para');
+                if (!email.trim().match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
+                    emailPara.innerText = "Please enter a valid email address";
+                    isValid = false;
+                }
+                else {
+                    emailPara.innerText = "";
+                }
+
+                //Validation for date of birth
+                const minAge = 18;
+                const dobPara = document.getElementById('js_dob_para');
+                if (isNaN(dobDate)) {
+                    dobPara.innerText = "Invalid date of birth";
+                    isValid = false;
+                } else if (dobDate > today) {
+                    dobPara.innerText = "DOB cannot be in the future";
+                    isValid = false;
+                } else if (today.getFullYear() - dobDate.getFullYear() < minAge) {
+                    dobPara.innerText = "Person is under the minimum age";
+                    isValid = false;
+                } else {
+                    dobPara.innerText = "";
+                }
+
+                // Validation for Blood Group
+                const bloodGroup = formData.get('blood_group');
+                const bloodGroupPara = document.getElementById('js_bloodGroup_para');
+                if (!bloodGroup.trim().match(/^(A|B|AB|O)[+-]$/)) {
+                    bloodGroupPara.innerText = "Invalid blood group format.";
+                    isValid = false;
+                }
+                else {
+                    bloodGroupPara.innerText = "";
+                }
+
+                //Validation for number
+                const number = formData.get('phone_number')
+                const numberPara = document.getElementById('js_number_para');
+                if (!number.trim().match(/^[0-9]+$/) || number.trim().length !== 10) {
+                    numberPara.innerText = "Enter 10-digit Phone number";
+                    isValid = false;
+                }
+                else {
+                    numberPara.innerText = "";
+                }
+
+                //Validation for roles
+                const roles = formData.get('roles')
+                const rolesPara = document.getElementById('js_roles_para');
+                if (roles == 'Select Role') {
+                    rolesPara.innerText = "Please select a role";
+                    isValid = false;
+                }
+                else {
+                    rolesPara.innerText = "";
+                }
+
+                // Same as Permanent Address Checkbox
+                const sameAsPermanentCheckbox = document.getElementById('js_sameAsPermanent');
+                const currentAddressTextarea = document.getElementById('js_currentAddress');
+                const permanentAddressTextarea = document.getElementById('js_permanentAddress');
+
+                sameAsPermanentCheckbox.addEventListener('change', () => {
+                    if (sameAsPermanentCheckbox.checked) {
+                        permanentAddressTextarea.value = currentAddressTextarea.value;
+                    } else {
+                        permanentAddressTextarea.value = '';
+                    }
+                });
+
+                return isValid;
+            },
+
+            convertFormDataToObject: function (formData) {
+                return new Promise((resolve) => {
+                    const formDataObject = {};
+                    const imageFile = formData.get('image');
+
+                    for (const [key, value] of formData.entries()) {
+                        formDataObject[key] = value;
+                    }
+
+                    // Check if an image is selected
+                    if (imageFile) {
+                        this.convertImageToDataURL(imageFile, (imageDataUrl) => {
+                            formDataObject.image = imageDataUrl;
+                            resolve(formDataObject);
+                        });
+                    } else {
+                        resolve(formDataObject);
+                    }
+                });
+            },
+
+            convertImageToDataURL: function (imageFile, callback) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const imageDataUrl = e.target.result;
+                    callback(imageDataUrl);
+                };
+
+                reader.readAsDataURL(imageFile);
+            }
+        };
+        addData.formData()
+    </script>
+</body>
+
+</html>

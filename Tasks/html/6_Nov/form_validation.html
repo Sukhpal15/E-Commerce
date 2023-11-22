@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -64,15 +63,16 @@
         let passPara = document.getElementById("password_para")
         let confirmPara = document.getElementById("confirmPass_para");
         let genderPara = document.getElementById("gender_para");
-
+       
         form.addEventListener("submit", (e) => {
             e.preventDefault();
-            
 
+            let isValid = true;
             for (let input of inputNames) {
             
                 if (name.value.trim() === "") {
                     namePara.innerText = "Name cannot be empty";
+                    isValid = false
                 }
                 else if (
                     !name.value
@@ -81,48 +81,60 @@
                         .match(/^[A-Za-z]+$/)
                 ) {
                     namePara.innerText = "Name must be an Alphabet";
+                    isValid = false
                 }
-
+               
                 if (email.value.trim() === "") {
                     emailPara.innerText = "Email cannot be empty";
+                    isValid = false
                 }
                 else if (
                     !email.value
                         .trim()
                         .match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+                        
                 ) {
                     emailPara.innerText = "Invalid Email";
+                    isValid = false
                 }
                 if (number.value.trim() === "") {
                     numberPara.innerText = "Number cannot be empty";
+                    isValid = false
                 }
                 else if (
                     !number.value.trim().match(/^[0-9]+$/) ||
                     number.value.trim().length !== 10
                 ) {
                     numberPara.innerText = "Invalid Number";
+                    isValid = false
                 }
                 if (password.value.trim() === "") {
                     passPara.innerText = "Password cannot be empty";
+                    isValid = false
                 }
                 else if (password.value.trim().length < 8) {
                     passPara.innerText = "Password is too short";
+                    isValid = false
                 }
                 else if (!password.value.trim().match(/[A-Za-z]/) || !password.value.trim().match(/[0-9]/)) {
                     passPara.innerText = "Password must be combination of alphabet and numbers";
+                    isValid = false
                 }
                 if (confirmpass.value.trim() === "") {
                     confirmPara.innerText = "Confirm password cannot be empty";
+                    isValid = false
                 }
                 else if (confirmpass.value.trim() !== password.value.trim()) {
                     confirmPara.innerText = "Confirm Password must be same as Password";
+                    isValid = false
                 }
                 if (gender.value == "gender") {
                     genderPara.innerText = "Select Gender"
+                    isValid = false
                 }
                 
             }
-            if(validateForm){
+            if(isValid){
             form.reset();
             }
             });

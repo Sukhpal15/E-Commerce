@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit the Form</title>
+    <link rel="stylesheet" href="/dist/output.css">
+</head>
+
+<body class="bg-gray-100">
+    <div class="max-w-xl mx-auto bg-white p-5 shadow-md mt-4 rounded-lg">
+
+        <!-- Heading -->
+        <h2 class="text-2xl font-semibold mb-6">Registration Form</h2>
+
+        <!-- form -->
+        <form action="#" class="grid grid-cols-2 gap-7">
+
+            <!-- First Name -->
+            <div class="relative">
+                <label for="first_name" class="block text-sm font-medium text-gray-600">First Name</label>
+                <input type="text" id="js_firstName" name="first_name" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_fName_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Last Name -->
+            <div>
+                <label for="last_name" class="block text-sm font-medium text-gray-600">Last Name</label>
+                <input type="text" id="js_lastName" name="last_name" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_lName_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Age -->
+            <div>
+                <label for="age" class="block text-sm font-medium text-gray-600">Age</label>
+                <input type="number" id="js_age" name="age" class="mt-1 p-2 w-full border rounded-md">
+                <p id="js_age_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Gender -->
+            <div>
+                <label class="block text-sm font-medium text-gray-600">Gender</label>
+                <div class="mt-1">
+                    <label class="inline-flex items-center">
+                        <input type="radio" class="form-radio" name="gender" value="male" id="js_gender_male">
+                        <span class="ml-2">Male</span>
+                    </label>
+                    <label class="inline-flex items-center ml-6">
+                        <input type="radio" class="form-radio" name="gender" value="female" id="js_gender_female">
+                        <span class="ml-2">Female</span>
+                    </label>
+                </div>
+                <p id="js_gender_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-600">Email</label>
+                <input type="text" id="js_email" name="email" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_email_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Date Of Birth -->
+            <div>
+                <label for="dob" class="block text-sm font-medium text-gray-600">Date Of Birth</label>
+                <input type="date" id="js_dob" name="dob" class="mt-1 p-2 w-full border rounded-md">
+                <p id="js_dob_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Blood Group -->
+            <div>
+                <label for="blood_group" class="block text-sm font-medium text-gray-600">Blood Group <span
+                        class="text-xs">(Ex: A+)</span></label>
+                <input type="text" id="js_bloodGroup" name="blood_group" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_bloodGroup_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Add Image -->
+            <div>
+                <label for="image" class="block text-sm font-medium text-gray-600">Add Image</label>
+                <input type="file" id="js_image" name="image" class="mt-1">
+                <p id="js_image_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Phone Number -->
+            <div>
+                <label for="phone_number" class="block text-sm font-medium text-gray-600">Phone Number</label>
+                <input type="tel" id="js_phoneNumber" name="phone_number" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_number_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Roles -->
+            <div>
+                <label class="block text-sm font-medium text-gray-600">Roles</label>
+                <select name="roles" id="js_roles" class="mt-1 p-2 w-full border rounded-md">
+                    <option value="Select Role" selected>Select Role</option>
+                    <option value="manager">Manager</option>
+                    <option value="hr">HR</option>
+                    <option value="trainee">Trainee</option>
+                </select>
+                <p id="js_roles_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Current Address -->
+            <div class="col-span-2">
+                <label for="current_address" class="block text-sm font-medium text-gray-600">Current Address</label>
+                <textarea id="js_currentAddress" name="current_address"
+                    class="mt-1 p-2 w-full border rounded-md"></textarea>
+                <p id="js_currentAdress_para" class="text-sm text-red-700 font-semibold absolute"></p>
+
+            </div>
+
+            <!-- Permanent Address -->
+            <div class="col-span-2">
+                <label for="permanent_address" class="block text-sm font-medium text-gray-600">Permanent Address</label>
+                <textarea id="js_permanentAddress" name="permanent_address"
+                    class="mt-1 p-2 w-full border rounded-md"></textarea>
+                <p id="js_permanentAddress_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="col-span-2 ">
+                <button type="submit"
+                    class="bg-blue-500 w-full text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+    <script>
+        const editData = {
+            storeData: function () {
+                let storageData = JSON.parse(localStorage.getItem('formDataArray'));
+                let id = new URLSearchParams(window.location.search).get('id');
+                storageData.forEach(element => {
+                    if (id == element.id) {
+                        document.getElementById('js_firstName').value = element.first_name;
+                        document.getElementById('js_lastName').value = element.last_name;
+                        document.getElementById('js_age').value = element.age;
+                        if (element.gender === 'male') {
+                            document.getElementById('js_gender_male').checked = true;
+                        } else if (element.gender === 'female') {
+                            document.getElementById('js_gender_female').checked = true;
+                        }
+                        document.getElementById('js_email').value = element.email;
+                        document.getElementById('js_dob').value = element.dob;
+                        document.getElementById('js_bloodGroup').value = element.blood_group;
+                        document.getElementById('js_bloodGroup').value = element.blood_group;
+                        document.getElementById('js_phoneNumber').value = element.phone_number;
+                        document.getElementById('js_roles').value = element.roles
+                        document.getElementById('js_currentAddress').value = element.current_address
+                        document.getElementById('js_permanentAddress').value = element.permanent_address
+                    }
+                })
+            },
+
+            formEvent: function () {
+                let form = document.querySelector('form');
+                let id = new URLSearchParams(window.location.search).get('id');
+                let storageData = JSON.parse(localStorage.getItem('formDataArray'));
+                
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    
+                    // Update the data in storage
+                    let updatedData = storageData.map(element => {
+                        if (id == element.id) {
+                            return {
+                                ...element,
+                                first_name: document.getElementById('js_firstName').value,
+                                last_name: document.getElementById('js_lastName').value,
+                                age: document.getElementById('js_age').value,
+                                gender: document.querySelector('input[name="gender"]:checked').value,
+                                email: document.getElementById('js_email').value,
+                                dob: document.getElementById('js_dob').value,
+                                blood_group: document.getElementById('js_bloodGroup').value,
+                                phone_number: document.getElementById('js_phoneNumber').value,
+                                roles: document.getElementById('js_roles').value,
+                                current_address: document.getElementById('js_currentAddress').value,
+                                permanent_address: document.getElementById('js_permanentAddress').value,
+                            };
+                        } else {
+                            return element;
+                        }
+                    });
+
+                    const inputImage = document.getElementById('js_image');
+                    if (inputImage.files.length > 0) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            updatedData.find(e => e.id === id).image = e.target.result;
+                            localStorage.setItem('formDataArray', JSON.stringify(updatedData));
+
+                            // Redirect or perform any other action
+                            window.location.href = 'FormFetch.html';
+                        };
+                        reader.readAsDataURL(inputImage.files[0]);
+                    } else {
+                        // No new image selected, just update the other data
+                        localStorage.setItem('formDataArray', JSON.stringify(updatedData));
+
+                        // Redirect or perform any other action
+                        window.location.href = 'FormFetch.html';
+                    }
+                });
+            }
+        }
+        // console.log(storageData);
+        editData.storeData()
+        editData.formEvent()
+    </script>
+</body>
+
+</html>
