@@ -153,6 +153,21 @@
                 // Load existing data
                 this.formDataArray = existingData;
 
+                // Same as Permanent Address Checkbox
+                const sameAsPermanentCheckbox = document.getElementById('js_sameAsPermanent');
+                const currentAddressTextarea = document.getElementById('js_currentAddress');
+                const permanentAddressTextarea = document.getElementById('js_permanentAddress');
+
+                sameAsPermanentCheckbox.addEventListener('change', (e) => {
+                    console.log("Permanent Address:", permanentAddressTextarea.value);
+                    console.log("Checkbox Checked:", sameAsPermanentCheckbox.checked);
+                    if (sameAsPermanentCheckbox.checked) {
+                        currentAddressTextarea.value = permanentAddressTextarea.value;
+                    } else {
+                        currentAddressTextarea.value = '';
+                    }
+                });
+
                 form.addEventListener('submit', async (event) => {
                     event.preventDefault();
                     const formData = new FormData(form);
@@ -167,7 +182,7 @@
                         // Store form data in local storage
                         localStorage.setItem('formDataArray', JSON.stringify(this.formDataArray))
 
-                        // window.location.href = 'FormFetch.html';
+                        window.location.href = 'FormFetch.html';
                         form.reset();
                         return false;
                     } else {
@@ -178,7 +193,7 @@
 
             ValidateForm: function (formData) {
                 // Validation for Empty Fields
-                const requiredFields = ['first_name', 'last_name', 'age', 'gender', 'email', 'dob', 'blood_group', 'phone_number', 'roles', 'permanent_address'];
+                const requiredFields = ['first_name', 'last_name', 'age', 'gender', 'email', 'dob', 'blood_group', 'phone_number', 'roles','current_address', 'permanent_address'];
                 let isValid = true;
 
                 for (const field of requiredFields) {
@@ -291,21 +306,7 @@
                     rolesPara.innerText = "";
                 }
 
-                // Same as Permanent Address Checkbox
-                const sameAsPermanentCheckbox = document.getElementById('js_sameAsPermanent');
-                const currentAddressTextarea = document.getElementById('js_currentAddress');
-                const permanentAddressTextarea = document.getElementById('js_permanentAddress');
-
-                sameAsPermanentCheckbox.addEventListener('change', (e) => {
-                    console.log("Permanent Address:", permanentAddressTextarea.value);
-                    console.log("Checkbox Checked:", sameAsPermanentCheckbox.checked);
-                    if (sameAsPermanentCheckbox.checked) {
-                        currentAddressTextarea.value = permanentAddressTextarea.value;
-                    } else {
-                        currentAddressTextarea.value = '';
-                        isValid = false;
-                    }
-                });
+                
 
                 return isValid;
             },
