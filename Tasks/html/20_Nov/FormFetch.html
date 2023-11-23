@@ -10,7 +10,7 @@
 
 <body class="bg-gray-100 font-sans">
     <!-- Admin Panel Header -->
-    <header class="bg-blue-500 p-4 text-white">
+    <header class="bg-blue-500 p-4 text-white shadow-md">
         <div class="container mx-auto">
             <h1 class="text-2xl font-semibold">Admin Form</h1>
         </div>
@@ -18,26 +18,26 @@
 
     <!-- Admin Panel Content -->
     <div class="container mx-auto mt-8">
-        <div class="flex justify-center gap-8 items-center">
-            <input type="search" class="border-2 w-80 p-2 h-11 rounded-lg shadow-md outline-none"
+        <div class="flex justify-between px-16 gap-8 items-center">
+            <input type="search" class="border-2 w-96 p-2 h-11 rounded-lg shadow-md outline-none"
                 placeholder="Search name" id="js_search">
-            <button type="button" class="bg-blue-500 w-24 rounded-md font-semibold text-white h-11"
-                id="js_addTask">Add</button>
+            <button type="button" class="bg-blue-500 w-44 p-1 rounded-md font-semibold shadow-md text-white h-11"
+                id="js_addTask">Add New User Data</button>
         </div>
 
         <div class="flex justify-center mt-8">
-            <div class="w-11/12 flex bg-white p-2 rounded-lg shadow-lg">
-                <table class=" text-center w-full divide-y-2 divide-gray-100">
-                    <thead class="h-16">
-                        <tr class="text-gray-700 font-normal">
-                            <th class="py-2 font-semibold">User Image</th>
+            <div class="w-11/12 flex bg-white shadow-lg rounded-lg">
+                <table class=" text-center w-full divide-gray-100">
+                    <thead class="h-16 bg-blue-500  ">
+                        <tr class="text-white font-normal">
+                            <th class="py-2 font-semibold rounded-tl-md">User Image</th>
                             <th class="py-2 font-semibold">Name</th>
                             <th class="py-2 font-semibold">Email</th>
                             <th class="py-2 font-semibold">Blood Group</th>
                             <th class="py-2 font-semibold">Roles</th>
                             <th class="py-2 font-semibold">View</th>
                             <th class="py-2 font-semibold">Edit</th>
-                            <th class="py-2 font-semibold">Delete</th>
+                            <th class="py-2 font-semibold rounded-tr-md">Delete</th>
                         </tr>
                     </thead>
                     <tbody id="js_tbody" class="divide-y-2 divide-gray-100"></tbody>
@@ -60,7 +60,7 @@
             <p>Are you sure you want to delete this data?</p>
             <div>
                 <button id="js_confirmDelete"
-                    class="my-4 mr-5 bg-red-500 text-white w-20 h-8 rounded hover:bg-red-700 focus:outline-none focus:border-red-300">Yes</button>
+                    class="mt-5 mr-5 bg-red-500 text-white w-20 h-8 rounded hover:bg-red-700 focus:outline-none focus:border-red-300">Yes</button>
                 <button id="js_cancelDelete"
                     class="bg-blue-500 text-white w-20 h-8 rounded hover:bg-blue-700 focus:outline-none focus:border-blue-300">No</button>
             </div>
@@ -92,7 +92,8 @@
                     const createImageTag = document.createElement('img')
                     createImageTag.src = data.image
                     createImageTag.className = "h-20 rounded-full"
-
+                    createImageTag.setAttribute('id','js_fetch_image')
+               
                     imageCell.appendChild(createImageTag)
                     row.appendChild(imageCell);
 

@@ -14,7 +14,7 @@
         <!-- Heading -->
         <div class="flex justify-between items-center">
             <h2 class="text-2xl font-semibold mb-6">Edit Form</h2>
-            <div ><img id="js_showImage" alt="userImage" class="w-20 h-20 rounded-full mr-10"></div>
+            <div><img id="js_showImage" alt="userImage" class="w-20 h-20 rounded-full mr-10"></div>
         </div>
         <!-- form -->
         <form action="#" class="grid grid-cols-2 gap-7">
@@ -158,7 +158,7 @@
                         document.getElementById('js_roles').value = element.roles
                         document.getElementById('js_currentAddress').value = element.current_address
                         document.getElementById('js_permanentAddress').value = element.permanent_address
-                        document.getElementById('js_showImage').setAttribute('src', element.image) 
+                        document.getElementById('js_showImage').setAttribute('src', element.image)
                     }
                 })
             },
@@ -167,12 +167,11 @@
                 let form = document.querySelector('form');
                 let id = new URLSearchParams(window.location.search).get('id');
                 let storageData = JSON.parse(localStorage.getItem('formDataArray'));
-                
                 form.addEventListener('submit', function (event) {
                     event.preventDefault();
-                    
                     // Update the data in storage
                     let updatedData = storageData.map(element => {
+                        // console.log(element)
                         if (id == element.id) {
                             return {
                                 ...element,
@@ -200,7 +199,6 @@
                             updatedData.find(e => e.id === id).image = e.target.result;
                             localStorage.setItem('formDataArray', JSON.stringify(updatedData));
 
-                            // Redirect or perform any other action
                             window.location.href = 'FormFetch.html';
                         };
                         reader.readAsDataURL(inputImage.files[0]);
@@ -212,7 +210,9 @@
                         window.location.href = 'FormFetch.html';
                     }
                 });
-            }
+            },
+
+            Validations : function(){}
         }
         // console.log(storageData);
         editData.storeData()
