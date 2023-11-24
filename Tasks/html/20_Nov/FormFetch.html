@@ -92,8 +92,8 @@
                     const createImageTag = document.createElement('img')
                     createImageTag.src = data.image
                     createImageTag.className = "h-20 rounded-full"
-                    createImageTag.setAttribute('id','js_fetch_image')
-               
+                    createImageTag.setAttribute('id', 'js_fetch_image')
+
                     imageCell.appendChild(createImageTag)
                     row.appendChild(imageCell);
 
@@ -178,7 +178,7 @@
 
             editData: function (id) {
                 console.log(`Edit data with ID: ${id}`);
-                window.location.href = `formEdit.html?id=${id}`;
+                window.location.href = `formAdd.html?id=${id}`;
             },
 
             viewData: function (data) {
