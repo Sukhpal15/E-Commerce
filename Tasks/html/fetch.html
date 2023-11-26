@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch</title>
+</head>
+
+<body>
+    <h1>Fetch</h1>
+    <script>
+        //Method 1
+        // const fetchPractice = {
+        //     promise: new Promise((resolve, reject) => {
+        //         setTimeout(() => {
+        //             console.log('Hello')
+        //             resolve()
+        //         }, 1000);
+        //     }).then(() => { console.log("hi") }),
+        //     // resolveObj: function () { this.promise.then(() => { console.log("hi") }) }
+        // };
+
+        // fetchPractice.resolveObj()
+
+        //Method 2
+
+        // const promise = new Promise((res, rej) => {
+        //     setTimeout(() => {
+        //         res();
+        //         console.log('hello')
+        //     }, 1000);
+        // })
+
+        // promise.then(() => { console.log("Promise consumed") })
+
+        //Method 3 
+        
+        const promiseThree = new Promise((resolve,reject)=>{
+            setTimeout(() => {
+                resolve({userName: "Sukhpal", task: "Promise"})
+            }, 1000);
+        }).then((user)=>{console.log(user)})
+
+    </script>
+</body>
+
+</html>
