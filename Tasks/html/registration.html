@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Registration Form</title>
+</head>
+
+<body class="bg-gray-100">
+
+    <div class="xl:w-2/5 mx-auto bg-white p-5 shadow-md md:mt-4 rounded-lg md:w-full sm:w-full">
+
+        <!-- Heading -->
+        <h2 class="text-2xl font-semibold mb-6">Registration Form</h2>
+
+        <!-- form -->
+        <form action="#" class="grid grid-cols-2 gap-7">
+
+            <!-- First Name -->
+            <div class="relative">
+                <label for="first_name" class="block text-sm font-medium text-gray-600">First Name</label>
+                <input type="text" id="js_firstName" name="first_name" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_fName_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Last Name -->
+            <div>
+                <label for="last_name" class="block text-sm font-medium text-gray-600">Last Name</label>
+                <input type="text" id="js_lastName" name="last_name" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_lName_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Age -->
+            <div>
+                <label for="age" class="block text-sm font-medium text-gray-600">Age</label>
+                <input type="number" id="js_age" name="age" class="mt-1 p-2 w-full border rounded-md">
+                <p id="js_age_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Date Of Birth -->
+            <div>
+                <label for="dob" class="block text-sm font-medium text-gray-600">Date Of Birth</label>
+                <input type="date" id="js_dob" name="dob" class="mt-1 p-2 w-full border rounded-md">
+                <p id="js_dob_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-600">Email</label>
+                <input type="text" id="js_email" name="email" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_email_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Gender -->
+            <div>
+                <label class="block text-sm font-medium text-gray-600">Gender</label>
+                <div class="mt-1">
+                    <label class="inline-flex items-center">
+                        <input type="radio" class="form-radio" name="gender" value="male" id="js_gender_male">
+                        <span class="ml-2">Male</span>
+                    </label>
+                    <label class="inline-flex items-center md:ml-6">
+                        <input type="radio" class="form-radio" name="gender" value="female" id="js_gender_female">
+                        <span class="ml-2">Female</span>
+                    </label>
+                </div>
+                <p id="js_gender_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Blood Group -->
+            <div>
+                <label for="blood_group" class="block text-sm font-medium text-gray-600">Blood Group <span
+                        class="text-xs">(Ex: A+)</span></label>
+                <input type="text" id="js_bloodGroup" name="blood_group" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_bloodGroup_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Add Image -->
+            <div>
+                <label for="js_image" class="block text-sm font-medium text-gray-600">Add Image</label>
+                <input type="file" id="js_image" name="image" class="mt-1 w-24 md:w-full">
+                <p id="js_image_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Phone Number -->
+            <div>
+                <label for="js_phoneNumber" class="block text-sm font-medium text-gray-600">Phone Number</label>
+                <input type="tel" id="js_phoneNumber" name="number" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_number_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Roles -->
+            <div>
+                <label class="block text-sm font-medium text-gray-600">Roles</label>
+                <select name="roles" id="js_roles" class="mt-1 p-2 w-full border rounded-md">
+                    <option value="Select Role" selected>Select Role</option>
+                    <option value="manager">Manager</option>
+                    <option value="hr">HR</option>
+                    <option value="trainee">Trainee</option>
+                </select>
+                <p id="js_roles_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Pincode -->
+            <div>
+                <label for="pincode" class="block text-sm font-medium text-gray-600">Pincode</label>
+                <input type="tel" id="js_pincode" name="pincode" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_pincode_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- City -->
+            <div>
+                <label for="city" class="block text-sm font-medium text-gray-600">City</label>
+                <input type="text" id="js_city" name="city" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_city_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- State -->
+            <div>
+                <label for="js_state" class="block text-sm font-medium text-gray-600">State</label>
+                <input type="text" id="js_state" name="state" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_state_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Country -->
+            <div>
+                <label for="js_country" class="block text-sm font-medium text-gray-600">Country</label>
+                <input type="text" id="js_country" name="country" class="mt-1 p-2 w-full border rounded-md"
+                    autocomplete="off">
+                <p id="js_country_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Permanent Address -->
+            <div class="col-span-2">
+                <label for="js_permanentAddress" class="block text-sm font-medium text-gray-600">Address Line 1</label>
+                <textarea id="js_permanentAddress" name="permanent_address"
+                    class="mt-1 p-2 w-full border rounded-md"></textarea>
+                <p id="js_permanentAddress_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Same as Permanent Address Checkbox -->
+            <div class="col-span-2 flex items-center">
+                <input type="checkbox" name="sameAdress" id="js_sameAsPermanent" class="form-checkbox mr-2">
+                <label for="js_sameAsPermanent" class="text-sm font-medium text-gray-600">Same as Permanent
+                    Address</label>
+            </div>
+
+            <!-- Current Address -->
+            <div class="col-span-2">
+                <label for="js_current_address" class="block text-sm font-medium text-gray-600">Address Line 2</label>
+                <textarea id="js_currentAddress" name="current_address"
+                    class="mt-1 p-2 w-full border rounded-md"></textarea>
+                <p id="js_currentAdress_para" class="text-sm text-red-700 font-semibold absolute"></p>
+
+            </div>
+
+            <!-- Password -->
+            <div class="col-span-2">
+                <label for="js_password" class="block text-sm font-medium text-gray-600">Password</label>
+                <input type="password" name="password" class="mt-1 p-2 w-full border rounded-md" id="js_password"
+                    autocomplete="newPassword">
+                <p id="js_passPara" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="col-span-2">
+                <label for="js_confirmPassword" class="block text-sm font-medium text-gray-600">Confirm Password</label>
+                <input type="password" name="confirmPassword" class="mt-1 p-2 w-full border rounded-md"
+                    id="js_confirmPassword" autocomplete="confirmPassword">
+                <p id="js_confirmPara" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="col-span-2 ">
+                <button type="submit"
+                    class="bg-blue-500 w-full text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+    <script>
+        (function () {
+            'use strict'
+            const user = {
+                //get form
+                form: document.querySelector('form'),
+
+                //On submit
+                onSubmit: function () {
+                    this.form.addEventListener('submit', (event) => { this.add() })
+                },
+
+                //Add User data
+                add: async function () {
+                    event.preventDefault();
+
+                    const formData = new FormData(this.form);
+                    const formObject = {};
+
+                    formData.forEach((value, key) => {
+                        formObject[key] = value;
+                    })
+                    const formArray = this.getData();
+
+
+                    if (this.validations(formData)) {
+                        //Handle image seperately
+                        const image = document.querySelector('#js_image');
+                        if (image.files.length > 0) {
+                            try {
+                                const imageUrl = await this.saveImage(image);
+                                formObject['image'] = imageUrl;
+                            } catch (error) {
+                                console.error('Error reading image:', error);
+                            }
+                        }
+
+                        formArray.push(formObject);
+                        this.saveData(formArray);
+                    }
+                },
+
+                formDataProperties: function (properties) {
+                    const firstName = properties.get('first_name');
+                    const lastName = properties.get('last_name');
+                    const age = properties.get('age');
+                    const dob = properties.get('dob');
+                    const email =  properties.get('email');
+                    const bloodGroup = properties.get('blood_group');
+                    const number = properties.get('number');
+                    const roles = properties.get('roles');
+                    const pincode = properties.get('pincode');
+
+                    return {
+                        firstName: firstName,
+                        lastName: lastName,
+                        age: age,
+                        dob: dob,
+                        email: email,
+                    };
+                },
+
+                //Add Validations
+                validations: function (formObject) {
+
+                    const { firstName, lastName, age, dob, email} = this.formDataProperties(formObject);
+                    let isValid = true;
+
+                    //First Name
+                    if (!firstName ) {
+                        this.showError('js_fName_para', 'First Name is required.');
+                        isValid = false;
+                    }
+
+                    else if (/\d/.test(firstName)) {
+                        this.showError('js_fName_para', 'First Name should not contain numbers.');
+                        isValid = false;
+                    }
+
+                    else {
+                        this.showError('js_fName_para', ' ');
+                        isValid = true;
+                    }
+
+                    //Last Name
+                    if (!lastName) {
+                        this.showError('js_lName_para', 'First Name is required.');
+                        isValid = false;
+                    }
+
+                    else if (/\d/.test(lastName)) {
+                        this.showError('js_lName_para', 'First Name should not contain numbers.');
+                        isValid = false;
+                    }
+
+                    else {
+                        this.showError('js_lName_para', '');
+                        isValid = true;
+                    }
+
+                    //age
+                    if(!age){
+                        this.showError('js_age_para', 'Age is required')
+                        isValid = false;
+                    }
+
+                    else {
+                        this.showError('js_age_para', '')
+                        isValid = true;
+                    }
+
+                    //dob
+                    if(!dob){
+                        this.showError('js_dob_para', 'Date of Birth is required')
+                        isValid = false;
+                    }
+                    else{
+                        this.showError('js_dob_para', '')
+                        isValid = true;
+                    }
+
+
+                    return isValid;
+                },
+
+                //Validation errors
+                showError: function (elementId, message) {
+                    const errorElement = document.getElementById(elementId);
+                    errorElement.textContent = message;
+                },
+
+                //save Image
+                saveImage: function (img) {
+                    const imgPromise = new Promise((resolve, reject) => {
+
+                        const reader = new FileReader();
+
+                        reader.addEventListener("load", () => {
+                            const imageUrl = reader.result;
+                            resolve(imageUrl);
+                        })
+
+                        reader.addEventListener("error", (error) => {
+                            reject(error);
+                        });
+
+                        if (img.files.length > 0) {
+                            reader.readAsDataURL(img.files[0]);
+                        }
+
+                    })
+
+                    return imgPromise;
+                },
+
+                //get data
+                getData: function () {
+                    const dataObject = JSON.parse(localStorage.getItem('Data')) || [];
+                    return dataObject;
+                },
+
+                //save data
+                saveData: function (data) {
+                    const dataString = JSON.stringify(data);
+                    localStorage.setItem('Data', dataString);
+                }
+
+            }
+
+            user.onSubmit()
+        }())
+    </script>
+</body>
+
+</html>

@@ -9,12 +9,48 @@
 </head>
 
 <body>
+    <div class="flex justify-center mt-5 gap-5">
+        <input type="search" id="js_search" class="border-2 h-10 w-72 rounded-lg p-2 outline-0"
+            placeholder="Search Product">
+        <button type="button" class="bg-blue-500 font-semibold text-white p-2 rounded-lg" id="js_button">Add New
+            Product</button>
+    </div>
+
+    <dialog id="js_dialog" class="bg-white p-4 rounded-lg shadow-lg">
+        <label for="js_title" class="block text-sm font-medium text-gray-700">Title</label>
+        <input type="text" id="js_title" class="mt-1 p-2 block w-full rounded-md border-2 border-gray-300">
+
+        <label for="js_description" class="block mt-4 text-sm font-medium text-gray-700">Description</label>
+        <input type="text" id="js_description" class="mt-1 p-2 block w-full rounded-md border-2 border-gray-300">
+
+        <label for="js_category" class="block mt-4 text-sm font-medium text-gray-700">Category</label>
+        <input type="text" id="js_category" class="mt-1 p-2 block w-full rounded-md border-2 border-gray-300">
+
+        <label for="js_price" class="block mt-4 text-sm font-medium text-gray-700">Price</label>
+        <input type="number" id="js_price" class="mt-1 p-2 block w-full rounded-md border-2 border-gray-300">
+
+        <label for="js_rating" class="block mt-4 text-sm font-medium text-gray-700">Rating</label>
+        <input type="text" id="js_rating" class="mt-1 p-2 block w-full rounded-md border-2 border-gray-300">
+
+        <label for="js_image" class="block mt-4 text-sm font-medium text-gray-700">Image</label>
+        <input type="file" id="js_image" class="mt-1 p-2 block w-full rounded-md border-2 border-gray-300">
+
+        <div class="flex justify-between">
+            <button type="button" id="js_closeButton"
+                class="bg-red-500 p-2 w-36 h-10 mt-6 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:border-blue-300"
+                id="js_close">Close</button>
+            <button type="button" id="js_addCustomButton"
+                class="bg-blue-500 p-2 w-36 h-10 mt-6 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+                id="js_close">Add</button>
+        </div>
+    </dialog>
+
     <ul id="js_products" class="p-6 flex flex-wrap gap-8 space-y-12 justify-center items-center">
     </ul>
     <script>
         const products = {
-            render: function () {
-                const productsData = this.getDataFromLocalStorage();
+            render: function (data) {
+                const productsData = data || this.getDataFromLocalStorage();
                 const productsContainer = document.getElementById('js_products');
                 let products = ''
                 productsData.forEach((product) => {
@@ -48,22 +84,29 @@
                     return;
                 }
                 )
-                productsContainer.innerHTML += products;
+                productsContainer.innerHTML = products;
             },
+
             //add data
             addFromFetch: async function () {
-                const productsFetchData = 'https://fakestoreapi.com/products';
-                const response = await fetch(productsFetchData);
-                if (!response.ok) {
-                    console.error("HTTP-Error: " + response.status);
-                    return;
+                const storedData = this.getDataFromLocalStorage();
+                console.log(storedData.length)
+                if (storedData.length === 0) {
+                    const productsFetchData = 'https://fakestoreapi.com/products';
+                    const response = await fetch(productsFetchData);
+
+                    if (!response.ok) {
+                        console.error("HTTP-Error: " + response.status);
+                        return;
+                    }
+
+                    const responseJson = await response.json();
+                    await this.saveDataFromFetch(responseJson);
                 }
-                const responseJson = await response.json();
 
-                await this.saveDataFromFetch(responseJson);
-                this.addCustomProducts(productsFetchData);
+                this.render();
             },
-
+            
             addCustomProducts: async function (url) {
                 const controller = new AbortController();
                 const signal = controller.signal;
@@ -84,6 +127,7 @@
                         console.error('HTTP-Error: ' + response.status);
                         return;
                     }
+                    
                     const saveData = await this.getDataFromLocalStorage()
                     const productsRatingData = {
                         ...posts,
@@ -93,10 +137,10 @@
                     await this.saveDataFromFetch(saveData)
                     await this.render()
 
-                    await setTimeout(() => {
-                        controller.abort();
-                        alert('controller aborted');
-                    }, 10000);
+                    // await setTimeout(() => {
+                    //     controller.abort();
+                    //     alert('controller aborted');
+                    // }, 10000);
                 }
                 catch (error) {
                     console.error('Error: ', error);
@@ -114,10 +158,80 @@
                 title: "Jackets",
             },
 
+            //search 
+            search: function () {
+                const search = document.getElementById('js_search');
+                const storageData = this.getDataFromLocalStorage();
+
+                const searchFunction = function () {
+                    let searchValue = search.value.toLowerCase();
+                    let filteredData = storageData.filter((userdata) => {
+                        const title = userdata.title.toLowerCase();
+                        return title.startsWith(searchValue);
+                    });
+                    products.render(filteredData);
+                };
+
+                search.addEventListener('input', searchFunction);
+            },
 
             //save data
             saveDataFromFetch: function (data) {
                 return localStorage.setItem('product', JSON.stringify(data))
+            },
+
+            //Add Data 
+            add: function () {
+                const dialog = document.getElementById('js_dialog')
+                const addButton = document.getElementById('js_button')
+                const closeButton = document.getElementById('js_closeButton');
+                const addCustomButton = document.getElementById('js_addCustomButton');
+
+                addButton.addEventListener('click', function () {
+                    dialog.showModal();
+                })
+
+                closeButton.addEventListener('click', function () {
+                    dialog.close();
+                })
+                const storedData = this.getDataFromLocalStorage();
+
+                addCustomButton.addEventListener('click', function () {
+                    const title = document.getElementById('js_title').value;
+                    const description = document.getElementById('js_description').value;
+                    const category = document.getElementById('js_category').value;
+                    const price = document.getElementById('js_price').value;
+                    const ratingRate = document.getElementById('js_rating').value;
+                    const ratingCount = 0;
+                    const imageInput = document.getElementById('js_image');
+
+                    const imageFile = imageInput.files[0];
+                    const imageReader = new FileReader();
+
+                    imageReader.onload = function (e) {
+                        const image = e.target.result;
+
+                        const customProduct = {
+                            title: title,
+                            description: description,
+                            category: category,
+                            price: price,
+                            rating: { rate: parseFloat(ratingRate), count: ratingCount },
+                            image: image,
+                        };
+
+                        // Save custom product to local storage
+                        const storedData = products.getDataFromLocalStorage();
+                        storedData.push(customProduct);
+
+                        dialog.close();
+                        products.saveDataFromFetch(storedData);
+
+                        products.render();
+                    };
+
+                    imageReader.readAsDataURL(imageFile);
+                });
             },
 
             //get data
@@ -137,6 +251,8 @@
         }
 
         products.addFromFetch()
+        products.search()
+        products.add()
     </script>
 </body>
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Single product</title>
+</head>
+
+<body>
+    <script>
+        const singleProduct = {
+            productId: function () {
+                console.log(window.location)
+                const keysValues = window.location.search;
+                const urlParams = new URLSearchParams(keysValues)
+                const param = urlParams.get('id')
+                console.log(param)
+            }
+        }
+        singleProduct.productId()
+    </script>
+</body>
+
+</html>

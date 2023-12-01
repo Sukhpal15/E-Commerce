@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/dist/output.css">
+</head>
+
+<body class="bg-gray-100 font-sans">
+    <!-- Admin Panel Header -->
+    <header class="bg-blue-500 p-4 text-white shadow-md">
+        <div class="container mx-auto">
+            <h1 class="text-2xl font-semibold">Admin Form</h1>
+        </div>
+    </header>
+
+    <!-- Admin Panel Content -->
+    <div class="container mx-auto mt-8">
+        <div class="flex justify-between px-16 gap-8 items-center">
+            <input type="search" class="border-2 w-96 p-2 h-11 rounded-lg shadow-md outline-none"
+                placeholder="Search name" id="js_search">
+            <button type="button" class="bg-blue-500 w-44 p-1 rounded-md font-semibold shadow-md text-white h-11"
+                id="js_addTask">Add New User Data</button>
+        </div>
+
+        <div class="flex justify-center mt-8">
+            <div class="w-11/12 bg-white shadow-lg rounded-lg">
+                <table class=" text-center w-full divide-gray-100">
+                    <thead class="h-16 bg-blue-500  ">
+                        <tr class="text-white font-normal">
+                            <th class="py-2 font-semibold rounded-tl-md">User Image</th>
+                            <th class="py-2 font-semibold">Name</th>
+                            <th class="py-2 font-semibold">Email</th>
+                            <th class="py-2 font-semibold">Roles</th>
+                            <th class="py-2 font-semibold">Edit</th>
+                            <th class="py-2 font-semibold rounded-tr-md">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody id="js_tbody" class="divide-y-2 divide-gray-100"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <dialog id="js_confirmationDialog" class="bg-white p-4 rounded-lg shadow-lg">
+        <div>
+            <p>Are you sure you want to delete this data?</p>
+            <div>
+                <button id="js_confirmDelete"
+                    class="mt-5 mr-5 bg-red-500 text-white w-20 h-8 rounded hover:bg-red-700 focus:outline-none focus:border-red-300">Yes</button>
+                <button id="js_cancelDelete"
+                    class="bg-blue-500 text-white w-20 h-8 rounded hover:bg-blue-700 focus:outline-none focus:border-blue-300">No</button>
+            </div>
+        </div>
+    </dialog>
+
+    <script>
+        (function () {
+            'use strict'
+            const user = {
+                //Get data from local storage 
+                fetch: JSON.parse(localStorage.getItem('Data')) || [],
+
+                //Render function 
+                render: function (data) {
+                    const tbody = document.getElementById('js_tbody');
+
+                    tbody.innerHTML = '';
+
+                    const renderData = data || this.fetch;
+
+                    renderData.forEach(userData => {
+                        const row = document.createElement('tr');
+                        this.appendImageCell(row, userData.image);
+                        this.appendCells(row, [`${userData.first_name} ${userData.last_name}`]);
+                        this.appendCells(row, userData.email);
+                        this.appendCells(row, userData.roles);
+                        const editRow = this.appendButtonCell(row, 'Edit', 'bg-yellow-500 text-white px-4 py-1 rounded-full rounded hover:bg-yellow-700 focus:outline-none focus:ring focus:border-yellow-300');
+                        const deleteRow = this.appendButtonCell(row, 'Delete', 'bg-red-500 text-white px-4 py-1 rounded-full rounded hover:bg-red-700 focus:outline-none focus:ring focus:border-red-300');
+                        tbody.appendChild(row);
+                        deleteRow.addEventListener('click', () => { this.deleteUser(userData.id) });
+                        editRow.addEventListener('click', () => { this.edit(userData.id) });
+                    });
+                },
+
+                //function to append td's
+                appendCells: function (row, data) {
+                    const cell = document.createElement('td');
+                    cell.className = "p-2";
+                    cell.textContent = data;
+                    row.appendChild(cell);
+                },
+
+                //function to append buttons
+                appendButtonCell: function (row, buttonText, classname) {
+                    const cell = document.createElement('td');
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.textContent = buttonText;
+                    button.className = classname;
+                    cell.appendChild(button);
+                    row.appendChild(cell);
+
+                    return button;
+                },
+
+                //function to append image 
+                appendImageCell: function (row, src) {
+                    const cell = document.createElement('td');
+                    cell.className = "flex justify-center p-2";
+                    const image = document.createElement('img');
+                    image.src = src;
+                    image.className = "h-20 rounded-full";
+                    cell.appendChild(image);
+                    row.appendChild(cell);
+                },
+
+                search: function () {
+                    const searchInput = document.getElementById('js_search')
+
+                    // Debounce function
+                    const debounceSearch = this.debounce(() => {
+                        const searchTerm = searchInput.value.toLowerCase();
+                        const filteredData = this.fetch.filter((userData) => {
+                            const fullName = `${userData.first_name} ${userData.last_name}`.toLowerCase();
+                            return fullName.startsWith(searchTerm);
+                        });
+                        this.render(filteredData);
+                    }, 500);
+
+                    searchInput.addEventListener('input', debounceSearch);
+                },
+
+                debounce: function (func, delay) {
+                    let timer;
+                    return function (...args) {
+                        clearTimeout(timer);
+                        timer = setTimeout(() => {
+                            func.apply(this, args);
+                        }, delay);
+                    };
+                },
+
+                // Function to delete a user
+                deleteUser: function (userId) {
+                    const confirmationDialog = document.getElementById('js_confirmationDialog');
+                    const confirmDeleteButton = document.getElementById('js_confirmDelete');
+                    const cancelDeleteButton = document.getElementById('js_cancelDelete');
+                    const getId = document.getElementById(userId);
+
+                    confirmationDialog.showModal();
+                    // Handle confirmation
+                    confirmDeleteButton.addEventListener('click', () => {
+                        const index = this.fetch.findIndex(user => user.id === userId);
+                        if (index !== -1) {
+                            this.fetch.splice(index, 1);
+                            localStorage.setItem('Data', JSON.stringify(this.fetch));
+                            this.render(filteredData);
+                        }
+
+                        confirmationDialog.close();
+                        window.location.href = "fetch2.html"
+                    });
+
+                    cancelDeleteButton.addEventListener('click', () => {
+                        confirmationDialog.close();
+                    });
+                },
+
+                edit: function (userId) {
+                    window.location.href = `registration2.html?id=${userId}`
+                },
+
+                addData: function () {
+                    const add = document.getElementById('js_addTask');
+                    add.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        window.location.href = "registration2.html"
+                    })
+                },
+                
+                init: function () {
+                    this.render();
+                    this.search();
+                    this.addData();
+                }
+
+            };
+
+            user.init()
+        }
+        )()
+    </script>
+
+</body>
+
+</html>
