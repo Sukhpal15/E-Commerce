@@ -9,12 +9,17 @@
 </head>
 
 <body>
-    <main>
+    <main class="py-8">
         <div class="container mx-auto">
             <div class="flex">
-                <!-- Product image -->
+                <!-- Product images -->
                 <div class="w-1/2">
-                    <img id="js-image" alt="Product Image" class="w-full h-auto">
+                    <div class="w-full h-96">
+                        <img id="js-image" alt="Product Image" class="w-full h-full object-cover">
+                    </div>
+                    <div id="js-imagesContainer" class="flex mt-4 space-x-4">
+
+                    </div>
                 </div>
 
                 <!-- Product information -->
@@ -28,7 +33,6 @@
                 </div>
             </div>
         </div>
-        </div>
     </main>
     <script>
         (function () {
@@ -39,10 +43,9 @@
                     const description = document.querySelector('#js-description')
                     const price = document.querySelector('#js-price')
                     const image = document.querySelector('#js-image')
-
+                    const imagesContainer = document.querySelector('#js-imagesContainer');
                     const urlParam = this.productId()
                     console.log(urlParam)
-
                     try {
                         const response = await fetch(`https://dummyjson.com/products/${urlParam}`);
                         if (response.ok) {
@@ -53,7 +56,21 @@
                                 title.innerHTML = data.title;
                                 description.innerHTML = data.description;
                                 price.innerHTML = `$${data.price}`;
+
+                                console.log(data.images)
                             }
+
+                            data.images.map((item) => {
+                                let sideImages = document.createElement("img");
+                                sideImages.setAttribute("src", `${item}`);
+                                sideImages.setAttribute("class", "w-40 h-32 mx-auto mt-32 p-2 border-2 cursor-pointer")
+                                imagesContainer.appendChild(sideImages);
+
+                                sideImages.addEventListener("click", () => {
+                                    image.src = sideImages.src;
+                                })
+                            })
+
                         }
                         else {
                             throw new Error('Error');
