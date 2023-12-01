@@ -178,6 +178,12 @@
                         const localStorageData = this.getFromStorage();
                         localStorageData.products.push(newProduct);
                         this.saveToLocalStorage(localStorageData);
+
+                        const dialog = document.getElementById('js_dialog');
+                        dialog.close();
+
+                        location.reload();
+
                         return localStorageData.products;
                     }
                     catch (error) {
@@ -192,14 +198,14 @@
                         event.preventDefault();
                         const formData = new FormData(form);
 
-                        const imageCount = formData.get('imageCount');
+                        const imageCount = formData.get('images');
                         const imageFiles = [];
 
                         const readImage = async function (imageInput) {
                             return new Promise((resolve) => {
                                 const imageReader = new FileReader();
-                                imageReader.readAsDataURL(imageInput);
 
+                                imageReader.readAsDataURL(imageInput);
                                 imageReader.onload = function () {
                                     resolve(imageReader.result);
                                 };
@@ -208,10 +214,10 @@
 
                         const thumbnailInput = formData.get('thumbnail');
                         const thumbnailData = await readImage(thumbnailInput);
-
                         for (let i = 1; i <= imageCount; i++) {
                             const imageInput = formData.get(`image_${i}`);
                             const imageData = await readImage(imageInput);
+                            console.log(imageData)
                             imageFiles.push(imageData);
                         }
 
