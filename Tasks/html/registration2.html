@@ -281,6 +281,7 @@
                     if (this.validations(formData) && this.id) {
 
                         const updatedData = formArray.map(element => {
+                            console.log(element)
                             if (this.id == element.id) {
                                 return {
                                     ...element,
@@ -440,13 +441,7 @@
 
                 //show validation on focus
                 addFocusListeners: function () {
-                    const inputFields = document.querySelectorAll('input, textarea, select');
-                    inputFields.forEach(input => {
-                        input.addEventListener('focus', (event) => {
-                            const fieldName = event.target.name;
-                            this.validate(fieldName);
-                        });
-                    });
+                    
                 },
                 
                 init: function () {

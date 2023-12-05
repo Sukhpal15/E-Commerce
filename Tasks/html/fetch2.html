@@ -80,8 +80,8 @@
                         const editRow = this.appendButtonCell(row, 'Edit', 'bg-yellow-500 text-white px-4 py-1 rounded-full rounded hover:bg-yellow-700 focus:outline-none focus:ring focus:border-yellow-300');
                         const deleteRow = this.appendButtonCell(row, 'Delete', 'bg-red-500 text-white px-4 py-1 rounded-full rounded hover:bg-red-700 focus:outline-none focus:ring focus:border-red-300');
                         tbody.appendChild(row);
-                        deleteRow.addEventListener('click', () => { this.deleteUser(userData.id) });
                         editRow.addEventListener('click', () => { this.edit(userData.id) });
+                        deleteRow.addEventListener('click', () => { this.deleteUser(userData.id) });
                     });
                 },
 
@@ -180,7 +180,7 @@
                         window.location.href = "registration2.html"
                     })
                 },
-                
+
                 init: function () {
                     this.render();
                     this.search();

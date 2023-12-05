@@ -9,16 +9,12 @@
 </head>
 
 <body>
-    <nav class="flex gap-5 items-center py-5">
-        <div class="flex w-full gap-10 items-center justify-center">
-            <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fkheaderlogo_exploreplus-44005d.svg"
-                alt="logo">
-            <input type="search" id="js_search" class="border-2 h-10 w-5/12 rounded-lg p-2 outline-0"
-                placeholder="Search Product">
+    <div class="flex justify-center mt-5 gap-5">
+        <div class="flex justify-center">
             <div class="relative inline-block text-left">
                 <div>
                     <button id="filterButton"
-                        class="inline-flex h-10 justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring focus:border-blue-300">
+                        class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring focus:border-blue-300">
                         Filter Categories
                         <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                             fill="currentColor" aria-hidden="true">
@@ -30,31 +26,40 @@
                 </div>
 
                 <div id="filterDropdown"
-                    class="hidden origin-top-right absolute right-0 mt-2 w-56 z-10 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                    <div class="py-1" id="js-filterInnerDiv" role="menu" aria-orientation="vertical"
-                        aria-labelledby="options-menu"></div>
+                    class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                        <button type="button" name="smartphones"
+                            class="w-full text-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                            role="menuitem">Smartphones</button>
+                        <button type="button" name="laptops"
+                            class="w-full text-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                            role="menuitem">Laptops</a>
+                            <button type="button" name="fragrances"
+                                class="w-full text-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                role="menuitem">Fragrances</button>
+                            <button type="button" name="skincare"
+                                class="w-full text-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                role="menuitem">Skincare</button>
+                            <button type="button" name="groceries"
+                                class="w-full text-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                role="menuitem">Groceries</button>
+                            <button type="button" name="home-decoration"
+                                class="w-full text-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                role="menuitem">Home-Decoration</button>
+                    </div>
                 </div>
             </div>
-            <button type="button" id="js_cartButton" class="relative">
-                <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none"
-                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                    <path d="M6 6 L30 6 27 19 9 19 M27 23 L10 23 5 2 2 2"></path>
-                    <circle cx="25" cy="27" r="2"></circle>
-                    <circle cx="12" cy="27" r="2"></circle>
-                </svg>
-                <div>
-                    
-                </div>
-                <span id="js-countIcon" class="absolute -top-2 -right-2 bg-blue-800 text-white rounded-full h-5 w-5 flex items-center justify-center"></span>
-            </button>
-            <button type="button" class="bg-blue-500 font-semibold text-white p-2 rounded-lg" id="js_button">Add New
-                Product</button>
         </div>
+        <input type="search" id="js_search" class="border-2 h-10 w-72 rounded-lg p-2 outline-0"
+            placeholder="Search Product">
+        <button type="button" class="bg-blue-500 font-semibold text-white p-2 rounded-lg" id="js_button">Add New
+            Product</button>
+    </div>
 
-    </nav>
+
 
     <dialog id="js_dialog" class="bg-white p-4 rounded-lg shadow-lg w-2/6">
-        <form action="#" id="js_form" class="w-full">
+        <form action="#" id="js_form" class="w-full" enctype="multipart/form-data">
             <label for="js_title" class="block text-sm font-medium text-gray-700">Title</label>
             <input type="text" id="js_title" class="mt-1 p-2 block w-full rounded-md border-2 border-gray-300"
                 name="title">
@@ -137,16 +142,21 @@
                             }
                             return data;
                         }
+                        else {
+                            throw new Error('Error');
+                        }
                     }
                     catch (error) {
                         console.error('Error fetching data:', error);
+                        return null;
                     }
                 },
 
                 //post new data
                 postData: async function (productData) {
-                    const postUrl = `${this.apiUrl}add`;
+                    const postUrl = 'https://dummyjson.com/products/add';
                     try {
+
                         const options = {
                             method: 'POST',
                             headers: {
@@ -174,86 +184,28 @@
 
                         location.reload();
 
+                        return localStorageData.products;
                     }
                     catch (error) {
                         console.error("HTTP Error " + response.status)
                     }
                 },
 
-                //cart page
-                cartPage : function (){
-                    const svgContainer = document.getElementById('js_cartButton')
-                    svgContainer.addEventListener("click", function (){
-                        window.location.href = 'dummyCart.html'
-                    })
-                },
-
                 //form data 
                 saveDataFromForm: function () {
-                    const form = document.getElementById('js_form');
-                    form.addEventListener("submit", async function (event) {
-                        event.preventDefault();
-
-                        const fieldsToValidate = ['title', 'description', 'category', 'brand', 'discountPercentage', 'stock', 'price', 'rating', 'thumbnail'];
-                        let isValid = true;
-
-                        for (const fieldName of fieldsToValidate) {
-                            const fieldValue = form.querySelector(`[name="${fieldName}"]`).value.trim();
-                            if (fieldValue === '') {
-                                isValid = false;
-                            }
-                        }
-
-                        if (!isValid) {
-                            alert('All fields must be filled out.');
-                            return;
-                        }
-
+                    const form = document.querySelector('form')
+                    console.log(form)
+                    form.addEventListener("submit", (event) => {
+                        event.preventDefault()
                         const formData = new FormData(form);
+                        formData.title = formData.get('title')
+                        console.log(formData)
+                    })
 
-                        const imageCount = formData.get('images');
-                        const imageFiles = [];
-
-                        const readImage = async function (imageInput) {
-                            return new Promise((resolve) => {
-                                const imageReader = new FileReader();
-
-                                imageReader.readAsDataURL(imageInput);
-                                imageReader.onload = function () {
-                                    resolve(imageReader.result);
-                                };
-                            });
-                        };
-
-                        const thumbnailInput = formData.get('thumbnail');
-                        const thumbnailData = await readImage(thumbnailInput);
-                        for (let i = 1; i <= imageCount; i++) {
-                            const imageInput = formData.get(`image_${i}`);
-                            const imageData = await readImage(imageInput);
-                            console.log(imageData)
-                            imageFiles.push(imageData);
-                        }
-
-                        const newProduct = {
-                            title: formData.get('title'),
-                            description: formData.get('description'),
-                            category: formData.get('category'),
-                            brand: formData.get('brand'),
-                            discountPercentage: formData.get('discountPercentage'),
-                            stock: formData.get('stock'),
-                            price: formData.get('price'),
-                            rating: formData.get('rating'),
-                            thumbnail: thumbnailData,
-                            images: imageFiles,
-                        };
-
-                        products.postData(newProduct);
-                    });
                 },
 
                 //render data
                 render: function (productObjects) {
-                    console.log(productObjects);
                     const productsContainer = document.getElementById('js_products');
                     let products = ``;
                     productObjects.forEach((element) => {
@@ -284,9 +236,21 @@
                     productsContainer.innerHTML = products;
                 },
 
+                //click on products
+                productsPage: function () {
+                    const productsContainer = document.getElementById('js_products');
+                    productsContainer.addEventListener('click', function (event) {
+                        const clickedProduct = event.target.closest('li[data-product-id]');
+                        if (clickedProduct) {
+                            const productId = clickedProduct.getAttribute('data-product-id');
+                            window.location.href = `productsDummy.html?id=${productId}`;
+                        }
+                    });
+                },
+
                 //search products
                 search: async function (searchValue) {
-                    const searchURL = `${this.apiUrl}search?q=${searchValue}`
+                    const searchURL = `https://dummyjson.com/products/search?q=${searchValue}`
                     try {
                         const responseSearch = await fetch(searchURL);
                         if (responseSearch.ok) {
@@ -303,28 +267,32 @@
                 //event
                 searchEvent: function () {
                     const searchInput = document.getElementById('js_search');
+                    let debounceTimer;
 
                     searchInput.addEventListener("input", async function () {
-                        const searchData = await products.search(searchInput.value);
-                        console.log(searchData);
-
-                        const renderSearchResults = async function () {
+                        const searchData = await products.search(searchInput.value)
+                        clearTimeout(debounceTimer);
+                        debounceTimer = setTimeout(async function () {
                             if (searchData !== null) {
                                 products.render(searchData);
                             }
-                        };
-
-                        const debouncedRender = products.debounce(renderSearchResults, 500);
-                        debouncedRender();
-                    });
+                        }, 300)
+                    })
                 },
 
-                debounce: function (func, delay) {
-                    let debounceTimer;
-                    return function (...args) {
-                        clearTimeout(debounceTimer);
-                        debounceTimer = setTimeout(() => { func.apply(this, args) }, delay)
-                    }
+                //open and close dialog box button
+                openFromDialog: function () {
+                    const addCustomButton = document.getElementById('js_button');
+                    const close = document.getElementById('js_closeButton');
+                    const dialog = document.getElementById('js_dialog');
+
+                    addCustomButton.addEventListener("click", function () {
+                        dialog.showModal();
+                    })
+
+                    close.addEventListener("click", function () {
+                        dialog.close();
+                    })
                 },
 
                 //generate multiple image fields
@@ -355,9 +323,32 @@
                     this.generateImageFields(selectedCount);
                 },
 
+                // add event for dropdown
+                dropDownEvent: function () {
+                    const dropdown = document.getElementById('js_imageCount');
+                    dropdown.addEventListener('change', () => products.handleImageCountChange());
+                },
+
+                //filter dropdown
+                filterDropDown: function () {
+                    const filterButton = document.getElementById('filterButton');
+                    const filterDropdown = document.getElementById('filterDropdown');
+
+                    filterButton.addEventListener('click', (event) => {
+                        filterDropdown.classList.toggle('hidden');
+                    });
+
+                    document.addEventListener('click', (event) => {
+                        const target = event.target;
+                        if (!filterButton.contains(target) && !filterDropdown.contains(target)) {
+                            filterDropdown.classList.add('hidden');
+                        }
+                    });
+                },
+
                 //fetch filter api
                 fetchFilter: async function (filterValue) {
-                    const searchURL = `${this.apiUrl}category/${filterValue}`
+                    const searchURL = `https://dummyjson.com/products/category/${filterValue}`
                     try {
                         const responseSearch = await fetch(searchURL);
                         if (responseSearch.ok) {
@@ -371,67 +362,31 @@
                     }
                 },
 
-                //cart Icons
-                countIcon: function () {
-                    const cartData = this.getFromCartStorage()
-                    const cartSpan = document.getElementById('js-countIcon')
-                    const countLength = cartData.length;
-                    cartSpan.innerText = countLength
-                },
+                //filter 
+                filterProducts: function () {
+                    const filterItems = document.querySelectorAll('#filterDropdown button');
 
-                //fetch filter products
-                filterProducts: async function () {
-                    const allCategories = `${this.apiUrl}categories`;
-                    try {
-                        const response = await fetch(allCategories);
-                        if (response.ok) {
-                            const data = await response.json();
-                            return data;
-                        }
-                    }
-                    catch (error) {
-                        console.error('Error fetching data:', error);
-                    }
-                },
-
-                //event on fetch filter
-                fetchEvent: async function () {
-                    const filterArrayData = await this.filterProducts()
-                    let innerDivFilter = document.getElementById('js-filterInnerDiv')
-                    let filter = ``;
-                    for (let i = 0; i < filterArrayData.length; i++) {
-                        const button = document.createElement('button');
-                        button.type = 'button';
-                        button.className = 'w-full text-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900';
-                        button.innerText = filterArrayData[i];
-                        filter += button.outerHTML;
-                    }
-                    innerDivFilter.addEventListener("click", async (event) => {
-                        const selectedFilterValue = event.target.textContent.trim();
-                        const filteredProducts = await products.fetchFilter(selectedFilterValue)
-                        console.log(filteredProducts)
-                        products.render(filteredProducts.products)
-                        filterDropdown.classList.add('hidden');
-                    })
-                    innerDivFilter.innerHTML = filter;
+                    filterItems.forEach(item => {
+                        item.addEventListener('click', async (event) => {
+                            const selectedFilterValue = event.target.textContent.trim();
+                            const filteredProducts = await products.fetchFilter(selectedFilterValue)
+                            console.log(filteredProducts)
+                            products.render(filteredProducts.products)
+                            filterDropdown.classList.add('hidden');
+                        });
+                    });
                 },
 
                 //set items
                 saveToLocalStorage: function (data) {
-                    const existingData = localStorage.setItem('dummyProducts', JSON.stringify(data));
+                    const existingData = localStorage.setItem('products', JSON.stringify(data));
                     return existingData;
                 },
 
                 //get items
                 getFromStorage: function () {
-                    const getData = JSON.parse(localStorage.getItem('dummyProducts')) || [];
+                    const getData = JSON.parse(localStorage.getItem('products')) || [];
                     return getData;
-                },
-
-                //get cart item
-                getFromCartStorage: function () {
-                    const cartData = JSON.parse(localStorage.getItem('cartStorage')) || []
-                    return cartData;
                 },
 
                 //init
@@ -441,64 +396,13 @@
                     this.saveDataFromForm()
                     this.render(this.getFromStorage().products)
                     this.searchEvent()
-                    this.methods.productsPage()
-                    this.methods.openFormDialog()
-                    this.methods.dropDownEvent()
-                    this.methods.filterDropDown()
-                    this.fetchEvent()
-                    this.countIcon()
-                    this.cartPage()
-                },
+                    this.productsPage()
+                    this.openFromDialog()
+                    this.dropDownEvent()
+                    this.filterDropDown()
+                    this.filterProducts()
+                }
 
-                //helping functions
-                methods: {
-                    //open and close dialog box button
-                    openFormDialog: function () {
-                        const addCustomButton = document.getElementById('js_button');
-                        const close = document.getElementById('js_closeButton');
-                        const dialog = document.getElementById('js_dialog');
-
-                        addCustomButton.addEventListener("click", function () {
-                            dialog.showModal();
-                        })
-
-                        close.addEventListener("click", function () {
-                            dialog.close();
-                        })
-                    },
-                    //filter dropdown
-                    filterDropDown: function () {
-                        const filterButton = document.getElementById('filterButton');
-                        const filterDropdown = document.getElementById('filterDropdown');
-
-                        filterButton.addEventListener('click', (event) => {
-                            filterDropdown.classList.toggle('hidden');
-                        });
-
-                        document.addEventListener('click', (event) => {
-                            const target = event.target;
-                            if (!filterButton.contains(target) && !filterDropdown.contains(target)) {
-                                filterDropdown.classList.add('hidden');
-                            }
-                        });
-                    },
-                    //click on products
-                    productsPage: function () {
-                        const productsContainer = document.getElementById('js_products');
-                        productsContainer.addEventListener('click', function (event) {
-                            const clickedProduct = event.target.closest('li[data-product-id]');
-                            if (clickedProduct) {
-                                const productId = clickedProduct.getAttribute('data-product-id');
-                                window.location.href = `productsDummy.html?id=${productId}`;
-                            }
-                        });
-                    },
-                    // add event for dropdown
-                    dropDownEvent: function () {
-                        const dropdown = document.getElementById('js_imageCount');
-                        dropdown.addEventListener('change', () => products.handleImageCountChange());
-                    },
-                },
             }
             products.init()
         })()

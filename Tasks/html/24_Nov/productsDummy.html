@@ -29,7 +29,7 @@
                     <p class="text-2xl text-orange-500 font-bold mb-4" id="js-price">$99.99</p>
 
                     <!-- Add to Cart button -->
-                    <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded">Add to Cart</button>
+                    <button type="button" id="js-cartButton" class="bg-blue-500 text-white px-4 py-2 rounded">Add to Cart</button>
                 </div>
             </div>
         </div>
@@ -51,12 +51,11 @@
                         if (response.ok) {
                             const data = await response.json();
 
-                            if (data.id == urlParam) {
+                            if (data.id) {
                                 image.src = data.thumbnail;
                                 title.innerHTML = data.title;
                                 description.innerHTML = data.description;
                                 price.innerHTML = `$${data.price}`;
-
                                 console.log(data.images)
                             }
 
@@ -87,9 +86,17 @@
                     const urlParams = new URLSearchParams(keysValues)
                     const param = urlParams.get('id')
                     return param
-                }
+                },
+
+                addToCart : function (){
+                    const cartButton = document.querySelector('#js-cartButton')
+                    cartButton.addEventListener("click", (e)=>{
+                        window.location.href = `dummyCart.html?id=${this.productId()}`
+                    })
+                },
             }
             singleProduct.render()
+            singleProduct.addToCart()
         })()
     </script>
 </body>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/dist/output.css">
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto my-8 p-8 bg-white rounded shadow-lg">
+        <h1 class="text-3xl font-semibold mb-4">Shopping Cart</h1>
+
+        <!-- Cart Items -->
+        <ul class="grid grid-cols-1 gap-4" id="js-ul"></ul>
+
+        <!-- Cart Summary -->
+        <div class="mt-8">
+            <h2 class="text-xl font-semibold mb-4">Cart Summary</h2>
+            <div class="flex justify-between items-center">
+                <span class="text-gray-600">Subtotal:</span>
+                <span class="font-semibold">$50.00</span>
+            </div>
+            <div class="flex justify-between items-center mt-2">
+                <span class="text-gray-600">Shipping:</span>
+                <span class="font-semibold">$5.00</span>
+            </div>
+            <div class="flex justify-between items-center mt-2">
+                <span class="text-gray-600">Total:</span>
+                <span class="font-semibold">$55.00</span>
+            </div>
+            <button class="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Checkout</button>
+        </div>
+    </div>
+    
+    <script>
+        (function () {
+            const cart = {
+                //fetch data
+                fetch: async function () {
+                    const urlParam = this.methods.productId()
+                    try {
+                        const response = await fetch(`https://dummyjson.com/products/${urlParam}`);
+                        if (response.ok) {
+                            const data = await response.json();
+                            this.methods.saveToLocalStorage(data)
+                        }
+                    }
+                    catch (error) {
+                        console.error('Error fetching data:', error);
+                        return null;
+                    }
+                },
+                //render data
+                render: function () {
+                    const localData = this.methods.getData()
+                    const ul = document.getElementById('js-ul')
+                    localData.forEach((element) => {
+                        const li = document.createElement('li')
+                        li.innerHTML = `<div class="flex items-center border-b pb-4">
+                                                     <img src="${element.thumbnail}" alt="Item 1" class="w-16 h-16 object-cover rounded">
+                                                    <div class="ml-4 flex-1">
+                                                    <h2 class="text-lg font-semibold"">${element.title}</h2>
+                                                    <p class="text-gray-600">${element.description}</p>
+                                                </div>
+                                                <div class="flex items-center gap-5">
+                                                    <span class="mr-2">$${element.price}</span>
+                                                    <div class="flex items-center bg-gray-100 px-1">
+                                                       <button type="button" class="plus-button"> <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                                                        </svg></button>
+                                                    <input type="text" disabled value="${element.count}" class="w-12 p-2 rounded text-center">
+                                                    <button type="button" class="minus-button"> <svg class="w-4 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                                    <path fill-rule="evenodd" d="M3.75 12a.75.75 0 01.75-.75h15a.75.75 0 010 1.5h-15a.75.75 0 01-.75-.75z" clip-rule="evenodd"></path>
+                                                    </svg></button>
+                                                    </div>
+                                                    <button type="button" class="delete-buttons">
+                                                        <svg class="w-8 h-8" fill="red" xmlns="http://www.w3.org/2000/svg" id="mdi-delete" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"></path></svg>
+                                                        </button>
+                                                </div>
+                                            </div>`
+                        ul.append(li);
+                    });
+                },
+
+                //small helping functions
+                methods: {
+                    //get id
+                    productId: function () {
+                        const keysValues = window.location.search;
+                        const urlParams = new URLSearchParams(keysValues)
+                        const param = urlParams.get('id')
+                        return param
+                    },
+                    //add cart data to local storage 
+                    saveToLocalStorage: function (data) {
+                        const storedData = JSON.parse(localStorage.getItem('cartStorage')) || [];
+                        const existingItemIndex = storedData.findIndex(item => item.id === data.id);
+                        const existingData = this.getData()
+                        if (existingItemIndex === -1) {
+                            console.log(data)
+                            data.count = 1;
+                            storedData.push(data);
+                        } else {
+                            window.location.href = 'dummyCart.html'
+                        }
+                        localStorage.setItem('cartStorage', JSON.stringify(storedData));
+                    },
+                    //get added data
+                    getData: function () {
+                        const getStoredData = JSON.parse(localStorage.getItem('cartStorage')) || []
+                        return getStoredData;
+                    },
+                    //increase count button
+                    plusCount: function () {
+                        const plusButtons = document.getElementsByClassName('plus-button')
+                        const getDataCount = this.getData()
+                        for (let i = 0; i < plusButtons.length; i++) {
+                            plusButtons[i].addEventListener('click', function () {
+                                const inputElement = plusButtons[i].closest('div').querySelector('input');
+                                const currentValue = parseInt(inputElement.value);
+                                const newValue = currentValue + 1;
+                                inputElement.value = newValue;
+
+                                const itemId = getDataCount[i].id;
+                                const storedData = JSON.parse(localStorage.getItem('cartStorage')) || [];
+
+                                const existingItemIndex = storedData.findIndex(item => item.id === itemId);
+                                if (existingItemIndex !== -1) {
+                                    storedData[existingItemIndex].count = newValue;
+                                    localStorage.setItem('cartStorage', JSON.stringify(storedData));
+                                }
+                            });
+                        }
+                    },
+                    //decrease count button
+                    minusCount: function () {
+                        const minusButtons = document.getElementsByClassName('minus-button')
+                        const getDataCount = this.getData();
+                        for (let i = 0; i < minusButtons.length; i++) {
+                            minusButtons[i].addEventListener('click', function () {
+                                const inputElement = minusButtons[i].closest('div').querySelector('input');
+                                const currentValue = parseInt(inputElement.value);
+                                const newValue = currentValue - 1;
+                                inputElement.value = newValue;
+
+                                const itemId = getDataCount[i].id;
+                                const storedData = JSON.parse(localStorage.getItem('cartStorage')) || [];
+
+                                const existingItemIndex = storedData.findIndex(item => item.id === itemId);
+                                if (existingItemIndex !== -1) {
+                                    storedData[existingItemIndex].count = newValue;
+                                    localStorage.setItem('cartStorage', JSON.stringify(storedData));
+                                }
+                            });
+                        }
+                    },
+                    //delete data
+                    deleteButtons: function () {
+                        const deleteButton = document.getElementsByClassName('delete-buttons');
+                        for (let i = 0; i < deleteButton.length; i++) {
+                            deleteButton[i].addEventListener('click', function () {
+                                const li = deleteButton[i].closest('li');
+                                const index = Array.from(li.parentElement.children).indexOf(li);
+
+                                // Remove from localStorage
+                                const storedData = JSON.parse(localStorage.getItem('cartStorage')) || [];
+                                const updatedData = storedData.filter((item, idx) => idx !== index);
+                                localStorage.setItem('cartStorage', JSON.stringify(updatedData));
+                                li.remove();
+                            });
+                        }
+                    },
+                },
+
+
+                //initialize all functions 
+                init: async function () {
+                    await this.fetch();
+                    this.render();
+                    this.methods.plusCount()
+                    this.methods.minusCount()
+                    this.methods.deleteButtons()
+                }
+            }
+            cart.init()
+        })()
+    </script>
+</body>
+
+</html>

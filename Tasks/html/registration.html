@@ -10,7 +10,7 @@
 
 <body class="bg-gray-100">
 
-    <div class="xl:w-2/5 mx-auto bg-white p-5 shadow-md md:mt-4 rounded-lg md:w-full sm:w-full">
+    <div class="xl:max-w-2xl mx-auto bg-white p-5 shadow-md md:mt-4 rounded-lg md:w-full sm:w-full">
 
         <!-- Heading -->
         <h2 class="text-2xl font-semibold mb-6">Registration Form</h2>
@@ -81,12 +81,7 @@
                 <p id="js_bloodGroup_para" class="text-sm text-red-700 font-semibold absolute"></p>
             </div>
 
-            <!-- Add Image -->
-            <div>
-                <label for="js_image" class="block text-sm font-medium text-gray-600">Add Image</label>
-                <input type="file" id="js_image" name="image" class="mt-1 w-24 md:w-full">
-                <p id="js_image_para" class="text-sm text-red-700 font-semibold absolute"></p>
-            </div>
+
 
             <!-- Phone Number -->
             <div>
@@ -106,6 +101,18 @@
                     <option value="trainee">Trainee</option>
                 </select>
                 <p id="js_roles_para" class="text-sm text-red-700 font-semibold absolute"></p>
+            </div>
+
+            <!-- Add Image -->
+            <div class="flex items-center gap-2">
+                <img class="h-20 rounded-full"
+                    src="https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg"
+                    alt="user_image" id="js_show_image">
+                <div>
+                    <label for="js_image" class="block text-sm font-medium text-gray-600">Add Image</label>
+                    <input type="file" id="js_image" name="image" class="mt-1 w-24 md:w-full">
+                    <p id="js_image_para" class="text-sm text-red-700 font-semibold absolute"></p>
+                </div>
             </div>
 
             <!-- Pincode -->
@@ -193,172 +200,23 @@
         (function () {
             'use strict'
             const user = {
-                //get form
-                form: document.querySelector('form'),
+                //form
+                form : document.querySelector('form'),
 
-                //On submit
-                onSubmit: function () {
-                    this.form.addEventListener('submit', (event) => { this.add() })
+                //on submit form
+                // onSubmit: function () {
+
+                // },
+
+                //add data 
+                add: function () {
+                    // const submitButton = document.querySelector('#')
+                    const formData = new FormData(this.form)
+                    console.log(formData.get('first_name'))
+                    
                 },
-
-                //Add User data
-                add: async function () {
-                    event.preventDefault();
-
-                    const formData = new FormData(this.form);
-                    const formObject = {};
-
-                    formData.forEach((value, key) => {
-                        formObject[key] = value;
-                    })
-                    const formArray = this.getData();
-
-
-                    if (this.validations(formData)) {
-                        //Handle image seperately
-                        const image = document.querySelector('#js_image');
-                        if (image.files.length > 0) {
-                            try {
-                                const imageUrl = await this.saveImage(image);
-                                formObject['image'] = imageUrl;
-                            } catch (error) {
-                                console.error('Error reading image:', error);
-                            }
-                        }
-
-                        formArray.push(formObject);
-                        this.saveData(formArray);
-                    }
-                },
-
-                formDataProperties: function (properties) {
-                    const firstName = properties.get('first_name');
-                    const lastName = properties.get('last_name');
-                    const age = properties.get('age');
-                    const dob = properties.get('dob');
-                    const email =  properties.get('email');
-                    const bloodGroup = properties.get('blood_group');
-                    const number = properties.get('number');
-                    const roles = properties.get('roles');
-                    const pincode = properties.get('pincode');
-
-                    return {
-                        firstName: firstName,
-                        lastName: lastName,
-                        age: age,
-                        dob: dob,
-                        email: email,
-                    };
-                },
-
-                //Add Validations
-                validations: function (formObject) {
-
-                    const { firstName, lastName, age, dob, email} = this.formDataProperties(formObject);
-                    let isValid = true;
-
-                    //First Name
-                    if (!firstName ) {
-                        this.showError('js_fName_para', 'First Name is required.');
-                        isValid = false;
-                    }
-
-                    else if (/\d/.test(firstName)) {
-                        this.showError('js_fName_para', 'First Name should not contain numbers.');
-                        isValid = false;
-                    }
-
-                    else {
-                        this.showError('js_fName_para', ' ');
-                        isValid = true;
-                    }
-
-                    //Last Name
-                    if (!lastName) {
-                        this.showError('js_lName_para', 'First Name is required.');
-                        isValid = false;
-                    }
-
-                    else if (/\d/.test(lastName)) {
-                        this.showError('js_lName_para', 'First Name should not contain numbers.');
-                        isValid = false;
-                    }
-
-                    else {
-                        this.showError('js_lName_para', '');
-                        isValid = true;
-                    }
-
-                    //age
-                    if(!age){
-                        this.showError('js_age_para', 'Age is required')
-                        isValid = false;
-                    }
-
-                    else {
-                        this.showError('js_age_para', '')
-                        isValid = true;
-                    }
-
-                    //dob
-                    if(!dob){
-                        this.showError('js_dob_para', 'Date of Birth is required')
-                        isValid = false;
-                    }
-                    else{
-                        this.showError('js_dob_para', '')
-                        isValid = true;
-                    }
-
-
-                    return isValid;
-                },
-
-                //Validation errors
-                showError: function (elementId, message) {
-                    const errorElement = document.getElementById(elementId);
-                    errorElement.textContent = message;
-                },
-
-                //save Image
-                saveImage: function (img) {
-                    const imgPromise = new Promise((resolve, reject) => {
-
-                        const reader = new FileReader();
-
-                        reader.addEventListener("load", () => {
-                            const imageUrl = reader.result;
-                            resolve(imageUrl);
-                        })
-
-                        reader.addEventListener("error", (error) => {
-                            reject(error);
-                        });
-
-                        if (img.files.length > 0) {
-                            reader.readAsDataURL(img.files[0]);
-                        }
-
-                    })
-
-                    return imgPromise;
-                },
-
-                //get data
-                getData: function () {
-                    const dataObject = JSON.parse(localStorage.getItem('Data')) || [];
-                    return dataObject;
-                },
-
-                //save data
-                saveData: function (data) {
-                    const dataString = JSON.stringify(data);
-                    localStorage.setItem('Data', dataString);
-                }
-
             }
-
-            user.onSubmit()
+            user.add();
         }())
     </script>
 </body>
