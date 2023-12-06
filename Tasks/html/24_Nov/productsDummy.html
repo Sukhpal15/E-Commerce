@@ -29,7 +29,8 @@
                     <p class="text-2xl text-orange-500 font-bold mb-4" id="js-price">$99.99</p>
 
                     <!-- Add to Cart button -->
-                    <button type="button" id="js-cartButton" class="bg-blue-500 text-white px-4 py-2 rounded">Add to Cart</button>
+                    <button type="button" id="js-cartButton" class="bg-blue-500 text-white px-4 py-2 rounded">Add to
+                        Cart</button>
                 </div>
             </div>
         </div>
@@ -44,8 +45,7 @@
                     const price = document.querySelector('#js-price')
                     const image = document.querySelector('#js-image')
                     const imagesContainer = document.querySelector('#js-imagesContainer');
-                    const urlParam = this.productId()
-                    console.log(urlParam)
+                    const urlParam = singleProduct.methods.productId()
                     try {
                         const response = await fetch(`https://dummyjson.com/products/${urlParam}`);
                         if (response.ok) {
@@ -56,7 +56,6 @@
                                 title.innerHTML = data.title;
                                 description.innerHTML = data.description;
                                 price.innerHTML = `$${data.price}`;
-                                console.log(data.images)
                             }
 
                             data.images.map((item) => {
@@ -81,22 +80,53 @@
                     }
                 },
 
-                productId: function () {
-                    const keysValues = window.location.search;
-                    const urlParams = new URLSearchParams(keysValues)
-                    const param = urlParams.get('id')
-                    return param
+                existingLocalData: function () {
+                    const cartData = this.methods.getCartStorage() || [];
+                    return cartData;
+
                 },
 
-                addToCart : function (){
-                    const cartButton = document.querySelector('#js-cartButton')
-                    cartButton.addEventListener("click", (e)=>{
-                        window.location.href = `dummyCart.html?id=${this.productId()}`
-                    })
-                },
+                methods: {
+                    productId: function () {
+                        const keysValues = window.location.search;
+                        const urlParams = new URLSearchParams(keysValues)
+                        const param = urlParams.get('id')
+                        return param
+                    },
+
+                    increaseCount: function () {
+                        const productID = singleProduct.methods.productId();
+                        const cartData = singleProduct.existingLocalData()
+                        const existingItemIndex = cartData.findIndex((item) => item.id == productID);
+
+                        if (existingItemIndex !== -1) {
+                            console.log("Existing item found:");
+                            const increamentCount = cartData[existingItemIndex].count += 1;
+                            this.setCartStorage(cartData);
+                        }
+                    },
+
+                    setCartStorage: function (cartData) {
+                        localStorage.setItem('cartStorage', JSON.stringify(cartData));
+                    },
+
+                    addToCart: function () {
+                        const cartButton = document.querySelector('#js-cartButton')
+                        cartButton.addEventListener("click", (e) => {
+                            this.increaseCount();
+                            window.location.href = `dummyCart.html?id=${this.productId()}`
+                        })
+                    },
+
+                    getCartStorage: function () {
+                        const cart = JSON.parse(localStorage.getItem('cartStorage'))
+                        return cart;
+                    },
+                }
             }
             singleProduct.render()
-            singleProduct.addToCart()
+            singleProduct.methods.addToCart()
+            singleProduct.methods.getCartStorage()
         })()
     </script>
 </body>

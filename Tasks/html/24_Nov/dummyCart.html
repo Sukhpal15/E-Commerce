@@ -97,14 +97,12 @@
                     saveToLocalStorage: function (data) {
                         const storedData = JSON.parse(localStorage.getItem('cartStorage')) || [];
                         const existingItemIndex = storedData.findIndex(item => item.id === data.id);
-                        const existingData = this.getData()
                         if (existingItemIndex === -1) {
                             console.log(data)
                             data.count = 1;
                             storedData.push(data);
-                        } else {
-                            window.location.href = 'dummyCart.html'
                         }
+                        
                         localStorage.setItem('cartStorage', JSON.stringify(storedData));
                     },
                     //get added data
