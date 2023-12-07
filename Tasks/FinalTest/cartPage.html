@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Page</title>
+    <link rel="stylesheet" href="/dist/output.css">
+</head>
+
+<body class="bg-gray-100">
+    <main>
+        <section class="container mx-auto my-8 p-8 bg-white rounded shadow-lg">
+            <h1 class="text-3xl font-semibold mb-4">Shopping Cart</h1>
+            <!-- Cart Items -->
+            <ul class="grid grid-cols-1 gap-4" id="js-ul"></ul>
+
+            <!-- Cart Summary -->
+            <article class="mt-8">
+                <h2 class="text-xl font-semibold mb-4">Cart Summary</h2>
+                <dl id="js-dl"></dl>
+                <button class="mt-10 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" id="js-checkoutButton">Checkout</button>
+            </article>
+        </section>
+
+        <dialog id="js-confirmationDialog">
+            <h2>Are you Sure You Want to delete this item</h2>
+            <button id="confirmDeleteButton">Yes</button>
+            <button id="cancelDeleteButton">Cancel</button>
+        </dialog>
+    </main>
+    <script src="cartPage.js"></script>
+</body>
+
+</html>
