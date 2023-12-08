@@ -1,13 +1,28 @@
-const express = require("express")
-const app = express()
-const cors = require("cors")
+const express = require('express');
+const axios = require('axios');
+const app = express();
+const port = 3000;
 
-app.use(cors({
-    origin: "*",
-}))
+app.use(express.json());
 
-// app.get("/data", (req,res)=>{
-//     // res.json({name:"sukhpal", favoriteFood:"rice"})
-//     methods: ["GET","POST"]
-// })
-app.listen(3000)
+app.get('/fetchPayments', async (req, res) => {
+  try {
+    const apiKey = 'your_api_key'; // Replace with your actual Razorpay API key
+    const apiUrl = 'https://api.razorpay.com/v1/payments';
+
+    const headers = {
+      'Authorization': `Basic ${Buffer.from(apiKey + ':').toString('base64')}`,
+      'Content-Type': 'application/json',
+    };
+
+    const response = await axios.get(apiUrl, { headers });
+    res.json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});

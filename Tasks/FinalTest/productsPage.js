@@ -39,30 +39,39 @@
         render: function (productObjects) {
             const productsContainer = document.getElementById("js-products");
             let products = ``;
-            productObjects.forEach((element) => {
-                products += `<li
-                data-product-id="${element.id}"
-                class=" w-80 hover:shadow-md hover:shadow-gray-400 rounded-lg flex justify-center items-center flex-col cursor-pointer pt-4" >
-                 <!-- image -->
-                <div class=" w-44">
-                    <img class="h-24 object-cover" src=${element.thumbnail}
-                        alt="Product Image">
-                </div>
+            productObjects.forEach((element, index) => {
+                const uniqueId = `gallery-${index}`;
+                products += `<li id="${uniqueId}"
+                        data-product-id="${element.id}"
+                        class="w-80 hover:shadow-md hover:shadow-gray-400 rounded-lg flex flex-col cursor-pointer p-2 transform transition-transform duration-300 ease-in-out hover:scale-105 border border-gray-300">
 
-                <!--description -->
-                <div class="p-4 space-y-2">
-                    <h2 class="line-clamp-2">${element.title}</h2>
-                    <!-- rating -->
-                    <div class="flex gap-2">
-                        <div class="bg-green-700 text-white pl-2 py-0.5 rounded-sm text-sm relative w-12 ">${element.rating}
-                    </div>
+                        <!-- image -->
+                        <div class="w-full h-44">
+                            <img class="w-full h-full object-cover rounded-md shadow-md hover:shadow-lg" src="${element.thumbnail}" alt="Product Image">
+                        </div>
 
-                    <!-- price -->
-                    <div class="flex space-x-2 items-center"><span class="font-semibold">&#8377;${element.price}</span>
-                    </div>
-                    </div>
-                    <button type="button" name="cartButton" class="bg-blue-500 text-white px-4 py-2" data-id=${element.id}>Add To Cart</button>
-                </li>`;
+                        <!-- description -->
+                        <div class="p-4 space-y-2 text-center">
+                            <h2 class="line-clamp-2 text-xl font-semibold text-gray-800">${element.title}</h2>
+
+                            <!-- rating -->
+                            <div class="flex gap-2 items-center justify-center">
+                                <div class="bg-green-700 text-white pl-2 flex py-0.5 rounded-sm text-sm relative w-16"><svg class=" h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd"></path>
+                              </svg>${element.rating}</div>
+
+                                <!-- price -->
+                                <div class="flex space-x-2 items-center">
+                                    <span class="font-semibold text-lg">&#8377;${element.price}</span>
+                                </div>
+                            </div>
+
+                            <!-- add to cart button with hover effect -->
+                            <button type="button" name="cartButton"
+                                class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105 focus:outline-none"
+                                data-id="${element.id}">Add To Cart</button>
+                        </div>
+                    </li>`;
             });
             productsContainer.innerHTML = products;
         },
@@ -72,7 +81,7 @@
             //add to cart button
             const addToCart = document.getElementsByName("cartButton");
             for (let products = 0; products < addToCart.length; products++) {
-                addToCart[products].addEventListener( "click",this.eventFunctions.productToCart);
+                addToCart[products].addEventListener("click", this.eventFunctions.productToCart);
             }
 
             //cart icon
@@ -82,6 +91,25 @@
             //search products
             const searchInput = document.getElementById("js-search");
             searchInput.addEventListener("input", this.eventFunctions.searchProduct);
+
+            //transaction summary
+            const transactionSummary = document.getElementById('js-summary')
+            transactionSummary.addEventListener("click", products.eventFunctions.summary)
+
+            const galleryItems = document.querySelectorAll("#js-products li");
+            galleryItems.forEach((item) => {
+                const uniqueId = item.id;
+                const gallery = new Viewer(document.getElementById(uniqueId), {
+                    toolbar: {
+                        zoomIn: 1,
+                        zoomOut: 1,
+                        rotateLeft: 1,
+                        rotateRight: 1,
+                        flipHorizontal: 1,
+                        flipVertical: 1,
+                    },
+                });
+            });
         },
 
         //events functions
@@ -89,12 +117,24 @@
             //add to cart function
             productToCart: function (event) {
                 const productId = event.target.dataset.id;
+                const cartData = products.methods.getCartProducts();
+                const existingItemIndex = cartData.findIndex((item) => item.id == productId);
+                if (existingItemIndex !== -1) {
+                    const increamentCount = cartData[existingItemIndex].count += 1;
+                    products.methods.setCartStorage(cartData)
+                }
+
                 window.location.href = `cartPage.html?id=${productId}`;
             },
 
             //cart icon function
             showCart: function (event) {
                 window.location.href = `cartPage.html`;
+            },
+
+            //transaction summary
+            summary: function () {
+                window.location.href = `transactionSummary.html`
             },
 
             //search functions
@@ -120,8 +160,13 @@
         methods: {
             //save to local storage
             saveToLocalStorage: function (data) {
-                const existingData = localStorage.setItem("products",JSON.stringify(data));
+                const existingData = localStorage.setItem("products", JSON.stringify(data));
                 return existingData;
+            },
+
+            //save data to cart storage
+            setCartStorage: function (cartData) {
+                localStorage.setItem('cartProducts', JSON.stringify(cartData));
             },
 
             //get data from local storage
@@ -131,7 +176,7 @@
             },
 
             //get from cart storage 
-            getCartProducts: function (){
+            getCartProducts: function () {
                 const getData = JSON.parse(localStorage.getItem("cartProducts")) || [];
                 return getData;
             },
@@ -141,7 +186,7 @@
                 let debounceTimer;
                 return function (...args) {
                     clearTimeout(debounceTimer);
-                    debounceTimer = setTimeout(() => { func.apply(this, args)}, delay);
+                    debounceTimer = setTimeout(() => { func.apply(this, args) }, delay);
                 };
             },
         },

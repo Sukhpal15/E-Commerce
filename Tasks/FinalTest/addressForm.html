@@ -9,110 +9,72 @@
 </head>
 
 <body class="bg-gray-200">
-    <form action="https://www.example.com/payment/success/" method="POST" class=" xl:max-w-xl mx-auto md:w-full sm:w-full" >
+    <form action="#" method="POST" class="xl:max-w-xl mx-auto md:w-full sm:w-full" onsubmit="return false;">
 
-        <div class="grid grid-cols-2 gap-5 bg-white p-3 shadow-md mt-5 rounded-lg">
+        <div class="grid grid-cols-2 gap-8 bg-white p-3 shadow-md mt-5 rounded-lg">
             <!-- Heading -->
-            <h2 class="text-xl font-semibold col-span-2 ">Delivery Info</h2>
+            <h2 class="text-xl font-semibold col-span-2">Delivery Info</h2>
 
             <!-- First Name -->
             <div class="relative">
                 <label for="first_name" class="block text-sm font-medium text-gray-600">First Name</label>
-                <input type="text" id="js_firstName" name="first_name" class="mt-1 p-2 w-full border rounded-md"
+                <input type="text" id="js-firstName" name="first_name" class="mt-1 p-2 w-full border rounded-md"
                     autocomplete="off">
-                <p id="js_fName_para" class="text-sm text-red-700 font-semibold absolute"></p>
+                <p id="js-fName_para" class="text-sm text-red-700 font-semibold absolute"></p>
             </div>
 
             <!-- Last Name -->
             <div>
                 <label for="last_name" class="block text-sm font-medium text-gray-600">Last Name</label>
-                <input type="text" id="js_lastName" name="last_name" class="mt-1 p-2 w-full border rounded-md"
+                <input type="text" id="js-lastName" name="last_name" class="mt-1 p-2 w-full border rounded-md"
                     autocomplete="off">
-                <p id="js_lName_para" class="text-sm text-red-700 font-semibold absolute"></p>
+                <p id="js-lName_para" class="text-sm text-red-700 font-semibold absolute"></p>
             </div>
 
             <!-- Phone Number -->
             <div>
-                <label for="js_phoneNumber" class="block text-sm font-medium text-gray-600">Phone Number</label>
-                <input type="tel" id="js_phoneNumber" name="number" class="mt-1 p-2 w-full border rounded-md"
+                <label for="js-phoneNumber" class="block text-sm font-medium text-gray-600">Phone Number</label>
+                <input type="tel" id="js-phoneNumber" name="number" class="mt-1 p-2 w-full border rounded-md"
                     autocomplete="off">
-                <p id="js_number_para" class="text-sm text-red-700 font-semibold absolute"></p>
+                <p id="js-number_para" class="text-sm text-red-700 font-semibold absolute"></p>
             </div>
 
             <!-- Zipcode -->
             <div>
-                <label for="js_zipcode" class="block text-sm font-medium text-gray-600">Zipcode</label>
-                <input type="tel" id="js_zipcode" name="Zipcode" class="mt-1 p-2 w-full border rounded-md"
+                <label for="js-zipcode" class="block text-sm font-medium text-gray-600">Zipcode</label>
+                <input type="tel" id="js-zipcode" name="zipcode" class="mt-1 p-2 w-full border rounded-md"
                     autocomplete="off">
-                <p id="js_Zipcode_para" class="text-sm text-red-700 font-semibold absolute"></p>
+                <p id="js-zipcode_para" class="text-sm text-red-700 font-semibold absolute"></p>
             </div>
 
             <!-- City -->
             <div>
                 <label for="city" class="block text-sm font-medium text-gray-600">City</label>
-                <input type="text" id="js_city" name="city" class="mt-1 p-2 w-full border rounded-md"
+                <input type="text" id="js-city" name="city" class="mt-1 p-2 w-full border rounded-md"
                     autocomplete="off">
-                <p id="js_city_para" class="text-sm text-red-700 font-semibold absolute"></p>
+                <p id="js-city_para" class="text-sm text-red-700 font-semibold absolute"></p>
             </div>
 
             <!-- State -->
             <div>
-                <label for="js_state" class="block text-sm font-medium text-gray-600">State</label>
-                <input type="text" id="js_state" name="state" class="mt-1 p-2 w-full border rounded-md"
+                <label for="js-state" class="block text-sm font-medium text-gray-600">State</label>
+                <input type="text" id="js-state" name="state" class="mt-1 p-2 w-full border rounded-md"
                     autocomplete="off">
-                <p id="js_state_para" class="text-sm text-red-700 font-semibold absolute"></p>
+                <p id="js-state_para" class="text-sm text-red-700 font-semibold absolute"></p>
             </div>
 
             <!-- Permanent Address -->
             <div class="col-span-2">
-                <label for="js_permanentAddress" class="block text-sm font-medium text-gray-600">Address Line 1</label>
-                <textarea id="js_permanentAddress" name="permanent_address"
-                    class="mt-1 p-2 w-full border rounded-md"></textarea>
-                <p id="js_permanentAddress_para" class="text-sm text-red-700 font-semibold absolute"></p>
+                <label for="js-address" class="block text-sm font-medium text-gray-600">Address</label>
+                <textarea id="js-address" name="address" class="mt-1 p-2 w-full border rounded-md"></textarea>
+                <p id="js-address_para" class="text-sm text-red-700 font-semibold absolute"></p>
             </div>
+            <div id="razorpay-container" class="col-span-2"></div>
         </div>
 
-        <!-- Payment -->
-        <div class="grid grid-cols-2 gap-5 bg-white p-3 shadow-md mt-5 rounded-lg">
-            <h2 class="text-xl font-semibold col-span-2">Payment Info</h2>
-
-            <div class="relative col-span-2">
-                <label for="js_cardNumber" class="block text-sm font-medium text-gray-600">Card Number</label>
-                <input type="tel" id="js_cardNumber" name="first_name" class="mt-1 p-2 w-full border rounded-md"
-                    autocomplete="off">
-                <p id="js_cardNumber_para" class="text-sm text-red-700 font-semibold absolute"></p>
-            </div>
-
-            <div class="relative">
-                <label for="js_expiry" class="block text-sm font-medium text-gray-600">Expiry</label>
-                <input type="tel" id="js_expiry" name="first_name" class="mt-1 p-2 w-full border rounded-md"
-                    autocomplete="off">
-                <p id="js_expiry_para" class="text-sm text-red-700 font-semibold absolute"></p>
-            </div>
-
-            <div class="relative">
-                <label for="js_cvc" class="block text-sm font-medium text-gray-600">CVC</label>
-                <input type="tel" id="js_cvc" name="first_name" class="mt-1 p-2 w-full border rounded-md"
-                    autocomplete="off">
-                <p id="js_cvc_para" class="text-sm text-red-700 font-semibold absolute"></p>
-            </div>
-
-            
-        </div>
-        <script
-        src="https://checkout.razorpay.com/v1/checkout.js"
-        data-key="rzp_test_3dDnGBvzftmxAc" 
-        data-amount="500" 
-        data-currency="INR"
-        data-order_id="order_N9SMwWJ1kqOVH0"
-        data-buttontext="Pay with Razorpay"
-        data-name="Acme Corp"
-        data-description="A Wild Sheep Chase is the third novel by Japanese author Haruki Murakami"
-        data-image="https://example.com/your_logo.jpg"
-        data-prefill.name="Gaurav Kumar"
-        data-prefill.email="gaurav.kumar@example.com"
-        data-theme.color="#F37254"
-    ></script>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script src="validations.js"></script>
+        <script src="addressForm.js"></script>
     </form>
 </body>
 

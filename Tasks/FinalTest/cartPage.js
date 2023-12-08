@@ -71,7 +71,8 @@
                             <div class="flex justify-between items-center mt-2">
                                 <dt class="text-gray-600">Total:</dt>
                                 <dd class="font-semibold">$${total + 5}</dd>
-                            </div>`
+                            </div>
+                <button class="mt-10 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" id="js-checkoutButton">Checkout $${total + 5}</button>`
 
         },
 
@@ -81,24 +82,32 @@
             increaseProductQuantity: function (event) {
                 const inputElement = event.target.closest('div').querySelector('input');
                 const currentValue = parseInt(inputElement.value);
-                const newValue = currentValue + 1;
+                let newValue = parseInt(inputElement.value) + 1;
+                inputElement.value = newValue;
+
+                if (newValue == 0) {
+                    newValue = 0;
+                    cart.eventFunctions.removeProduct(event);
+                }
 
                 const itemId = event.target.closest('li').dataset.id;
                 const storedData = JSON.parse(localStorage.getItem('cartProducts')) || [];
-                const itemStock = storedData.find(item => item.id == itemId).stock;
-
-                if (newValue > itemStock) {
-                    console.log(`Only ${itemStock} items are there in stock`);
-                    return;
-                }
-                inputElement.value = newValue;
 
                 const existingItemIndex = storedData.findIndex(item => item.id == itemId);
                 if (existingItemIndex !== -1) {
                     storedData[existingItemIndex].count = newValue;
                     localStorage.setItem('cartProducts', JSON.stringify(storedData));
                 }
-                cart.renderTotal()
+
+                let totalAmount = 0;
+                storedData.forEach(item => {
+                    totalAmount += item.count * item.price;
+                });
+
+                const totalWithShipping = totalAmount + 5;
+
+                localStorage.setItem('cartTotal', JSON.stringify(totalWithShipping));
+                cart.renderTotal();
             },
 
 
@@ -122,7 +131,16 @@
                     storedData[existingItemIndex].count = newValue;
                     localStorage.setItem('cartProducts', JSON.stringify(storedData));
                 }
-                cart.renderTotal()
+
+                let totalAmount = 0;
+                storedData.forEach(item => {
+                    totalAmount += item.count * item.price;
+                });
+
+                const totalWithShipping = totalAmount + 5;
+
+                localStorage.setItem('cartTotal', JSON.stringify(totalWithShipping));
+                cart.renderTotal();
             },
 
             //delete product
@@ -178,6 +196,15 @@
                     storedData.push(data);
                 }
                 localStorage.setItem('cartProducts', JSON.stringify(storedData));
+
+                let totalAmount = 0;
+                storedData.forEach(item => {
+                    totalAmount += item.count * item.price;
+                });
+
+                const totalWithShipping = totalAmount + 5;
+
+                localStorage.setItem('cartTotal', JSON.stringify(totalWithShipping));
             },
 
             //get added data
@@ -190,7 +217,7 @@
             checkout: function () {
                 const checkoutButton = document.getElementById('js-checkoutButton')
                 checkoutButton.addEventListener("click", function () {
-                    window.location.href = "addressForm.html"
+                    window.location.href = `addressForm.html`
                 })
             }
         },
@@ -202,6 +229,9 @@
             this.bind()
             this.renderTotal()
             this.methods.checkout()
+            const totalFromStorage = JSON.parse(localStorage.getItem('cartTotal'));
+            const checkoutButton = document.getElementById('js-checkoutButton');
+            checkoutButton.innerHTML = `Checkout $${totalFromStorage}`;
         }
     }
     cart.init()
