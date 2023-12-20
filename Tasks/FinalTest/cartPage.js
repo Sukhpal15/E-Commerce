@@ -71,9 +71,7 @@
                             <div class="flex justify-between items-center mt-2">
                                 <dt class="text-gray-600">Total:</dt>
                                 <dd class="font-semibold">$${total + 5}</dd>
-                            </div>
-                <button class="mt-10 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" id="js-checkoutButton">Checkout $${total + 5}</button>`
-
+                            </div>`
         },
 
         //event functions
@@ -85,8 +83,7 @@
                 let newValue = parseInt(inputElement.value) + 1;
                 inputElement.value = newValue;
 
-                if (newValue == 0) {
-                    newValue = 0;
+                if (newValue < 0) {
                     cart.eventFunctions.removeProduct(event);
                 }
 
@@ -145,13 +142,27 @@
 
             //delete product
             removeProduct: function (event) {
-                const li = event.target.closest('li')
-                const index = Array.from(li.parentElement.children).indexOf(li);
-                const storedData = JSON.parse(localStorage.getItem('cartProducts')) || [];
-                const updatedData = storedData.filter((item, idx) => idx !== index);
-                localStorage.setItem('cartProducts', JSON.stringify(updatedData));
-                li.remove();
-                cart.renderTotal()
+                const dialogOpen = document.getElementById('js-confirmationDialog');
+                const deleteConfirm = document.getElementById('js-confirmDeleteButton');
+                const cancelConfirm = document.getElementById('js-cancelDeleteButton');
+
+                deleteConfirm.addEventListener("click", function () {
+                    const li = event.target.closest('li')
+                    const index = Array.from(li.parentElement.children).indexOf(li);
+                    const storedData = JSON.parse(localStorage.getItem('cartProducts')) || [];
+                    const updatedData = storedData.filter((item, idx) => idx !== index);
+                    
+                    localStorage.setItem('cartProducts', JSON.stringify(updatedData));
+                    li.remove();
+                    cart.renderTotal()
+                    dialogOpen.close()
+                })
+
+                cancelConfirm.addEventListener("click", function () {
+                    dialogOpen.close()
+                })
+                dialogOpen.showModal()
+
             }
         },
 
@@ -219,7 +230,7 @@
                 checkoutButton.addEventListener("click", function () {
                     window.location.href = `addressForm.html`
                 })
-            }
+            },
         },
 
         //init
@@ -229,9 +240,6 @@
             this.bind()
             this.renderTotal()
             this.methods.checkout()
-            const totalFromStorage = JSON.parse(localStorage.getItem('cartTotal'));
-            const checkoutButton = document.getElementById('js-checkoutButton');
-            checkoutButton.innerHTML = `Checkout $${totalFromStorage}`;
         }
     }
     cart.init()
