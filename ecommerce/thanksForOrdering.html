@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanks For Ordering</title>
+    <link rel="stylesheet" href="/dist/output.css">
+</head>
+
+<body class="bg-green-700">
+    <!-- header  -->
+    <header>
+        <!-- nav bar -->
+        <nav class="bg-white shadow-md sticky top-0 z-50 h-20 w-full">
+            <ul class="flex flex-col sm:flex-row md:p-4 md:mb-0 px-4 py-1  mb-5 items-center">
+                <li>
+                    <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fkheaderlogo_exploreplus-44005d.svg"
+                        alt="logo">
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main class=" space-y-4 text-white flex flex-col items-center">
+        <svg class="w-64 h-64 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+            aria-hidden="true">
+            <path fill-rule="evenodd"
+                d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                clip-rule="evenodd"></path>
+        </svg>
+        <p class="text-lg border-b w-fit">Thanks For Shopping! </p>
+        <h1 class="text-3xl font-medium border-b-2 border-gray-400 w-fit pb-2">Order successfully Placed !</h1>
+        <article id="js-para" class="space-y-1 text-lg text-center"></article>
+        <button type="button" class="bg-blue-500 p-2 text-white rounded-sm font-medium shadow-lg hover:bg-blue-600"
+            id="js-return">Return to Homepage</button>
+    </main>
+    <script>
+        (function () {
+            "use strict"
+            const thanks = {
+                //render daya
+                render: function () {
+                    const userDetails = document.getElementById("js-para")
+                    const dateAfter5Days = new Date();
+                    const data = this.methods.getOrderId()
+                    const currentOrderId = data.length - 1
+                    const dataId = data[currentOrderId].paymentId
+
+                    dateAfter5Days.setDate(dateAfter5Days.getDate() + 5);
+                    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                    const formattedDate = dateAfter5Days.toLocaleDateString('en-US', options);
+                    userDetails.innerHTML = `<p>Your order will be delivered by ${formattedDate}.</p>
+                                             <p>We are pleased to confirm your <strong>order number</strong> is <strong>${dataId}</strong>.</p>
+                                             `;
+                },
+
+                //bind event listeners
+                bind: function () {
+                    //return to home
+                    const returnToHome = document.getElementById("js-return")
+                    returnToHome.addEventListener("click", this.methods.returnHome)
+                },
+
+                //small helping functions
+                methods: {
+                    //get saved data
+                    getOrderId: function () {
+                        const data = JSON.parse(localStorage.getItem("responseData"))
+                        return data;
+                    },
+
+                    //return to home page
+                    returnHome: function () {
+                        window.location.href = "index.html"
+                    }
+                },
+
+                //initialize all functions here
+                init: function () {
+                    this.render()
+                    this.bind()
+                }
+            }
+            thanks.init()
+        })()
+    </script>
+</body>
+
+</html>

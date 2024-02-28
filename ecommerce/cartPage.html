@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="/dist/output.css">
+</head>
+
+<body class="bg-gray-100">
+    <!-- nav bar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50 h-20 w-full">
+        <ul class="flex flex-col sm:flex-row justify-around md:p-4 md:mb-0 px-4 py-1  mb-5 items-center">
+            <li>
+                <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fkheaderlogo_exploreplus-44005d.svg"
+                    alt="logo">
+            </li>
+
+            <li class="w-full sm:w-1/2 mx-2 mb-2 sm:mb-0 relative">
+                <input type="search" class="border-2 w-full h-12 p-2 rounded-lg focus:outline-none" id="js-search"
+                    placeholder="Search Product">
+                <ul id="js-searchList"
+                    class="absolute w-full max-h-96 overflow-hidden shadow-lg rounded-lg px-1 divide-y mt-2"></ul>
+            </li>
+
+            <li class="hidden md:flex gap-10 items-end">
+
+                <button type="button" id="js-cart"><svg class="w-8 h-8 text-gray-700" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16" fill="currentColor">
+                        <path fill="currentColor"
+                            d="M14 13.1v-1.1h-9.4l0.6-1.1 9.2-0.9 1.6-6h-12.3l-0.7-3h-3v1h2.2l2.1 8.4-1.3 2.6v1.5c0 0.8 0.7 1.5 1.5 1.5s1.5-0.7 1.5-1.5-0.7-1.5-1.5-1.5h7.5v1.5c0 0.8 0.7 1.5 1.5 1.5s1.5-0.7 1.5-1.5c0-0.7-0.4-1.2-1-1.4zM4 5h10.7l-1.1 4-8.4 0.9-1.2-4.9z">
+                        </path>
+                    </svg></button>
+                <button type="button" id="js-orders"><svg class="w-8 h-8 text-gray-700"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="none">
+                        <path
+                            d="M.5 4.5h14m-10-4v14m-3-14h12a1 1 0 011 1v12a1 1 0 01-1 1h-12a1 1 0 01-1-1v-12a1 1 0 011-1z"
+                            stroke="currentColor"></path>
+                    </svg></button>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- main  -->
+    <main class="px-10 py-5">
+        <!-- heading  -->
+        <h1 class="flex items-center gap-3 text-3xl font-medium bg-white w-2/3 p-3 border-b-2 rounded-t-md shadow-lg">
+            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path fill="none" stroke="currentColor" stroke-width="2"
+                    d="M5,5 L22,5 L20,14 L7,14 L4,2 L0,2 M7,14 L8,18 L21,18 M19,23 C18.4475,23 18,22.5525 18,22 C18,21.4475 18.4475,21 19,21 C19.5525,21 20,21.4475 20,22 C20,22.5525 19.5525,23 19,23 Z M9,23 C8.4475,23 8,22.5525 8,22 C8,21.4475 8.4475,21 9,21 C9.5525,21 10,21.4475 10,22 C10,22.5525 9.5525,23 9,23 Z">
+                </path>
+            </svg>Shopping Cart
+        </h1>
+
+        <!-- form and product li  -->
+        <div class="flex items-start gap-10">
+            <!-- product li's  -->
+            <ul id="js-ul" class="w-2/3 divide-y divide-gray-300 divide-double bg-white shadow-lg rounded-b-md"></ul>
+
+            <!-- Cart Summary -->
+            <article class="bg-white w-[30%] h-96 shadow-lg rounded-md">
+                <h2 class="text-lg font-semibold mb-2 p-3 border-b">PRICE DETAILS</h2>
+                <dl id="js-dl" class="p-3 font-semibold"></dl>
+                <div class="p-3 text-red-700 font-semibold border-t mt-4" id="js-totalSaving"></div>
+                <div class="flex justify-between border-t-2 py-6 px-2 mt-2 gap-2">
+                    <button type="button"
+                        class="border p-2 shadow-md w-full font-semibold uppercase flex items-center gap-1 hover:bg-gray-50"
+                        id="js-continueShopping">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.51 3.87L15.73 2.1 5.84 12l9.9 9.9 1.77-1.77L9.38 12l8.13-8.13z"></path>
+                        </svg>
+
+                        Continue Shopping</button>
+                    <button type="button" id="js-checkout"
+                        class="p-2 bg-red-600 shadow-md text-white w-full font-semibold uppercase hover:bg-red-700">Place
+                        Order</button>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- confirmation dialog -->
+    <dialog id="js-confirmationDialog"
+        class="fixed inset-0 overflow-y-auto shadow-lg border-2 border-gray-300 rounded-lg w-1/3">
+        <div class="flex items-center justify-center">
+            <!-- Dialog box container -->
+            <div class="bg-white rounded-lg p-3 w-full">
+                <div class="flex w-full justify-around items-center border-b-2 border-dashed">
+                    <div>
+
+                        <svg class="w-32 h-32 text-red-600" viewBox="0 0 48 48" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <rect width="48" height="48" fill="white" fill-opacity="0.01"></rect>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M24 5.00018L2 43.0002H46L24 5.00018Z"
+                                fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+                            </path>
+                            <path d="M24 35.0002V36.0002" stroke="#fff" stroke-width="2" stroke-linecap="round"></path>
+                            <path d="M24 19.0007L24.0083 29.0002" stroke="#fff" stroke-width="2" stroke-linecap="round">
+                            </path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b-2 py-2">You are about to remove
+                            this product from your cart !</h2>
+                        <p class="text-gray-600 mb-6 ">Are you sure you want to delete this item?</p>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex justify-end mt-2">
+                    <button id="js-confirmDeleteButton"
+                        class="px-4 py-2 mr-2 bg-red-500 z-20 text-white rounded hover:bg-red-600 w-24">Yes</button>
+                    <button id="js-cancelDeleteButton"
+                        class="px-4 py-2 bg-gray-300 z-20 text-gray-700 rounded hover:bg-gray-400 w-24">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+    <!-- script  -->
+    <script>
+        (function () {
+            "use strict"
+            const products = {
+                //baseUrl 
+                baseUrl: `https://dummyjson.com/products`,
+
+                //search api 
+                searchApi: async function (value) {
+                    const searchUrl = `${this.baseUrl}/search?q=${value}`;
+                    try {
+                        const response = await fetch(searchUrl)
+                        if (response.ok) {
+                            const data = await response.json();
+                            return data;
+                        }
+                    }
+                    catch (error) {
+                        console.error("Error fetching data:", error);
+                    }
+                },
+
+                //search
+                search: async function () {
+                    const search = document.getElementById("js-search");
+                    const searchTerm = search.value.trim();
+                    if (searchTerm === "") {
+                        const searchList = document.getElementById("js-searchList");
+                        searchList.innerHTML = "";
+                        return;
+                    }
+                    const data = await products.renderSearchList(searchTerm);
+                },
+
+                //render search list
+                renderSearchList: async function (value) {
+                    const data = await this.searchApi(value);
+                    const productsContainer = data.products;
+                    const productsList = document.getElementById("js-searchList")
+                    let products = ``
+                    productsContainer.forEach((element, index) => {
+                        products += `<li data-product-id="${element.id}" class="h-16 hover:shadow-md hover:shadow-gray-400 cursor-pointer p-2 transform transition-transform duration-300 ease-in-out hover:scale-105 bg-white">
+                            <!-- image -->
+                            <div class="flex items-center gap-3">
+                            <div class="h-12 w-20">
+                                <img class="w-full h-full object-cover" src="${element.thumbnail}" alt="Product Image">
+                            </div>
+
+                            <!-- title -->
+                            <div>
+                                <h2 class="line-clamp-2 text-md font-semibold text-gray-800">${element.title}</h2>
+                                <span class="text-blue-700 font-semibold">${element.category}</span>
+                                </div>
+                            </div>
+                        </li>`;
+                    });
+                    productsList.innerHTML = products;
+
+                    // Add event listeners to each search list item
+                    const searchItems = productsList.querySelectorAll("li");
+                    searchItems.forEach((item) => {
+                        item.addEventListener("click", () => {
+                            const productId = item.getAttribute('data-product-id');
+                            window.location.href = `productPage.html?id=${productId}`;
+                        });
+                    });
+                },
+
+                //render data
+                render: function () {
+                    const data = this.methods.getFromLocalStorage();
+                    const ul = document.getElementById("js-ul")
+                    const dl = document.getElementById("js-dl")
+                    const totalSavings = document.getElementById("js-totalSaving")
+                    let li = ``
+                    let total = 0;
+                    let totalDiscount = 0;
+                    if (data) {
+                        data.forEach((element, index) => {
+                            const subtotal = (element.price - (element.price * (element.discountPercentage / 100))) * element.count;
+                            total += subtotal;
+                            totalDiscount += element.price * element.count - subtotal
+                            li += `<li class="p-3 flex justify-between" id= "${element.id}">
+                                <div class="flex items-center gap-4">
+                                    <!-- thumbnail and quantity  -->
+                                    <div>
+                                        <img src="${element.thumbnail}" class="w-28 h-28 object-cover"
+                                            alt="Product Image">
+                                        <div class="flex justify-around mt-2 items-center border-2 h-8 border-gray-300 p-2">
+                                            <button type="button" class="decreaseQuantity"><svg class="w-4 h-4"
+                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                </svg></button>
+                                            <input type="text" class="w-5 text-center disabled" value="${element.count}">
+                                            <button type="button" class="increaseQuantity"><svg class="w-4 h-4"
+                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                </svg></button>
+                                        </div>
+                                    </div>
+
+                                    <!-- other product details -->
+                                    <div>
+                                        <h2 class="text-lg font-semibold">${element.title}</h2>
+                                        <p class="line-clamp-1 max-w-xl text-sm font-medium text-gray-500">${element.description}</p>
+                                        <div class="flex items-center gap-1">
+                                            <p class="text-gray-500">seller: RetailNet</p>
+                                            <img src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png"
+                                                alt="fp-assured" class="w-20 h-5 object-contain">
+                                        </div>
+                                        <div class="flex gap-2 text-sm items-end font-semibold">
+                                            <p class="text-2xl ">&#8377;${element.price - (element.price * (element.discountPercentage / 100)).toFixed(2)}</p>
+                                            <span class="line-through text-gray-500">&#8377;${element.price}</span>
+                                            <span class="text-red-500">${element.discountPercentage}% off</span>
+                                            <p class="text-red-700 flex items-center gap-1">
+                                                No offers Applied
+                                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 480"
+                                                    fill="currentColor">
+                                                    <title>No Offers Available</title>
+                                                    <path
+                                                        d="M220 430q81-2 135-55 53-54 55-135-2-81-55-135-54-53-135-55-81 2-135 55-53 54-55 135 2 81 55 135 54 53 135 55l0 0z m-26-244l0-52 52 0 0 52-52 0z m4 154l0-120 44 0 0 120-44 0z">
+                                                    </path>
+                                                </svg>
+                                            </p>
+                                        </div>
+                                        <p class="text-sm text-gray-500 font-medium">In Stock: ${element.stock}</p>
+                                        <button type="button" class="font-medium mt-1" name="delete-buttons">REMOVE</button>
+                                    </div>
+                                </div>
+                                <p class="font-medium mr-10 mt-6">Free Delivery in 3-4 Days</p>
+                            </li>`
+
+
+                        });
+                    }
+                    const dd = `<div class="flex justify-between items-center">
+                        <dt class="text-gray-600">Items Subtotal</dt>
+                        <dd class="font-semibold" id="js-subTotal">&#8377;${total.toFixed(2)}</dd>
+                    </div>
+
+                    <div class="flex justify-between items-center mt-5 border-b border-dashed pb-5">
+                        <dt class="text-gray-600">Delivery Charges</dt>
+                        <dd class="font-semibold text-red-600" id="js-delivery">FREE</dd>
+                    </div>
+                    <div class="flex justify-between items-end mt-1">
+                        <dt class="text-2xl font-medium">Total</dt>
+                        <dd class="font-semibold" id="js-total">&#8377;${total.toFixed(2)}</dd>
+                    </div>`
+                    const saving = `<p>Your Total Savings on this order is &#8377;${totalDiscount.toFixed(2)}</p>`
+                    totalSavings.innerHTML = saving
+                    ul.innerHTML = li;
+                    dl.innerHTML = dd;
+                },
+
+                //increase product quantity
+                increaseQuantity: function () {
+                    const plusButton = document.querySelectorAll(".increaseQuantity")
+                    plusButton.forEach((button) => {
+                        button.addEventListener("click", function () {
+                            const listItem = button.closest("li");
+                            const inputElement = listItem.querySelector("input");
+                            let increasedValue = ++inputElement.value
+                            const storedData = products.methods.getFromLocalStorage();
+                            const listId = listItem.id;
+                            const existingItemIndex = storedData.findIndex(item => item.id == listId);
+                            if (existingItemIndex !== -1) {
+                                storedData[existingItemIndex].count = increasedValue;
+                                localStorage.setItem('cart-products', JSON.stringify(storedData));
+                            }
+                            products.updateTotal()
+                        })
+                    })
+                },
+
+                //decrease product quantity
+                decreaseQuantity: function () {
+                    const minusButton = document.querySelectorAll(".decreaseQuantity")
+                    minusButton.forEach((button) => {
+                        button.addEventListener("click", function (event) {
+                            const listItem = button.closest("li");
+                            const inputElement = listItem.querySelector("input");
+                            let decreasedValue = --inputElement.value
+                            const storedData = products.methods.getFromLocalStorage();
+                            const listId = listItem.id;
+                            const existingItemIndex = storedData.findIndex(item => item.id == listId);
+                            if (decreasedValue === 0) {
+                                products.removeProduct(event)
+                            }
+
+                            if (existingItemIndex !== -1) {
+                                storedData[existingItemIndex].count = decreasedValue;
+                                localStorage.setItem('cart-products', JSON.stringify(storedData));
+                            }
+                            products.updateTotal()
+                        })
+                    })
+
+                },
+
+                // Add a new method to update the total
+                updateTotal: function () {
+                    const data = this.methods.getFromLocalStorage();
+                    let total = 0;
+                    let saved = 0;
+                    data.forEach((element, index) => {
+                        const subtotal = (element.price - (element.price * (element.discountPercentage / 100))) * element.count;
+                        total += subtotal;
+                        saved += element.price * element.count - subtotal
+                    });
+
+                    document.getElementById("js-subTotal").innerHTML = `&#8377;${total.toFixed(2)}`;
+                    document.getElementById("js-total").innerHTML = `&#8377;${total.toFixed(2)}`;
+                    document.getElementById("js-totalSaving").innerHTML = `Your Total Savings on this order is &#8377;${saved.toFixed(2)}`
+                },
+
+                //remove product
+                removeProduct: function (event) {
+                    const dialogOpen = document.getElementById('js-confirmationDialog');
+                    const deleteConfirm = document.getElementById('js-confirmDeleteButton');
+                    const cancelConfirm = document.getElementById('js-cancelDeleteButton');
+
+                    deleteConfirm.addEventListener("click", function () {
+                        const li = event.target.closest("li")
+                        const listId = li.id;
+                        const storedData = products.methods.getFromLocalStorage()
+                        const updatedData = storedData.filter(item => item.id != listId);
+                        li.remove()
+                        localStorage.setItem('cart-products', JSON.stringify(updatedData));
+                        dialogOpen.close()
+                        products.updateTotal()
+                        products.methods.ifEmpty()
+                    })
+
+                    cancelConfirm.addEventListener("click", function () {
+                        const li = event.target.closest("li")
+                        const listId = li.id;
+                        const storedData = products.methods.getFromLocalStorage()
+                        const inputElement = li.querySelector("input");
+                        const updatedData = storedData.map(item => {
+                            if (item.id == listId) {
+                                if (inputElement.value == 0) {
+                                    item.count = 1;
+                                    inputElement.value = 1;
+                                }
+                            }
+                            return item;
+                        });
+                        localStorage.setItem('cart-products', JSON.stringify(updatedData));
+                        products.updateTotal()
+
+                        dialogOpen.close()
+                    })
+
+                    dialogOpen.showModal()
+                },
+
+                //bind event listeners
+                bind: function () {
+                    this.increaseQuantity()
+                    this.decreaseQuantity()
+
+                    //delete button
+                    const deleteButton = document.getElementsByName("delete-buttons")
+                    for (let i = 0; i < deleteButton.length; i++) {
+                        deleteButton[i].addEventListener('click', products.removeProduct);
+                    }
+
+                    //continue shopping
+                    const continueShopping = document.getElementById("js-continueShopping")
+                    continueShopping.addEventListener("click", this.methods.productsPage)
+
+                    //checkout
+                    const checkout = document.getElementById("js-checkout")
+                    checkout.addEventListener("click", this.methods.checkout)
+
+                    //redirect to orders summary page
+                    const orders = document.querySelector("#js-orders")
+                    orders.addEventListener("click", this.methods.ordersSummary)
+
+                    //search
+                    const searchInput = document.getElementById("js-search")
+                    searchInput.addEventListener("input", this.methods.debounce(this.search, 500))
+                },
+
+                //small helping functions
+                methods: {
+                    //get data from local storage
+                    getFromLocalStorage: function () {
+                        const data = JSON.parse(localStorage.getItem("cart-products"))
+                        return data
+                    },
+
+                    //continue shopping
+                    productsPage: function () {
+                        window.location.href = "index.html"
+                    },
+
+                    //checkout Page
+                    checkout: function () {
+                        const data = products.methods.getFromLocalStorage()
+                        if (data && data.length !== 0) {
+                            window.location.href = "checkout.html"
+                        }
+                    },
+
+                    //if empty 
+                    ifEmpty: function () {
+                        const ul = document.getElementById("js-ul");
+                        const data = this.getFromLocalStorage();
+                        if (!data || data.length === 0) {
+                            ul.innerHTML = `<li class="flex text-4xl items-center gap-2 p-5 justify-center font-semibold"><svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 36 36" preserveAspectRatio="xMidYMid meet" fill="currentColor"><title>sad-face-line</title><path d="M18,2A16,16,0,1,0,34,18,16,16,0,0,0,18,2Zm0,30A14,14,0,1,1,32,18,14,14,0,0,1,18,32Z" class="clr-i-outline clr-i-outline-path-1"></path><circle cx="25.16" cy="14.28" r="1.8" class="clr-i-outline clr-i-outline-path-2"></circle><circle cx="11.41" cy="14.28" r="1.8" class="clr-i-outline clr-i-outline-path-3"></circle><path d="M18.16,20a9,9,0,0,0-7.33,3.78,1,1,0,1,0,1.63,1.16,7,7,0,0,1,11.31-.13,1,1,0,0,0,1.6-1.2A9,9,0,0,0,18.16,20Z" class="clr-i-outline clr-i-outline-path-4"></path><rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect></svg>Your Cart is Empty !</li>`;
+                        }
+                    },
+
+                    //redirect to orders summary
+                    ordersSummary: function () {
+                        window.location.href = "table.html"
+                    },
+
+                    //debounce
+                    debounce: function (func, delay) {
+                        let debounceTimer;
+                        return function (...args) {
+                            clearTimeout(debounceTimer);
+                            debounceTimer = setTimeout(() => { func.apply(this, args) }, delay);
+                        };
+                    },
+                },
+
+                init: function () {
+                    this.render();
+                    this.bind();
+                    this.methods.ifEmpty()
+                }
+            }
+            products.init()
+        })()
+    </script>
+</body>
+
+</html>

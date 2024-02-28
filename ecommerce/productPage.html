@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Information</title>
+    <link rel="stylesheet" href="/dist/output.css">
+</head>
+
+<body>
+    <!-- nav bar  -->
+    <nav class="bg-white shadow-md sticky z-50 h-20 w-full">
+        <ul class="flex flex-col sm:flex-row justify-around md:p-4 md:mb-0 px-4 py-1  mb-5 items-center">
+            <li>
+                <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fkheaderlogo_exploreplus-44005d.svg"
+                    alt="logo">
+            </li>
+
+            <li class="w-full sm:w-1/2 mx-2 mb-2 sm:mb-0 relative">
+                <input type="search" class="border-2 w-full h-12 p-2 rounded-lg focus:outline-none" id="js-search"
+                    placeholder="Search Product">
+                <ul id="js-searchList"
+                    class="absolute w-full max-h-96 overflow-hidden shadow-lg rounded-lg px-1 divide-y-2 mt-2"></ul>
+            </li>
+
+            <li class="hidden md:flex gap-10 items-end">
+                <button type="button" id="js-cart"><svg class="w-8 h-8 text-gray-700" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16" fill="currentColor">
+                        <path fill="currentColor"
+                            d="M14 13.1v-1.1h-9.4l0.6-1.1 9.2-0.9 1.6-6h-12.3l-0.7-3h-3v1h2.2l2.1 8.4-1.3 2.6v1.5c0 0.8 0.7 1.5 1.5 1.5s1.5-0.7 1.5-1.5-0.7-1.5-1.5-1.5h7.5v1.5c0 0.8 0.7 1.5 1.5 1.5s1.5-0.7 1.5-1.5c0-0.7-0.4-1.2-1-1.4zM4 5h10.7l-1.1 4-8.4 0.9-1.2-4.9z">
+                        </path>
+                    </svg></button>
+                <button type="button" id="js-orders"><svg class="w-8 h-8 text-gray-700"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="none">
+                        <path
+                            d="M.5 4.5h14m-10-4v14m-3-14h12a1 1 0 011 1v12a1 1 0 01-1 1h-12a1 1 0 01-1-1v-12a1 1 0 011-1z"
+                            stroke="currentColor"></path>
+                    </svg></button>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- main -->
+    <main id="js-main">
+
+    </main>
+
+    <script>
+        (function () {
+            "use strict"
+            const product = {
+                //base url 
+                baseUrl: `https://dummyjson.com/products`,
+
+                //fetch api
+                fetchApi: async function () {
+                    try {
+                        const response = await fetch(`${this.baseUrl}?limit=0`)
+                        if (response.ok) {
+                            const data = await response.json();
+                            return data;
+                        }
+                    }
+                    catch (error) {
+                        console.log("Error Fetching Data:", error)
+                    }
+                },
+
+                //search api 
+                searchApi: async function (value) {
+                    const searchUrl = `${this.baseUrl}/search?q=${value}`;
+                    try {
+                        const response = await fetch(searchUrl)
+                        if (response.ok) {
+                            const data = await response.json();
+                            return data;
+                        }
+                    }
+                    catch (error) {
+                        console.error("Error fetching data:", error);
+                    }
+                },
+
+                //search
+                search: async function () {
+                    const search = document.getElementById("js-search");
+                    const searchTerm = search.value.trim();
+                    if (searchTerm === "") {
+                        const searchList = document.getElementById("js-searchList");
+                        searchList.innerHTML = "";
+                        return;
+                    }
+                    const data = await product.renderSearchList(searchTerm);
+                },
+
+                //render search list
+                renderSearchList: async function (value) {
+                    const data = await this.searchApi(value);
+                    const productsContainer = data.products;
+                    const productsList = document.getElementById("js-searchList")
+                    let products = ``
+                    productsContainer.forEach((element, index) => {
+                        products += `<li data-product-id="${element.id}" class="h-16 hover:shadow-md hover:shadow-gray-400 cursor-pointer p-2 transform transition-transform duration-300 ease-in-out hover:scale-105 bg-white">
+                            <!-- image -->
+                            <div class="flex items-center gap-3">
+                            <div class="h-12 w-20">
+                                <img class="w-full h-full object-cover" src="${element.thumbnail}" alt="Product Image">
+                            </div>
+
+                            <!-- title -->
+                            <div>
+                                <h2 class="line-clamp-2 text-md font-semibold text-gray-800">${element.title}</h2>
+                                <span class="text-blue-700 font-semibold">${element.category}</span>
+                                </div>
+                            </div>
+                        </li>`;
+                    });
+                    productsList.innerHTML = products;
+
+                    // Add event listeners to each search list item
+                    const searchItems = productsList.querySelectorAll("li");
+                    searchItems.forEach((item) => {
+                        item.addEventListener("click", () => {
+                            const productId = item.getAttribute('data-product-id');
+                            window.location.href = `productPage.html?id=${productId}`;
+                        });
+                    });
+                },
+
+                //get search param
+                searchParam: async function () {
+                    // Get the URLSearchParams object from the current URL
+                    const urlSearchParams = new URLSearchParams(window.location.search);
+                    const productId = urlSearchParams.get('id');
+                    const data = await this.fetchApi()
+                    const productsData = data.products
+                    const matchedItem = productsData.find((element) => element.id == productId)
+                    return matchedItem;
+                },
+
+                //render function
+                render: async function () {
+                    const matchedData = await this.searchParam()
+                    const main = document.getElementById("js-main")
+                    const sideImage = matchedData.images.map((item) => {
+                        let sideImages = document.createElement("img");
+                        sideImages.setAttribute("src", `${item}`);
+                        sideImages.setAttribute("class", "w-32 h-32 p-1 border-2 cursor-pointer rounded-md")
+                        return sideImages
+                    })
+                    main.innerHTML = ` <div class="container mx-auto p-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Product Image -->
+                            <div class="mb-4">
+                                <img src="${matchedData.thumbnail}" id="js-thumbnail" alt="Product Image"
+                                    class="w-full h-96 object-cover rounded-md shadow-md">
+                                <div class="flex justify-between mt-3" id="js-imagesContainer">${sideImage.map(img => img.outerHTML).join('')}</div>
+                            </div>
+
+                            <!-- Product Details -->
+                            <div>
+                                <h1 class="text-3xl font-bold mb-2">${matchedData.brand} ${matchedData.title}</h1>
+                                <p class="text-gray-700 mb-4">${matchedData.description}</p>
+
+                                <div
+                                    class="bg-green-700 mb-3 items-center gap-1 text-white pl-2 flex py-0.5 rounded-sm text-xs relative w-16">
+                                <span class="text-base">${matchedData.rating}</span>
+                                    <svg class="h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+
+
+                                <div class="mb-4 space-y-1">
+                                    <span class="text-gray-600">Special Price</span>
+                                    <div>
+                                        <span class="font-semibold text-indigo-600 text-3xl">&#8377; ${matchedData.price - (matchedData.price * (matchedData.discountPercentage / 100)).toFixed(2)}</span>
+                                        <span class="line-through">&#8377;${matchedData.price}</span>
+                                        <span>${matchedData.discountPercentage}% off</span>
+                                    </div>
+                                </div>
+
+                                <!-- Add to Cart Button -->
+                                <button type="button"
+                                    class="bg-indigo-500 w-1/4 text-white px-4 py-2 rounded-sm hover:bg-indigo-600 focus:outline-none focus:ring focus:border-indigo-300" id="js-cart${matchedData.id}">Add
+                                    to Cart</button>
+                            </div>
+                        </div>
+                    </div>`
+                },
+
+                //bind event listeners
+                bind: async function () {
+                    const image = document.getElementById("js-thumbnail")
+                    const sideImages = document.querySelectorAll("#js-imagesContainer img")
+                    sideImages.forEach((element) => {
+                        element.addEventListener("click", function () {
+                            sideImages.forEach(img => img.classList.remove("border-black"));
+
+                            element.classList.add("border-black");
+                            image.src = element.src
+                        })
+                    })
+
+                    const matchedProduct = await product.searchParam()
+                    const cart = document.querySelector(`#js-cart${matchedProduct.id}`)
+
+                    cart.addEventListener("click", this.methods.addToCart)
+
+                    const cartButton = document.querySelector("#js-cart")
+                    cartButton.addEventListener("click", this.methods.redirectToCart)
+
+                    const ordersSummary = document.querySelector("#js-orders")
+                    ordersSummary.addEventListener("click", this.methods.redirectToSummary)
+
+                    //search
+                    const searchInput = document.getElementById("js-search")
+                    searchInput.addEventListener("input", this.methods.debounce(this.search, 500))
+                },
+
+                //small helping functions
+                methods: {
+                    //get from local storage
+                    getStorage: function () {
+                        const data = JSON.parse(localStorage.getItem("cart-products")) || [];
+                        return data;
+                    },
+
+                    //add to cart
+                    cart: function (product) {
+                        const existingCart = this.getStorage();
+                        const isProductInCart = existingCart.find((cartProduct) => cartProduct.id === product.id);
+
+                        if (!isProductInCart) {
+                            product.count = 1;
+                            existingCart.push(product);
+                            localStorage.setItem("cart-products", JSON.stringify(existingCart));
+                        } else {
+                            console.log("Product is already in the cart");
+                        }
+                    },
+
+                    //cart
+                    addToCart: async function () {
+                        const matchedProduct = await product.searchParam()
+                        const cart = document.querySelector(`#js-cart${matchedProduct.id}`)
+                        const tickSVG = `<svg class="w-4 h-4 fill-current text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>`;
+
+                        cart.classList = "bg-green-500 px-4 py-2 flex items-center gap-2 justify-center hover:bg-green-600 text-white py-2 rounded-sm focus:outline-none w-1/4";
+                        cart.innerHTML = `${tickSVG}Added to Cart`;
+                        product.methods.cart(matchedProduct);
+                    },
+
+                    //if data in cart already exists
+                    addedToCart: async function () {
+                        const tickSVG = `<svg class="w-4 h-4 fill-current text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>`;
+                        const storageData = product.methods.getStorage()
+                        const matchedProduct = await product.searchParam()
+                        const cart = document.querySelector(`#js-cart${matchedProduct.id}`)
+
+                        storageData.forEach((element) => {
+                            if (matchedProduct.id === element.id) {
+                                cart.classList = "bg-green-500 px-4 py-2 flex items-center gap-2 justify-center hover:bg-green-600 text-white py-2 rounded-sm focus:outline-none w-1/4";
+                                cart.innerHTML = `${tickSVG}Added to Cart`;
+                            }
+                        })
+                    },
+
+                    //redirect to cart
+                    redirectToCart: function () {
+                        window.location.href = "cartPage.html"
+                    },
+
+                    //redirect to order summary 
+                    redirectToSummary: function () {
+                        window.location.href = "table.html"
+                    },
+
+                    //debounce
+                    debounce: function (func, delay) {
+                        let debounceTimer;
+                        return function (...args) {
+                            clearTimeout(debounceTimer);
+                            debounceTimer = setTimeout(() => { func.apply(this, args) }, delay);
+                        };
+                    },
+                },
+
+                //initialize all functions here
+                init: async function () {
+                    this.fetchApi()
+                    await this.render()
+                    this.bind()
+                    this.methods.addedToCart()
+                }
+            }
+            product.init()
+        })()
+    </script>
+</body>
+
+</html>

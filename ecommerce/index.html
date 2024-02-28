@@ -6,32 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
     <link rel="stylesheet" href="/dist/output.css">
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: lightgray;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #EDF2F7;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.0/viewer.min.css">
 </head>
 
 <body class="font-sans">
     <!-- nav bar -->
-    <nav class="bg-white shadow-lg sticky top-0 z-20">
-        <ul class="flex justify-around p-4 items-center">
+    <nav class="bg-white shadow-md fixed z-50 h-20 w-full">
+        <ul class="flex flex-col sm:flex-row justify-around md:p-4 md:mb-0 px-4 py-1  mb-5 items-center">
             <li>
-                <button type="button"><img
-                        src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fkheaderlogo_exploreplus-44005d.svg"
-                        alt="logo"></button>
+                <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fkheaderlogo_exploreplus-44005d.svg"
+                    alt="logo">
             </li>
-            <li class="w-1/2 mx-2">
-                <input type="search" class="border-2 w-full h-12 p-2 rounded-lg focus:outline-none"
+
+            <li class="w-full sm:w-1/2 mx-2 mb-2 sm:mb-0 relative">
+                <input type="search" class="border-2 w-full h-12 p-2 rounded-lg focus:outline-none" id="js-search"
                     placeholder="Search Product">
+                <ul id="js-searchList"
+                    class="absolute w-full max-h-96 overflow-hidden shadow-lg rounded-lg px-1 divide-y-2 mt-2"></ul>
             </li>
-            <li>
-                <button type="button"><svg class="w-8 h-8 text-gray-700" xmlns="http://www.w3.org/2000/svg"
+
+            <li class="hidden md:flex gap-10 items-end">
+                <button type="button" id="js-cart"><svg class="w-8 h-8 text-gray-700" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 16 16" fill="currentColor">
                         <path fill="currentColor"
                             d="M14 13.1v-1.1h-9.4l0.6-1.1 9.2-0.9 1.6-6h-12.3l-0.7-3h-3v1h2.2l2.1 8.4-1.3 2.6v1.5c0 0.8 0.7 1.5 1.5 1.5s1.5-0.7 1.5-1.5-0.7-1.5-1.5-1.5h7.5v1.5c0 0.8 0.7 1.5 1.5 1.5s1.5-0.7 1.5-1.5c0-0.7-0.4-1.2-1-1.4zM4 5h10.7l-1.1 4-8.4 0.9-1.2-4.9z">
                         </path>
                     </svg></button>
-            </li>
-            <li>
-                <button type="button"><svg class="w-8 h-8 text-gray-700" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 15 15" fill="none">
+                <button type="button" id="js-orders"><svg class="w-8 h-8 text-gray-700"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="none">
                         <path
                             d="M.5 4.5h14m-10-4v14m-3-14h12a1 1 0 011 1v12a1 1 0 01-1 1h-12a1 1 0 01-1-1v-12a1 1 0 011-1z"
                             stroke="currentColor"></path>
@@ -40,11 +56,88 @@
         </ul>
     </nav>
 
+    <!-- aside  -->
+    <aside class="w-[17%] shadow-xl border bg-gray-50 p-4 fixed top-20 h-[90%] overflow-y-auto ">
+        <div class="flex gap-2 items-center border-b-2 pb-2">
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none"
+                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path d="M2 5 C2 5 6 3 16 3 26 3 30 5 30 5 L19 18 19 27 13 30 13 18 2 5Z"></path>
+            </svg>
+            <h2 class="text-xl font-semibold">Filters</h2>
+        </div>
+        <ul class="mt-3">
+            <button type="button" class="w-full bg-blue-500 p-2 shadow-md rounded-sm" id="js-categoriesOpen">
+                <div class="flex items-center justify-between text-white">
+                    <div class="flex gap-2 items-center">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor">
+                            <defs></defs>
+                            <title>collapse-categories</title>
+                            <rect x="14" y="25" width="14" height="2"></rect>
+                            <polygon points="7.17 26 4.59 28.58 6 30 10 26 6 22 4.58 23.41 7.17 26"></polygon>
+                            <rect x="14" y="15" width="14" height="2"></rect>
+                            <polygon points="7.17 16 4.59 18.58 6 20 10 16 6 12 4.58 13.41 7.17 16"></polygon>
+                            <rect x="14" y="5" width="14" height="2"></rect>
+                            <polygon points="7.17 6 4.59 8.58 6 10 10 6 6 2 4.58 3.41 7.17 6"></polygon>
+                            <rect id="_Transparent_Rectangle_" data-name="<Transparent Rectangle>" class="cls-1"
+                                width="32" height="32" style="fill:none"></rect>
+                        </svg>
+                        <li>Categories</li>
+                    </div>
+                    <svg class="w-5 h-5" name="js-toggleButtons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor">
+                        <path d="M12 20L12 12M12 12L12 4M12 12L20 12M12 12L4 12" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round"></path>
+                    </svg>
+                    <svg class="w-5 h-5 hidden" name="js-toggleButtons" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 480 480" fill="currentColor">
+                        <title>minus</title>
+                        <path d="M80 260l320 0 0-40-320 0 0 40z"></path>
+                    </svg>
+                </div>
+            </button>
+            <ul id="js-categoriesUl" class="bg-white p-2 shadow-lg hidden"></ul>
+        </ul>
+    </aside>
+
     <!-- main -->
-    <main id="js-main" class="bg-white">
-        <ul id="js-productsList" class="flex pb-5 flex-wrap gap-8 space-y-12 justify-center items-end bg-white"></ul>
+    <main id="js-main" class="bg-white absolute top-24 right-5 w-4/5 p-2">
+        <h1 class="text-2xl mb-5 font-semibold border-b-2 pb-2 w-fit" id="js-mainHeading">All Categories</h1>
+        <ul id="js-productsList" class=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"></ul>
+        <div id="js-nextAndPrevious" class="my-10 flex justify-center gap-10 border-t pt-2">
+
+            <button type="button" id="js-previous-button"
+                class=" flex items-center bg-blue-600 hover:bg-blue-700 text-white py-1 px-3 w-28 rounded-sm text-center h-10">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24"
+                    viewBox="0 0 24 24" fill="currentColor">
+                    <g>
+                        <rect fill="none" height="24" width="24"></rect>
+                    </g>
+                    <g>
+                        <g>
+                            <polygon points="17.59,18 19,16.59 14.42,12 19,7.41 17.59,6 11.59,12"></polygon>
+                            <polygon points="11,18 12.41,16.59 7.83,12 12.41,7.41 11,6 5,12"></polygon>
+                        </g>
+                    </g>
+                </svg>
+                Previous</button>
+            <button type="button" id="js-next-button"
+                class="flex items-center gap-1 justify-center bg-blue-600 hover:bg-blue-700 text-white py-1 px-3 w-28 rounded-sm h-10">Next
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24"
+                    viewBox="0 0 24 24" fill="currentColor">
+                    <g>
+                        <rect fill="none" height="24" width="24"></rect>
+                    </g>
+                    <g>
+                        <g>
+                            <polygon points="6.41,6 5,7.41 9.58,12 5,16.59 6.41,18 12.41,12"></polygon>
+                            <polygon points="13,6 11.59,7.41 16.17,12 11.59,16.59 13,18 19,12"></polygon>
+                        </g>
+                    </g>
+                </svg></button>
+        </div>
     </main>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.0/viewer.min.js"></script>
     <!-- script -->
     <script>
         (function () {
@@ -53,10 +146,13 @@
                 //base url
                 baseUrl: 'https://dummyjson.com/products',
 
+                //products per page
+                productsPerPage: 15,
+
                 //fetch all products
-                fetch: async function () {
+                fetch: async function (limitValue, skipValue) {
                     try {
-                        const respone = await fetch(this.baseUrl);
+                        const respone = await fetch(`${this.baseUrl}?limit=${limitValue}&skip=${skipValue}`);
                         if (respone.ok) {
                             const data = await respone.json();
                             return data;
@@ -67,62 +163,382 @@
                     }
                 },
 
-                //render data
-                render: async function () {
-                    const data = await this.fetch();
+                paginate: async function (page) {
+                    const limit = products.productsPerPage;
+                    const skip = (page - 1) * limit;
+                    const data = await products.fetch(limit, skip);
+                    this.render(data);
+                },
+
+                //search api 
+                searchApi: async function (value) {
+                    const searchUrl = `${this.baseUrl}/search?q=${value}`;
+                    try {
+                        const response = await fetch(searchUrl)
+                        if (response.ok) {
+                            const data = await response.json();
+                            return data;
+                        }
+                    }
+                    catch (error) {
+                        console.error("Error fetching data:", error);
+                    }
+                },
+
+                //search
+                search: async function () {
+                    const search = document.getElementById("js-search");
+                    const searchTerm = search.value.trim();
+                    if (searchTerm === "") {
+                        const searchList = document.getElementById("js-searchList");
+                        searchList.innerHTML = "";
+                        return;
+                    }
+                    const data = await products.renderSearchList(searchTerm);
+                },
+
+                //render search list
+                renderSearchList: async function (value) {
+                    const data = await this.searchApi(value);
                     const productsContainer = data.products;
-                    const productsList = document.getElementById("js-productsList")
+                    const productsList = document.getElementById("js-searchList")
                     let products = ``
                     productsContainer.forEach((element, index) => {
-                        const uniqueId = `gallery-${index}`;
-                        products += `<li id="${uniqueId}"
-                        data-product-id="${element.id}"
-                        class="w-80 hover:shadow-md hover:shadow-gray-400 rounded-lg flex flex-col cursor-pointer p-2 transform transition-transform duration-300 ease-in-out hover:scale-105 border border-gray-300">
-
-                        <!-- image -->
-                        <div class="w-full h-44">
-                            <img class="w-full h-full object-cover rounded-md shadow-md hover:shadow-lg" src="${element.thumbnail}" alt="Product Image">
-                        </div>
-
-                        <!-- description -->
-                        <div class="p-4 space-y-2 text-center">
-                            <h2 class="line-clamp-2 text-xl font-semibold text-gray-800">${element.title}</h2>
-
-                            <!-- rating -->
-                            <div class="flex gap-3 items-center justify-center">
-                                <div class="bg-green-700 items-center gap-1 text-white pl-2 flex py-0.5 rounded-sm text-sm relative w-16">
-                                    ${element.rating}
-                                    <svg class=" h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd"></path>
-                                        </svg>
-                                </div>
-
-                                <!-- price -->
-                                <div class="flex space-x-2 items-center">
-                                    <span class="font-semibold text-lg">&#8377;${element.price}</span>
-                                </div>
+                        products += `<li data-product-id="${element.id}" class="h-16 hover:shadow-md hover:shadow-gray-400 cursor-pointer p-2 transform transition-transform duration-300 ease-in-out hover:scale-105 bg-white">
+                            <!-- image -->
+                            <div class="flex items-center gap-3">
+                            <div class="h-12 w-20">
+                                <img class="w-full h-full object-cover" src="${element.thumbnail}" alt="Product Image">
                             </div>
 
-                            <div class="flex gap-5 justify-center">
-                            <!-- add to cart button with hover effect -->
-                            <button type="button" name="cartButton"
-                                class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none w-40">View</button>
-                                
-                            <button type="button" name="cartButton"
-                                class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none w-40"
-                                data-id="${element.id}">Add To Cart</button>
+                            <!-- title -->
+                            <div>
+                                <h2 class="line-clamp-2 text-md font-semibold text-gray-800">${element.title}</h2>
+                                <span class="text-blue-700 font-semibold">${element.category}</span>
+                                </div>
                             </div>
-                        </div>
-                    </li>`;
+                        </li>`;
                     });
                     productsList.innerHTML = products;
+
+                    // Add event listeners to each search list item
+                    const searchItems = productsList.querySelectorAll("li");
+                    searchItems.forEach((item) => {
+                        item.addEventListener("click", () => {
+                            const productId = item.getAttribute('data-product-id');
+                            window.location.href = `productPage.html?id=${productId}`;
+                        });
+                    });
+                },
+
+                //filter by categories
+                fetchCategories: async function () {
+                    const filterApi = `${this.baseUrl}/categories`;
+                    try {
+                        const response = await fetch(filterApi);
+                        if (response.ok) {
+                            const data = await response.json()
+                            return data;
+                        }
+                    }
+                    catch (error) {
+                        console.error("Error fetching data:", error);
+                    }
+                },
+
+                //render categories 
+                renderCategory: async function () {
+                    const data = await this.fetchCategories()
+                    const categoryUl = document.getElementById("js-categoriesUl")
+                    let li = `<li><button type="button" class="border-b pb-2 w-full text-start text-sm">All Categories</button></li>`
+                    data.forEach((categories) => {
+                        li += `<li class="border-b pb-2 text-sm"><button type="button">${categories}</button></li>`
+                    })
+                    categoryUl.innerHTML = li
+                },
+
+                //filter event function 
+                filter: async function (event) {
+                    const filterText = event.target.innerText;
+                    const filterApi = `${products.baseUrl}/category/${filterText}`
+                    const heading = document.getElementById("js-mainHeading")
+                    const nextAndPrevious = document.getElementById("js-nextAndPrevious")
+                    try {
+                        if (event.target.tagName == 'BUTTON') {
+                            const response = await fetch(filterApi)
+                            {
+                                if (response.ok) {
+                                    heading.innerText = event.target.innerText
+                                    const data = await response.json()
+                                    const storageData = products.methods.getStorage()
+                                    storageData.forEach((storedProducts) => {
+                                        const sameData = data.products.find((element) => element.id == storedProducts.id)
+
+                                    })
+                                    products.render(data)
+                                    nextAndPrevious.className = "hidden"
+                                    scrollTo(0, 0)
+                                }
+                            }
+                        }
+                        if (event.target.innerText == "All Categories") {
+                            products.render(products.fetch(products.productsPerPage, 0))
+                            nextAndPrevious.className = "my-10 flex justify-center gap-10 border-t pt-2"
+                        }
+                    }
+                    catch (error) { console.log(`Error fetching data: ${error}`) }
+                },
+
+                // render data
+                render: async function (productsValue) {
+                    const data = await productsValue;
+                    const productsContainer = data.products;
+                    const productsList = document.getElementById("js-productsList");
+                    let productsLists = ``;
+                    const savedCart = this.methods.getStorage();
+                    const tickSVG = `<svg class="w-4 h-4 fill-current text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>`;
+
+                    productsContainer.forEach((element, index) => {
+                        const uniqueId = `gallery-${index}`;
+                        const isProductInCart = savedCart.some((cartProduct) => cartProduct.id === element.id);
+                        const buttonClass = isProductInCart
+                            ? "bg-green-500 flex items-center gap-2 justify-center hover:bg-green-700 text-white py-2 rounded-sm transition-all duration-300 transform hover:scale-105 focus:outline-none w-full"
+                            : "bg-blue-500 hover:bg-blue-700 text-white py-2 rounded-sm transition-all duration-300 transform hover:scale-105 focus:outline-none w-full";
+
+                        productsLists += `<li id="${element.id}" class="w-[95%] hover:shadow-md hover:shadow-gray-400 rounded-lg flex flex-col cursor-pointer p-3 transform transition-transform duration-300 ease-in-out hover:scale-105 border border-gray-300">
+                                            <!-- image -->
+                                            <div class="w-full h-44">
+                                                <img class="w-full h-full object-cover rounded-md shadow-md hover:shadow-lg" src="${element.thumbnail}" alt="Product Image" id="img-${index}">
+                                            </div>
+                                            <!-- description -->
+                                            <div class="px-3 py-2 space-y-2 text-start" id="js-title-${index}">
+                                                <h2 class="line-clamp-2 text-md font-semibold text-gray-800">${element.description}</h2>
+                                                <!-- rating -->
+                                                <div class="flex">
+                                                <div class="bg-green-700 items-center gap-1 text-white pl-2 flex py-0.5 rounded-sm text-xs relative w-14">
+                                                    ${element.rating}
+                                                    <svg class="h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                                        <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd"></path>
+                                                    </svg>
+                                                </div>
+                                                <img src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" alt="fp-assured" class="w-20 h-5 object-contain">
+                                                </div>
+                                                <div class="flex gap-3 items-center mb-2">
+                                                    <!-- price -->
+                                                    <div class="flex space-x-2 items-end">
+                                                        <span class="font-semibold text-2xl">&#8377;${Math.round(element.price - (element.price * (element.discountPercentage / 100)))}</span>
+                                                        <span class="text-lg text-sm line-through text-gray-400">&#8377;${element.price}</span><span class="text-sm ">(${element.discountPercentage}% off)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- add to cart button with hover effect -->
+                                            <button type="button" name="cartButton" class="${buttonClass}" data-id="${element.id}">${isProductInCart ? `${tickSVG}Added to Cart` : 'Add To Cart'}</button>
+                                        </li>`;
+                    });
+
+                    productsList.innerHTML = productsLists;
+
+                    products.methods.viewer();
+                    products.methods.productDetailPage();
+                },
+
+                cartData: async function () {
+                    const data = await this.fetch(0, 0)
+                    const productsData = data.products
+
+                    // add to cart button
+                    const productsList = document.getElementById("js-productsList");
+                    const tickSVG = `<svg class="w-4 h-4 fill-current text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>`;
+                    productsList.addEventListener("click", (event) => {
+                        const target = event.target;
+                        if (target.tagName === "BUTTON" && target.name === "cartButton") {
+                            target.classList = "bg-green-500 flex items-center gap-2 justify-center hover:bg-green-700 text-white py-2 rounded-sm transition-all duration-300 transform hover:scale-105 focus:outline-none w-full";
+
+                            target.innerHTML = `${tickSVG}Added to Cart`;
+
+                            const productId = target.getAttribute("data-id");
+                            const selectedProduct = productsData.find((element) => element.id == productId);
+                            this.methods.addToCart(selectedProduct);
+
+                            const updatedCart = this.methods.getStorage();
+                            localStorage.setItem("cart-products", JSON.stringify(updatedCart));
+                        }
+                    });
+
+                    const savedCart = this.methods.getStorage();
+                    savedCart.forEach((product) => {
+                        const addButton = document.querySelector(`button[data-id="${product.id}"]`);
+                        if (addButton) {
+                            addButton.classList = "bg-green-500 flex items-center gap-2 justify-center hover:bg-green-700 text-white py-2 rounded-sm transition-all duration-300 transform hover:scale-105 focus:outline-none w-full";
+                            addButton.innerHTML = `${tickSVG}Added to Cart`;
+                        }
+                    });
+                },
+
+                //bind event listeners
+                bind: async function () {
+                    //redirect to cart
+                    const cartIcon = document.getElementById("js-cart");
+                    cartIcon.addEventListener("click", this.methods.cart);
+
+                    //redirect to orders
+                    const orders = document.getElementById("js-orders")
+                    orders.addEventListener("click", this.methods.ordersSummary)
+
+                    //search
+                    const searchInput = document.getElementById("js-search")
+                    searchInput.addEventListener("input", this.methods.debounce(this.search, 500))
+
+                    //filter 
+                    const filterUl = document.getElementById("js-categoriesUl")
+                    filterUl.addEventListener("click", this.filter)
+
+                    //categoris filter button
+                    const categoriesButton = document.getElementById("js-categoriesOpen")
+                    categoriesButton.addEventListener("click", this.methods.openCategoriesList)
+
+                    //next and previous
+                    document.getElementById("js-previous-button").addEventListener("click", this.methods.previous);
+                    document.getElementById("js-next-button").addEventListener("click", this.methods.next);
                 },
 
                 //small helping functions
-                methods: {},
+                methods: {
+                    //redirect to cart page
+                    cart: function () {
+                        window.location.href = "cartPage.html"
+                    },
+
+                    //redirect to summary page
+                    ordersSummary: function () {
+                        window.location.href = "table.html"
+                    },
+
+                    //redirect to products page
+                    productPage: function (event) {
+                        const clickedElement = event.target
+                        const liElement = clickedElement.closest("li");
+                        if (liElement) {
+                            window.location.href = `productPage.html?id=${liElement.id}`
+                        }
+                    },
+
+                    //debounce
+                    debounce: function (func, delay) {
+                        let debounceTimer;
+                        return function (...args) {
+                            clearTimeout(debounceTimer);
+                            debounceTimer = setTimeout(() => { func.apply(this, args) }, delay);
+                        };
+                    },
+
+                    //categories list
+                    openCategoriesList: function () {
+                        const filterUl = document.getElementById("js-categoriesUl");
+                        const currentClass = filterUl.className;
+                        const buttons = document.getElementsByName("js-toggleButtons")
+                        const [plus, minus] = buttons;
+                        const isVisible = currentClass.includes("block");
+
+                        if (isVisible) {
+                            filterUl.className = "px-2 space-y-1 bg-white p-2 shadow-lg hidden";
+                        } else {
+                            filterUl.className = "px-2 space-y-1 bg-white p-2 shadow-lg block";
+                        }
+                        minus.classList.toggle("hidden");
+                        plus.classList.toggle("hidden");
+                    },
+
+                    //viewer 
+                    viewer: function () {
+                        const imgdata = document.querySelectorAll("#js-productsList img")
+                        imgdata.forEach((imgElement) => {
+                            const imgId = imgElement.getAttribute("id");
+                            if (imgId != null) {
+                                // const uniqueId = productLi.id;
+                                const gallery = new Viewer(document.getElementById(imgId), {
+                                    navbar: false,
+                                    toolbar: {
+                                        zoomIn: 1,
+                                        zoomOut: 1,
+                                        oneToOne: 1,
+                                        reset: 1,
+                                        play: {
+                                            show: 1,
+                                            size: 'large',
+                                        },
+                                        rotateLeft: 1,
+                                        rotateRight: 1,
+                                        flipHorizontal: 1,
+                                        flipVertical: 1,
+                                    },
+                                });
+                            }
+                        });
+                    },
+
+                    //redirect page to product details
+                    productDetailPage: function () {
+                        const productsLi = document.querySelectorAll("#js-productsList li div")
+                        productsLi.forEach((element) => {
+                            const containerId = element.getAttribute("id")
+                            if (containerId != null) {
+                                element.addEventListener("click", products.methods.productPage)
+                            }
+                        })
+                    },
+
+                    //get from local storage
+                    getStorage: function () {
+                        const data = JSON.parse(localStorage.getItem("cart-products")) || [];
+                        return data;
+                    },
+
+                    //add to cart
+                    addToCart: function (product) {
+                        const existingCart = this.getStorage();
+
+                        const isProductInCart = existingCart.find((cartProduct) => cartProduct.id === product.id);
+
+                        if (!isProductInCart) {
+                            product.count = 1;
+                            existingCart.push(product);
+                            localStorage.setItem("cart-products", JSON.stringify(existingCart));
+                        } else {
+                            console.log("Product is already in the cart");
+                        }
+                    },
+
+                    //next and previous  page
+                    page: 1,
+
+                    previous: function () {
+                        if (products.methods.page === 1) {
+                            products.paginate(products.methods.page);
+                            console.log(products.methods.page)
+                            return;
+                        }
+                        products.paginate(--products.methods.page);
+                    },
+
+                    next: async function () {
+                        const totalProducts = await products.fetch(0, 0)
+                        const totalPages = Math.ceil(totalProducts.products.length / products.productsPerPage)
+                        if (products.methods.page == totalPages) {
+                            products.paginate(products.methods.page);
+                            return;
+                        }
+                        products.paginate(++products.methods.page);
+                    },
+                },
 
                 //call functions
-                init: function () { this.render() }
+                init: async function () {
+                    await this.paginate(1);
+                    this.renderCategory()
+                    this.cartData()
+                    this.bind()
+                }
             }
             products.init();
         })()

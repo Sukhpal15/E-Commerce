@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/dist/output.css">
+</head>
+
+<body class="bg-gray-200">
+    <!-- header  -->
+    <header>
+        <!-- nav bar -->
+        <nav class="bg-white shadow-md sticky top-0 z-50 h-20 w-full">
+            <ul class="flex flex-col sm:flex-row justify-around md:p-4 md:mb-0 px-4 py-1  mb-5 items-center">
+                <li>
+                    <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fkheaderlogo_exploreplus-44005d.svg"
+                        alt="logo">
+                </li>
+
+                <li class="w-full sm:w-1/2 mx-2 mb-2 sm:mb-0 relative">
+                    <input type="search" class="border-2 rounded-lg w-full h-12 p-2 focus:outline-none" id="js-search"
+                        placeholder="Search Product">
+                    <ul id="js-searchList"
+                        class="absolute w-full max-h-96 overflow-hidden shadow-lg px-1 divide-y-2 mt-2">
+                    </ul>
+                </li>
+
+                <li class="hidden md:flex gap-10 items-end">
+                    <button type="button" id="js-cart"><svg class="w-8 h-8 text-gray-700"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+                            <path fill="currentColor"
+                                d="M14 13.1v-1.1h-9.4l0.6-1.1 9.2-0.9 1.6-6h-12.3l-0.7-3h-3v1h2.2l2.1 8.4-1.3 2.6v1.5c0 0.8 0.7 1.5 1.5 1.5s1.5-0.7 1.5-1.5-0.7-1.5-1.5-1.5h7.5v1.5c0 0.8 0.7 1.5 1.5 1.5s1.5-0.7 1.5-1.5c0-0.7-0.4-1.2-1-1.4zM4 5h10.7l-1.1 4-8.4 0.9-1.2-4.9z">
+                            </path>
+                        </svg></button>
+                    <button type="button" id="js-orders"><svg class="w-8 h-8 text-gray-700"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="none">
+                            <path
+                                d="M.5 4.5h14m-10-4v14m-3-14h12a1 1 0 011 1v12a1 1 0 01-1 1h-12a1 1 0 01-1-1v-12a1 1 0 011-1z"
+                                stroke="currentColor"></path>
+                        </svg></button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- main  -->
+    <main class="flex justify-around">
+
+        <form class="max-w-sm mt-5">
+            <div class="mb-5">
+                <!-- First Name -->
+                <label for="js-firstName" class="block mb-1 text-sm font-medium text-gray-900 ">First & Last
+                    Name</label>
+                <input type="text" id="js-firstName" name="Name"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm outline-none focus:border focus:border-gray-400 block w-full p-2.5"
+                    placeholder="Your First and Last Name">
+                <p id="js-NamePara" class="text-sm absolute text-red-600 font-medium"></p>
+            </div>
+
+            <div class="mb-5">
+                <!-- Email -->
+                <label for="js-email" class="block mb-1 text-sm font-medium text-gray-900 ">Your email</label>
+                <input type="text" id="js-email" name="mail"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm outline-none focus:border focus:border-gray-400 block w-full p-2.5"
+                    placeholder="name@mail.com">
+                <p id="js-mailPara"></p>
+            </div>
+
+            <div class="mb-5">
+                <!-- Phone Number -->
+                <label for="js-phoneNumber" class="block mb-1 text-sm font-medium text-gray-900 ">Phone Number</label>
+                <input type="tel" id="js-phoneNumber" name="number"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm outline-none focus:border focus:border-gray-400 block w-full p-2.5"
+                    placeholder="Your Phone Number">
+                <p id="js-numberPara"></p>
+            </div>
+
+            <div class="mb-5">
+                <!-- Zipcode -->
+                <label for="js-zipcode" class="block mb-1 text-sm font-medium text-gray-900">Zipcode</label>
+                <input type="text" id="js-zipcode" name="zipcode"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm outline-none focus:border focus:border-gray-400 block w-full p-2.5"
+                    placeholder="Your Zipcode">
+                <p id="js-zipcodePara"></p>
+            </div>
+
+            <!-- city and state -->
+            <div class="flex justify-between gap-5">
+                <div class="mb-5">
+                    <!-- state -->
+                    <label for="js-state" class="block mb-1 text-sm font-medium text-gray-900">State</label>
+                    <select onchange="print_city('js-city', this.selectedIndex);"
+                        class="p-2 w-40 outline-none focus:border focus:border-gray-400" id="js-state"
+                        name="state"></select>
+                    <p id="js-statePara"></p>
+
+                </div>
+
+                <div class="mb-5">
+                    <!-- city -->
+                    <label for="js-city" class="block mb-1 text-sm font-medium text-gray-900 ">City</label>
+                    <select id="js-city" class="p-2 w-40 outline-none focus:border focus:border-gray-400" name="city">
+                        <option value="city">Select State First</option>
+                    </select>
+                    <p id="js-cityPara"></p>
+                </div>
+            </div>
+            <div>
+                <label for="js-address" class="block mb-1 text-sm font-medium text-gray-900 ">Address</label>
+                <textarea class="p-2 outline-none focus:border focus:border-gray-400 w-full" rows="2" name="address"
+                    placeholder="Enter Your Address"></textarea>
+                <p id="js-addressPara"></p>
+            </div>
+
+
+            <button type="submit" id="rzp-button1"
+                class="text-white mt-5 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium uppercase min-w-full sm:w-auto px-5 py-2.5 text-center">Place
+                Order</button>
+        </form>
+        <article class="w-2/5">
+            <h2
+                class="flex  items-center gap-3 mt-5 p-3 text-2xl bg-white w-11/12 rounded-t-md font-medium border-b-2 shadow-md">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill="none" stroke="currentColor" stroke-width="2"
+                        d="M5,5 L22,5 L20,14 L7,14 L4,2 L0,2 M7,14 L8,18 L21,18 M19,23 C18.4475,23 18,22.5525 18,22 C18,21.4475 18.4475,21 19,21 C19.5525,21 20,21.4475 20,22 C20,22.5525 19.5525,23 19,23 Z M9,23 C8.4475,23 8,22.5525 8,22 C8,21.4475 8.4475,21 9,21 C9.5525,21 10,21.4475 10,22 C10,22.5525 9.5525,23 9,23 Z">
+                    </path>
+                </svg>
+                Cart Summary
+            </h2>
+            <ul id="js-ul" class="w-11/12 divide-y divide-gray-300 divide-double bg-white shadow-lg rounded-b-md"></ul>
+            <dl id="js-dl" class="bg-white mt-2 p-5 w-11/12 rounded-t-md"></dl>
+            <div class="bg-white text-red-700 font-semibold border-t p-5 w-11/12 rounded-b-md mb-5 shadow-lg"
+                id="js-totalSaving"></div>
+        </article>
+    </main>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="cities.js"></script>
+    <script>print_state("js-state")</script>
+    <script src="validations.js"></script>
+    <script>
+            (function () {
+                "use strict"
+                const checkout = {
+                    //base url 
+                    baseUrl: `https://dummyjson.com/products`,
+
+                    //render cart summary
+                    render: function () {
+                        const data = this.methods.getFromLocalStorage();
+                        const ul = document.getElementById("js-ul")
+                        const dl = document.getElementById("js-dl")
+                        const totalSavings = document.getElementById("js-totalSaving")
+                        let li = ``
+                        let total = 0;
+                        let totalDiscount = 0;
+                        data.forEach((element, index) => {
+                            const subtotal = (element.price - (element.price * (element.discountPercentage / 100))) * element.count;
+                            total += subtotal;
+                            totalDiscount += element.price * element.count - subtotal
+                            li += `<li class="p-3 flex justify-between" id= "${element.id}">
+                                <div class="flex gap-4 items-center">
+                                    <!-- thumbnail and quantity  -->
+                                
+                                        <img src="${element.thumbnail}" class="w-20 h-20 object-cover"
+                                            alt="Product Image">
+                                       
+                                    <!-- other product details -->
+                                    <div>
+                                        <h2 class="text-lg font-semibold">${element.title}</h2>
+                                        <p class="line-clamp-1 max-w-xl text-sm font-medium text-gray-500">${element.description}</p>
+                                        <div class="font-medium">
+                                           Quantity: ${element.count}
+                                        </div>
+                                        <div class="flex gap-2 text-sm items-end font-semibold">
+                                            <p class="text-lg ">&#8377;${element.price - (element.price * (element.discountPercentage / 100)).toFixed(2)}</p>
+                                            <span class="line-through text-gray-500">&#8377;${element.price}</span>
+                                            <span class="text-red-500">${element.discountPercentage}% off</span>
+                                            <p class="text-red-700 flex items-center gap-1">
+                                                No offers Applied
+                                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 480"
+                                                    fill="currentColor">
+                                                    <title>No Offers Available</title>
+                                                    <path
+                                                        d="M220 430q81-2 135-55 53-54 55-135-2-81-55-135-54-53-135-55-81 2-135 55-53 54-55 135 2 81 55 135 54 53 135 55l0 0z m-26-244l0-52 52 0 0 52-52 0z m4 154l0-120 44 0 0 120-44 0z">
+                                                    </path>
+                                                </svg>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>`
+
+
+                        });
+                        const dd = `<div class="flex justify-between items-center">
+                        <dt class="text-gray-600">Items Subtotal</dt>
+                        <dd class="font-semibold" id="js-subTotal">&#8377;${total.toFixed(2)}</dd>
+                    </div>
+
+                    <div class="flex justify-between items-center mt-3 border-b border-dashed pb-3">
+                        <dt class="text-gray-600">Delivery Charges</dt>
+                        <dd class="font-semibold text-red-600" id="js-delivery">FREE</dd>
+                    </div>
+                    <div class="flex justify-between items-end mt-1">
+                        <dt class="text-2xl font-medium">Total</dt>
+                        <dd class="font-semibold" id="js-total">&#8377;${total.toFixed(2)}</dd>
+                    </div>`
+                        const saving = `<p>Your Total Savings on this order is &#8377;${totalDiscount.toFixed(2)}</p>`
+                        totalSavings.innerHTML = saving
+                        ul.innerHTML = li;
+                        dl.innerHTML = dd;
+                    },
+
+                    //validation form
+                    validateForm: function (fieldName) {
+                        const formData = new FormData(document.querySelector('form'))
+                        switch (fieldName) {
+                            case 'Name':
+                                return validate.alphabets('Name', 'js-NamePara', formData);
+                            case 'mail':
+                                return validate.email('mail', 'js-mailPara', formData);
+                            case 'number':
+                                return validate.phoneNumber('number', 'js-numberPara', formData);
+                            case 'zipcode':
+                                return validate.zipcode('zipcode', 'js-zipcodePara', formData);
+                            case 'state':
+                                return validate.selectField('state', 'js-statePara', formData);
+                            case 'city':
+                                return validate.selectField('city', 'js-cityPara', formData);
+                            case 'address':
+                                return validate.address('address', 'js-addressPara', formData)
+                            default:
+                                return true;
+                        }
+                    },
+
+                    //validate on input
+                    validateOnInput: function () {
+                        const form = document.querySelector("form");
+                        const inputFields = form.querySelectorAll("input, textarea, select");
+                        let isValid = true
+                        inputFields.forEach((element) => {
+                            element.addEventListener("input", function (event) {
+                                const fieldName = element.getAttribute('name');
+                                checkout.validateForm(fieldName);
+                            });
+                        });
+                    },
+
+                    //razorpay payment options
+                    razorpayOptions: {
+                        "key": "rzp_test_3dDnGBvzftmxAc",
+                        "amount": "50000",
+                        "currency": "INR",
+                        "name": "Acme Corp",
+                        "description": "Test Transaction",
+                        "image": "https://example.com/your_logo",
+                        "handler": function (response) {
+                            console.log(response.razorpay_payment_id);
+                            console.log(response.razorpay_order_id);
+                            console.log(response.razorpay_signature)
+                            if (response.razorpay_payment_id) {
+                                //only store data on payment success
+                                const formData = new FormData(document.querySelector('form'));
+                                const userData = {
+                                    firstName: formData.get('Name'),
+                                    email: formData.get('mail'),
+                                    phoneNumber: formData.get('number'),
+                                    zipcode: formData.get('zipcode'),
+                                    state: formData.get('state'),
+                                    city: formData.get('city'),
+                                    address: formData.get('address'),
+                                    paymentId: response.razorpay_payment_id,
+                                    orderId: response.razorpay_order_id,
+                                };
+
+                                checkout.methods.storeUserData(userData);
+                                localStorage.removeItem("cart-products")
+                                window.location.href = "thanksForOrdering.html"
+                            } else {
+                                // Payment failed
+                                console.error('Payment failed!');
+                            }
+                        },
+                        "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+                        "prefill": {
+                            "name": "Gaurav Kumar",
+                            "email": "gaurav.kumar@example.com",
+                            "contact": "9000090000"
+                        },
+                        "notes": {
+                            "address": "Razorpay Corporate Office"
+                        },
+                        "theme": {
+                            "color": "#3399cc"
+                        }
+                    },
+
+                    //search api 
+                    searchApi: async function (value) {
+                        const searchUrl = `${this.baseUrl}/search?q=${value}`;
+                        try {
+                            const response = await fetch(searchUrl)
+                            if (response.ok) {
+                                const data = await response.json();
+                                return data;
+                            }
+                        }
+                        catch (error) {
+                            console.error("Error fetching data:", error);
+                        }
+                    },
+
+                    //search
+                    search: async function () {
+                        const search = document.getElementById("js-search");
+                        const searchTerm = search.value.trim();
+                        if (searchTerm === "") {
+                            const searchList = document.getElementById("js-searchList");
+                            searchList.innerHTML = "";
+                            return;
+                        }
+                        const data = await checkout.renderSearchList(searchTerm);
+                    },
+
+                    //render search list
+                    renderSearchList: async function (value) {
+                        const data = await this.searchApi(value);
+                        const productsContainer = data.products;
+                        const productsList = document.getElementById("js-searchList")
+                        let products = ``
+                        productsContainer.forEach((element, index) => {
+                            products += `<li data-product-id="${element.id}" class="h-16 hover:shadow-md hover:shadow-gray-400 cursor-pointer p-2 transform transition-transform duration-300 ease-in-out hover:scale-105 bg-white">
+                            <!-- image -->
+                            <div class="flex items-center gap-3">
+                            <div class="h-12 w-20">
+                                <img class="w-full h-full object-cover" src="${element.thumbnail}" alt="Product Image">
+                            </div>
+
+                            <!-- title -->
+                            <div>
+                                <h2 class="line-clamp-2 text-md font-semibold text-gray-800">${element.title}</h2>
+                                <span class="text-blue-700 font-semibold">${element.category}</span>
+                                </div>
+                            </div>
+                        </li>`;
+                        });
+                        productsList.innerHTML = products;
+
+                        // Add event listeners to each search list item
+                        const searchItems = productsList.querySelectorAll("li");
+                        searchItems.forEach((item) => {
+                            item.addEventListener("click", () => {
+                                const productId = item.getAttribute('data-product-id');
+                                window.location.href = `productPage.html?id=${productId}`;
+                            });
+                        });
+                    },
+
+                    //bind event listeners
+                    bind: function () {
+                        const cartButton = document.querySelector("#js-cart")
+                        cartButton.addEventListener("click", this.methods.redirectToCart)
+
+                        const ordersSummary = document.querySelector("#js-orders")
+                        ordersSummary.addEventListener("click", this.methods.redirectToSummary)
+
+                        //search
+                        const searchInput = document.getElementById("js-search")
+                        searchInput.addEventListener("input", this.methods.debounce(this.search, 500))
+
+                        const form = document.querySelector("form");
+                        const razorpay = new Razorpay(checkout.razorpayOptions);
+
+                        form.addEventListener("submit", function (event) {
+                            event.preventDefault();
+
+                            const inputFields = form.querySelectorAll("input, textarea, select");
+                            let isFormValid = true;
+
+                            inputFields.forEach((element) => {
+                                const fieldName = element.getAttribute('name');
+                                if (!checkout.validateForm(fieldName, true)) {
+                                    isFormValid = false;
+                                }
+                            });
+
+                            if (isFormValid) {
+                                razorpay.open()
+                            } else {
+                                console.log("Form validation failed. Please check your input.");
+                            }
+                        });
+                    },
+
+                    //small helping functions
+                    methods: {
+                        //get data from local storage
+                        getFromLocalStorage: function () {
+                            const data = JSON.parse(localStorage.getItem("cart-products"))
+                            return data
+                        },
+
+                        //get response data
+                        getResponseData: function () {
+                            const storedData = localStorage.getItem('responseData');
+                            return storedData ? JSON.parse(storedData) : [];
+                        },
+
+                        //store response data
+                        storeUserData: function (userData) {
+                            const storedData = checkout.methods.getResponseData();
+                            storedData.push(userData);
+                            localStorage.setItem('responseData', JSON.stringify(storedData));
+                        },
+
+                        //redirect to cart
+                        redirectToCart: function () {
+                            window.location.href = "cartPage.html"
+                        },
+
+                        //redirect to order summary 
+                        redirectToSummary: function () {
+                            window.location.href = "table.html"
+                        },
+
+                        //debounce
+                        debounce: function (func, delay) {
+                            let debounceTimer;
+                            return function (...args) {
+                                clearTimeout(debounceTimer);
+                                debounceTimer = setTimeout(() => { func.apply(this, args) }, delay);
+                            };
+                        },
+
+                    },
+
+                    //initialize helping functions
+                    init: function () {
+                        this.render()
+                        this.bind()
+                        this.validateOnInput()
+                    }
+                }
+                checkout.init()
+            })()
+    </script>
+
+</body>
+
+</html>
